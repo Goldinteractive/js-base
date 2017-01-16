@@ -37,7 +37,15 @@ plugins: [
 ]
 ```
 
+
 ### Browser compatibility
 
 * Newest two browser versions of Chrome, Firefox, Safari and Edge
 * IE 9 and above
+
+
+### Development
+
+* `npm run build` - Build production version of the library.
+* `npm run dev` - Build development version of the library and run a watcher.
+* `npm run test` - Test the library.

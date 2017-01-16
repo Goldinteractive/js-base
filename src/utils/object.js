@@ -39,8 +39,8 @@ export function extend(src) {
 /**
  * Clean empty properties from given object.
  *
- * @param  {Object} src - Source object.
- * @return {Object}
+ * @param   {Object} src - Source object.
+ * @returns {Object}
  */
 export function cleanEmptyProps(src) {
   for (let key in src) {

@@ -66,8 +66,8 @@ export function isObject(value) {
 /**
  * Check if given value is numeric.
  *
- * @param  {*} value - Value to check.
- * @return {Boolean}
+ * @param   {*} value - Value to check.
+ * @returns {Boolean}
  */
 export function isNumeric(value) {
   return typeof value === T_NUMBER && !isNaN(value) && isFinite(value)
