@@ -1,0 +1,4 @@
+globals:
+
+  base: true
+  require: true
