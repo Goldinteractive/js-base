@@ -3,7 +3,7 @@
  * @module base
  */
 
-import polyfills from './polyfills'
+import './polyfills'
 
 import * as features from './features'
 import * as utils from './utils'
