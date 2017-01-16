@@ -11,11 +11,11 @@ Basic javascript foundation written in ES6/2015 Vanilla JS.
 
 Install this package with yarn:
 
-    yarn install gi-base
+    yarn install gi-js-base
   
   or with npm:
     
-    npm install gi-base
+    npm install gi-js-base
 
 After the installation has completed, you can import the complete base module or also just single modules:
 
