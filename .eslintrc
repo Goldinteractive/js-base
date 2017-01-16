@@ -1,3 +1,5 @@
+
+
 env:
 
   ###########################################################################
@@ -56,7 +58,7 @@ rules:
                              #    or break statement
   use-isnan: 2               # disallow comparisons with the value NaN
   valid-jsdoc:               # ensure JSDoc comments are valid
-    [1, { "prefer": { "return": "returns" }, "requireReturn": false }]
+    [1, { "prefer": { "return": "returns" }, "requireReturn": false, "requireReturnDescription": false }]
   valid-typeof: 2            # ensure that the results of typeof are compared against a
                              #    valid string
 

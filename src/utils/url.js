@@ -14,7 +14,7 @@ export const params = getParams()
 
 /**
  * Return search parameters.
- * @return {Object}
+ * @returns {Object}
  */
 export function getParams() {
   if (query === '') return {}
@@ -29,7 +29,7 @@ export function getParams() {
  * Return hash part of given url.
  *
  * @param  {String} [href=window.location] - URL to return the hash from.
- * @return {String}
+ * @returns {String}
  */
 export function hash(href) {
   return (href || loc.hash).substring(1)

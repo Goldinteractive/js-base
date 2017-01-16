@@ -4,7 +4,6 @@
  */
 
 import * as easingEquations from 'easing-js/easing'
-import { isNumeric } from './check'
 import { extend } from './object'
 
 /**
@@ -66,7 +65,7 @@ class Scroller {
    * @param {Object} options
    *   Overwrite the [default to options]{@link module:base/utils/dom~Scroller.defaultToOptions}.
    *
-   * @return {module:base/utils/dom~Scroller}
+   * @returns {module:base/utils/dom~Scroller}
    */
   toElement(element, options = {}) {
     var opts = extend(options, {
@@ -83,7 +82,7 @@ class Scroller {
    * @param {Object} options
    *   Overwrite the [default to options]{@link module:base/utils/dom~Scroller.defaultToOptions}.
    *
-   * @return {module:base/utils/dom~Scroller}
+   * @returns {module:base/utils/dom~Scroller}
    */
   to(options = {}) {
     var timeX = 0, timeY = 0, currentTime = 0,
