@@ -49,3 +49,4 @@ plugins: [
 * `npm run build` - Build production version of the library.
 * `npm run dev` - Build development version of the library and run a watcher.
 * `npm run test` - Test the library.
+* `make jsdoc` - Update documentation inside the `docs` folder.
