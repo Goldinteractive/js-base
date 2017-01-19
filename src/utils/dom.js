@@ -73,7 +73,7 @@ class Scroller {
       x: element.offsetLeft
     })
 
-    return this
+    return this.to(opts)
   }
 
   /**

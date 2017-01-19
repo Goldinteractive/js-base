@@ -11,22 +11,21 @@
   "author": "Manuel Sommerhalder",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode=build",
-    "dev": "webpack --progress --colors --watch --mode=dev",
+    "build": "webpack --env.mode=build",
+    "dev": "webpack --progress --colors --watch --env.mode=dev",
     "test": "eslint src"
   },
   "devDependencies": {
-    "babel-core": "^6.21.0",
-    "babel-loader": "^6.2.10",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.18.0",
-    "eslint": "^3.13.1",
-    "webpack": "^1.14.0",
-    "yargs": "^6.6.0"
+    "eslint": "^3.13.1"
   },
   "dependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
     "easing-js": "danro/easing-js",
-    "riot-observable": "^3.0.0"
+    "riot-observable": "^3.0.0",
+    "webpack": "beta"
   },
   "bugs": {
     "url": "https://github.com/Goldinteractive/js-base/issues"

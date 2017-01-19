@@ -51,7 +51,7 @@ function init(container = document.body, name = null) {
       // or name is not whitelisted
       // or is already initialized on this node
       if (!feature
-          || (name && name.indexOf(featureName) < 0)
+          || (name && names.indexOf(featureName) < 0)
           || (featureNode._baseFeatureInstances
               && featureNode._baseFeatureInstances[featureName])) return true
 
@@ -90,7 +90,7 @@ function destroy(container = document.body, name = null) {
 
     for (let featureName in nodeInstances) {
       if (nodeInstances.hasOwnProperty(featureName)
-          && (!name || name.indexOf(featureName) > -1)
+          && (!name || names.indexOf(featureName) > -1)
       ) {
         nodeInstances[featureName].destroy()
         nodeInstances[featureName] = null
