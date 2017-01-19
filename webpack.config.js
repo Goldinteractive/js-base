@@ -45,15 +45,9 @@ module.exports = function(env) {
     module: {
       rules: [
         {
-          test: /(\.jsx|\.js)$/,
-          loader: 'babel-loader',
-          exclude: /(node_modules|bower_components)/,
-          query: {
-            plugins: ['babel-plugin-add-module-exports'],
-            presets: [
-              ['es2015', { loose: true, modules: false }]
-            ]
-          }
+          test: /(\.js)$/,
+          exclude: /(node_modules)/,
+          loader: 'babel-loader'
         }
       ]
     },
