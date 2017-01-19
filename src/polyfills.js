@@ -33,7 +33,7 @@ if (Function.prototype.name === undefined && Object.defineProperty !== undefined
 // if you want values similar to what you'd get with real perf.now, place this towards the head of the page
 // but in reality, you're just getting the delta between now() calls, so it's not terribly important where it's placed
 
-if ('performance' in window == false) {
+if ('performance' in window === false) {
     window.performance = {}
 }
 
@@ -41,7 +41,7 @@ Date.now = (Date.now || function () {  // thanks IE8
   return new Date().getTime()
 })
 
-if ('now' in window.performance == false) {
+if ('now' in window.performance === false) {
   var nowOffset = Date.now()
 
   if (performance.timing && performance.timing.navigationStart) {
