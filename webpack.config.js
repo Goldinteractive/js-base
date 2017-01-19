@@ -59,7 +59,7 @@ module.exports = function(env) {
     },
     resolve: {
       modules: [
-        path.resolve('./src'),
+        path.join(__dirname, 'src'),
         'node_modules'
       ],
       extensions: ['.js']
