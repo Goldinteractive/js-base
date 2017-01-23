@@ -12,7 +12,8 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --env.mode=build",
-    "dev": "webpack --progress --colors --watch --env.mode=dev",
+    "dev": "webpack --progress --colors --env.mode=dev",
+    "demo": "webpack --progress --colors --watch --env.mode=demo",
     "test": "eslint src"
   },
   "devDependencies": {
