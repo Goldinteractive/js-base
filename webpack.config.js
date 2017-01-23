@@ -36,7 +36,7 @@ module.exports = function(env) {
     entry: __dirname + '/src/index.js',
     devtool: 'source-map',
     output: {
-      path: __dirname + '/dist',
+      path: __dirname + '/lib',
       filename: outputFile,
       library: libraryName,
       libraryTarget: 'umd',
