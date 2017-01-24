@@ -3,6 +3,8 @@
  * @module base/features
  */
 
+import observable from 'riot-observable'
+
 var features = {}
 
 /**
@@ -184,6 +186,8 @@ class Feature {
     if (this.constructor === Feature) {
       throw new Error("Can't instantiate abstract class!")
     }
+
+    observable(this)
 
     this._node = node
     this._options = options
