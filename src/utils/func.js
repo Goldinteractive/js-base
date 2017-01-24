@@ -15,16 +15,15 @@
  * @param {Function} func
  *   Function to wrap.
  * @param {Number}   wait
- *   Timeout in ms (`100`).
+ *   Timeout in ms (`60`).
  * @param {Boolean}  immediate
  *   Whether to execute at the beginning (`false`).
  *
  * @returns {Function}
  *   A new function that wraps the `func` function passed in.
  */
-export function debounce(func, wait, immediate) {
+export function debounce(func, wait = 60, immediate = false) {
   var timeout, args, context, timestamp, result
-  if (null == wait) wait = 100
 
   function later() {
     var last = Date.now() - timestamp
