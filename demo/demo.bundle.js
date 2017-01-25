@@ -1069,7 +1069,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         } else if (type) {
           this._eventListener[type].forEach(function (listener, i) {
             if (node == listener.node) {
-              node.removeEventListener(listener.type, listener.fn);
+              node.removeEventListener(type, listener.fn);
               _this._eventListener[type].splice(i, 1);
             }
           });

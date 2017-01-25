@@ -248,7 +248,7 @@ class Feature {
     } else if (type) {
       this._eventListener[type].forEach((listener, i) => {
         if (node == listener.node) {
-          node.removeEventListener(listener.type, listener.fn)
+          node.removeEventListener(type, listener.fn)
           this._eventListener[type].splice(i, 1)
         }
       })
