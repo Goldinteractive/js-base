@@ -4,6 +4,7 @@
  */
 
 import observable from 'riot-observable'
+import { extend } from './utils/object'
 
 var features = {}
 
@@ -189,8 +190,11 @@ class Feature {
 
     observable(this)
 
+    var defaultOptions = this.constructor.defaultOptions || {}
+
     this._node = node
-    this._options = options
+    this._options = extend(defaultOptions, options)
+    this._eventListener = {}
 
     if (!this._node._baseFeatureInstances) {
       this._node._baseFeatureInstances = {}
@@ -205,11 +209,87 @@ class Feature {
   /** Return given options the feature has been initialized with. */
   get options() { return this._options }
 
+  /**
+   * Add event listener to given node.
+   *
+   * @param {Element}  node - Node to add event listener to.
+   * @param {String}   type - Event type to add.
+   * @param {Function} fn - Event handler
+   */
+  addEventListener(node, type, fn) {
+    node.addEventListener(type, fn)
+
+    if (!this._eventListener[type]) {
+      this._eventListener[type] = []
+    }
+
+    this._eventListener[type].push({node, fn})
+  }
+
+  /**
+   * Remove event listener from given node.
+   *
+   * @param {Element} node
+   *   Node to remove the event listener from.
+   * @param {String|null} [type=null]
+   *   Event type to remove (leave empty to remove listeners of all event types).
+   * @param {Function|null} [fn=null]
+   *   Handler to remove (leave empty to remove all listeners).
+   */
+  removeEventListener(node, type = null, fn = null) {
+    if (type && fn) {
+      node.removeEventListener(type, fn)
+
+      this._eventListener[type].forEach((listener, i) => {
+        if (node == listener.node && fn == listener.fn) {
+          this._eventListener[type].splice(i, 1)
+        }
+      })
+    } else if (type) {
+      this._eventListener[type].forEach((listener, i) => {
+        if (node == listener.node) {
+          node.removeEventListener(listener.type, listener.fn)
+          this._eventListener[type].splice(i, 1)
+        }
+      })
+    } else if (fn) {
+      this.removeAllEventListener(node, fn)
+    } else {
+      this.removeAllEventListener(node)
+    }
+  }
+
+  /**
+   * Remove all listeners added by this feature.
+   *
+   * @param {Element|null} [node=null]
+   *   Limit removing event listeners on given node.
+   * @param {Function|null} [fn=null]
+   *   Limit removing event listeners on given handler.
+   */
+  removeAllEventListener(node = null, fn = null) {
+    for (let type in this._eventListener) {
+      if (this._eventListener.hasOwnProperty(type)) {
+        this._eventListener[type].forEach((listener, i) => {
+          if ((!node || node == listener.node)
+              && (!fn || fn == listener.fn)
+          ) {
+            listener.node.removeEventListener(type, listener.fn)
+          }
+        })
+      }
+    }
+
+    this._eventListener = []
+  }
+
   /** Initialize feature. */
   init() {}
 
   /** Destroy feature. */
-  destroy() {}
+  destroy() {
+    this.removeAllEventListener()
+  }
 
 }
 

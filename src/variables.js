@@ -2,6 +2,8 @@ var undef
 
 export const
 
+  UID        = '_base'+ Date.now(),
+
   T_STRING   = 'string',
   T_UNDEF    = 'undefined',
   T_OBJECT   = 'object',
