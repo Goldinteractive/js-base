@@ -6,7 +6,6 @@ Basic javascript foundation written in ES6/2015 Vanilla JS.
 * `utils`: Various utilities
 * `eventHub`: Global event hub
 
-
 ### Installation
 
 Install this package with yarn:
@@ -37,16 +36,14 @@ plugins: [
 ]
 ```
 
-
 ### Browser compatibility
 
 * Newest two browser versions of Chrome, Firefox, Safari and Edge
 * IE 9 and above
 
-
 ### Development
 
-* `npm run build` - Build production version of the library.
-* `npm run dev` - Build development version of the library and run a watcher.
-* `npm run test` - Test the library.
+* `npm run build` or `make build` - Build production version of the library.
+* `npm run dev` or `make dev` - Build demo of the library, run a watcher and start browser-sync.
+* `npm run test` or `make test` - Test the library.
 * `make jsdoc` - Update documentation inside the `docs` folder.
