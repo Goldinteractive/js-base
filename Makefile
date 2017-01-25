@@ -6,7 +6,6 @@ LIBRARY_NAME=base
 NODE_MODULES=./node_modules
 SCRIPTS_PATH=./.tasks
 CONFIG_PATH=./.config
-DOCS_PATH=./.docs
 
 WEBPACK=$(NODE_MODULES)/.bin/webpack
 ESLINT=$(NODE_MODULES)/.bin/eslint
@@ -19,6 +18,7 @@ JSDOC_CONFIG=$(CONFIG_PATH)/jsdoc.json
 SOURCE_PATH=./src
 LIBRARY_PATH=./lib
 DEV_PATH=./demo
+DOCS_PATH=./docs
 
 build: js js-minified
 
