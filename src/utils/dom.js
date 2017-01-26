@@ -8,12 +8,12 @@ import { extend } from './object'
 import { rAF } from './func'
 
 /**
- * Return computed styles
+ * Return all computed styles.
  *
- * @param   {Element} element - Element to get computed style from.
+ * @param   {Element} element - Element to get computed styles from.
  * @returns {Object} Computed styles
  */
-function getComputedStyles(element) {
+function computedStyles(element) {
   var computedStyle = {},
       styles = {}
 
@@ -28,6 +28,17 @@ function getComputedStyles(element) {
   return styles
 }
 
+/**
+ * Shortcut for get a computed style.
+ *
+ * @param {Element} element - Element to get computed style from.
+ * @param {Element} prop - Style to get.
+ *
+ * @returns {String} Computed style
+ */
+function computedStyle(element, prop) {
+    return window.getComputedStyle(element, null).getPropertyValue(prop)
+}
 
 /**
  * Scroller class.

@@ -74,7 +74,7 @@ export function debounce(func, wait = 60, immediate = false) {
  * @returns {Function}
  *   A new function that wraps the `func` function passed in.
  */
-export function throttle(func, wait) {
+export function throttle(func, wait = 60) {
   var ctx, args, rtn, timeoutID // caching
   var last = 0
 
