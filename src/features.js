@@ -203,20 +203,50 @@ class Feature {
     this._node._baseFeatureInstances[name] = this
   }
 
-  /** Return node the feature belongs to. */
+  /**
+   * Return node the feature belongs to.
+   * @returns {Node} Root node the feature belongs to.
+   */
   get node() { return this._node }
 
-  /** Return given options the feature has been initialized with. */
+  /**
+   * Return given options the feature has been initialized with.
+   * @returns {Object} Initialized options.
+   */
   get options() { return this._options }
+
+  /**
+   * Return first node by given selector inside the feature node.
+   *
+   * @param   {String} selector - CSS selector
+   * @returns {Node}
+   */
+  $(selector) { return this._node.querySelector(selector) }
+
+  /**
+   * Return all nodes by given selector inside the feature node.
+   *
+   * @param   {String} selector - CSS selector
+   * @returns {NodeList}
+   */
+  $$(selector) { return this._node.querySelectorAll(selector) }
 
   /**
    * Add event listener to given node.
    *
-   * @param {Element}  node - Node to add event listener to.
+   * @param {Node|NodeList}     node - Node to add event listener to.
    * @param {String}   type - Event type to add.
    * @param {Function} fn - Event handler
    */
   addEventListener(node, type, fn) {
+    if (node.length) {
+      node.forEach((n) => {
+        this.addEventListener(n, type, fn)
+      })
+
+      return
+    }
+
     node.addEventListener(type, fn)
 
     if (!this._eventListener[type]) {
@@ -229,7 +259,7 @@ class Feature {
   /**
    * Remove event listener from given node.
    *
-   * @param {Element} node
+   * @param {Node|NodeList} node
    *   Node to remove the event listener from.
    * @param {String|null} [type=null]
    *   Event type to remove (leave empty to remove listeners of all event types).
@@ -237,6 +267,14 @@ class Feature {
    *   Handler to remove (leave empty to remove all listeners).
    */
   removeEventListener(node, type = null, fn = null) {
+    if (node.length) {
+      node.forEach((n) => {
+        this.removeEventListener(n, type, fn)
+      })
+
+      return
+    }
+
     if (type && fn) {
       node.removeEventListener(type, fn)
 
@@ -262,12 +300,20 @@ class Feature {
   /**
    * Remove all listeners added by this feature.
    *
-   * @param {Element|null} [node=null]
+   * @param {Node|null} [node=null]
    *   Limit removing event listeners on given node.
    * @param {Function|null} [fn=null]
    *   Limit removing event listeners on given handler.
    */
   removeAllEventListener(node = null, fn = null) {
+    if (node && node.length) {
+      node.forEach((n) => {
+        this.removeAllEventListener(n, fn)
+      })
+
+      return
+    }
+
     for (let type in this._eventListener) {
       if (this._eventListener.hasOwnProperty(type)) {
         this._eventListener[type].forEach((listener, i) => {

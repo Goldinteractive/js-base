@@ -187,5 +187,6 @@ export {
    */
   Scroller,
 
-  rAF, getComputedStyles
+  computedStyles,
+  computedStyle
 }

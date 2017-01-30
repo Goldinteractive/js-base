@@ -316,7 +316,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * @returns {Function}
    *   A new function that wraps the `func` function passed in.
    */
-  function throttle(func, wait) {
+  function throttle(func) {
+    var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 60;
+
     var ctx, args, rtn, timeoutID; // caching
     var last = 0;
 
@@ -1036,12 +1038,35 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       this._node._baseFeatureInstances[name] = this;
     }
 
-    /** Return node the feature belongs to. */
+    /**
+     * Return node the feature belongs to.
+     * @returns {Node} Root node the feature belongs to.
+     */
 
 
     _createClass(Feature, [{
+      key: '$',
+      value: function $(selector) {
+        return this._node.querySelector(selector);
+      }
+    }, {
+      key: '$$',
+      value: function $$(selector) {
+        return this._node.querySelectorAll(selector);
+      }
+    }, {
       key: 'addEventListener',
       value: function addEventListener(node, type, fn) {
+        var _this = this;
+
+        if (node.length) {
+          node.forEach(function (n) {
+            _this.addEventListener(n, type, fn);
+          });
+
+          return;
+        }
+
         node.addEventListener(type, fn);
 
         if (!this._eventListener[type]) {
@@ -1053,24 +1078,32 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: 'removeEventListener',
       value: function removeEventListener(node) {
-        var _this = this;
+        var _this2 = this;
 
         var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var fn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+        if (node.length) {
+          node.forEach(function (n) {
+            _this2.removeEventListener(n, type, fn);
+          });
+
+          return;
+        }
 
         if (type && fn) {
           node.removeEventListener(type, fn);
 
           this._eventListener[type].forEach(function (listener, i) {
             if (node == listener.node && fn == listener.fn) {
-              _this._eventListener[type].splice(i, 1);
+              _this2._eventListener[type].splice(i, 1);
             }
           });
         } else if (type) {
           this._eventListener[type].forEach(function (listener, i) {
             if (node == listener.node) {
               node.removeEventListener(type, listener.fn);
-              _this._eventListener[type].splice(i, 1);
+              _this2._eventListener[type].splice(i, 1);
             }
           });
         } else if (fn) {
@@ -1082,14 +1115,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: 'removeAllEventListener',
       value: function removeAllEventListener() {
-        var _this2 = this;
+        var _this3 = this;
 
         var node = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
         var fn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
+        if (node && node.length) {
+          node.forEach(function (n) {
+            _this3.removeAllEventListener(n, fn);
+          });
+
+          return;
+        }
+
         var _loop = function _loop(type) {
-          if (_this2._eventListener.hasOwnProperty(type)) {
-            _this2._eventListener[type].forEach(function (listener, i) {
+          if (_this3._eventListener.hasOwnProperty(type)) {
+            _this3._eventListener[type].forEach(function (listener, i) {
               if ((!node || node == listener.node) && (!fn || fn == listener.fn)) {
                 listener.node.removeEventListener(type, listener.fn);
               }
@@ -1528,7 +1569,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.getComputedStyles = exports.rAF = exports.Scroller = undefined;
+  exports.computedStyle = exports.computedStyles = exports.Scroller = undefined;
 
   var easingEquations = _interopRequireWildcard(_easing);
 
@@ -1574,12 +1615,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }();
 
   /**
-   * Return computed styles
+   * Return all computed styles.
    *
-   * @param   {Element} element - Element to get computed style from.
+   * @param   {Element} element - Element to get computed styles from.
    * @returns {Object} Computed styles
    */
-  function getComputedStyles(element) {
+  function computedStyles(element) {
     var computedStyle = {},
         styles = {};
 
@@ -1592,6 +1633,18 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     return styles;
+  }
+
+  /**
+   * Shortcut for get a computed style.
+   *
+   * @param {Element} element - Element to get computed style from.
+   * @param {Element} prop - Style to get.
+   *
+   * @returns {String} Computed style
+   */
+  function computedStyle(element, prop) {
+    return window.getComputedStyle(element, null).getPropertyValue(prop);
   }
 
   /**
@@ -1734,8 +1787,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   };
 
   exports.Scroller = Scroller;
-  exports.rAF = _func.rAF;
-  exports.getComputedStyles = getComputedStyles;
+  exports.computedStyles = computedStyles;
+  exports.computedStyle = computedStyle;
 });
 
 /***/ }),
@@ -2135,7 +2188,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       value: function init() {
         this.node.innerHTML = this.options.content;
 
-        this.addEventListener(this.node, 'click', function () {
+        this.addEventListener(this.$$('b'), 'click', function () {
           alert('Test');
         });
 
@@ -2158,10 +2211,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     content: 'Hello World!'
   };
 
-  base.features.add('test', Test, { content: 'Hello You!' });
+  base.features.add('test', Test, { content: 'Hello <b>You</b>!' });
   base.features.init();
 
-  base.features.destroy();
+  // base.features.destroy()
 });
 
 /***/ })
