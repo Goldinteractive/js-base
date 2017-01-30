@@ -5,7 +5,7 @@ class Test extends base.features.Feature {
   init() {
     this.node.innerHTML = this.options.content
 
-    this.addEventListener(this.node, 'click', () => {
+    this.addEventListener(this.$$('b'), 'click', () => {
       alert('Test')
     })
 
@@ -25,7 +25,7 @@ Test.defaultOptions = {
   content: 'Hello World!'
 }
 
-base.features.add('test', Test, { content: 'Hello You!' })
+base.features.add('test', Test, { content: 'Hello <b>You</b>!' })
 base.features.init()
 
-base.features.destroy()
+// base.features.destroy()
