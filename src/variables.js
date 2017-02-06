@@ -2,7 +2,10 @@ var undef
 
 export const
 
-  UID        = '_base'+ Date.now(),
+  UID = '_base'+ Date.now(),
+
+  ATTR_FEATURES        = 'data-feature',
+  ATTR_FEATURES_IGNORE = 'data-feature-ignore',
 
   T_STRING   = 'string',
   T_UNDEF    = 'undefined',

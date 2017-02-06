@@ -3,6 +3,15 @@
  * @module base/utils/string
  */
 
+
+export {
+  /**
+   * Camel case given string.
+   * @param   {String} str - String to convert.
+   */
+  default as camelCase
+} from 'camel-case'
+
 /**
  * Convert px value to number.
  *

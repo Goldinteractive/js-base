@@ -34,6 +34,11 @@
 import observable from 'riot-observable'
 import { extend } from './utils/object'
 
+import {
+  ATTR_FEATURES,
+  ATTR_FEATURES_IGNORE
+ } from './variables'
+
 var features = {}
 
 /**
@@ -68,23 +73,26 @@ function reinit(container = document.body, name = null) {
  */
 function init(container = document.body, name = null) {
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll('[data-feature]')
+  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
   for (let i = 0, featureNodesLength = featureNodes.length; i &lt; featureNodesLength; i++) {
     var featureNode = featureNodes[i]
-    var dataFeatures = featureNode.getAttribute('data-feature').split(',')
+    var dataFeatures = featureNode.getAttribute(ATTR_FEATURES).split(',')
+    var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
     dataFeatures.forEach(function(featureName) {
       featureName = featureName.trim()
       var feature = features[featureName]
 
       // continue if feature has not been added
+      // or feature is ignored here
       // or name is not whitelisted
       // or is already initialized on this node
       if (!feature
+          || (ignoreFeatures &amp;&amp; ignoreFeatures.indexOf(featureName) > -1)
           || (name &amp;&amp; names.indexOf(featureName) &lt; 0)
           || (featureNode._baseFeatureInstances
-              &amp;&amp; featureNode._baseFeatureInstances[featureName])) return true
+              &amp;&amp; featureNode._baseFeatureInstances[featureName])) return
 
       var instance = new feature.featureClass(
         featureName, featureNode, feature.options
@@ -113,15 +121,17 @@ function init(container = document.body, name = null) {
  */
 function destroy(container = document.body, name = null) {
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll('[data-feature]')
+  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
   for (let i = 0, featureNodesLength = featureNodes.length; i &lt; featureNodesLength; i++) {
     var featureNode = featureNodes[i]
     var nodeInstances = getInstancesByNode(featureNode)
+    var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
     for (let featureName in nodeInstances) {
       if (nodeInstances.hasOwnProperty(featureName)
           &amp;&amp; (!name || names.indexOf(featureName) > -1)
+          &amp;&amp; (!ignoreFeatures || ignoreFeatures.indexOf(featureName) &lt; 0)
       ) {
         nodeInstances[featureName].destroy()
         nodeInstances[featureName] = null
@@ -221,7 +231,7 @@ class Feature {
     var defaultOptions = this.constructor.defaultOptions || {}
 
     this._node = node
-    this._options = extend(defaultOptions, options)
+    this._options = extend({}, defaultOptions, options)
     this._eventListener = {}
 
     if (!this._node._baseFeatureInstances) {
@@ -231,20 +241,50 @@ class Feature {
     this._node._baseFeatureInstances[name] = this
   }
 
-  /** Return node the feature belongs to. */
+  /**
+   * Return node the feature belongs to.
+   * @returns {Node} Root node the feature belongs to.
+   */
   get node() { return this._node }
 
-  /** Return given options the feature has been initialized with. */
+  /**
+   * Return given options the feature has been initialized with.
+   * @returns {Object} Initialized options.
+   */
   get options() { return this._options }
+
+  /**
+   * Return first node by given selector inside the feature node.
+   *
+   * @param   {String} selector - CSS selector
+   * @returns {Node}
+   */
+  $(selector) { return this._node.querySelector(selector) }
+
+  /**
+   * Return all nodes by given selector inside the feature node.
+   *
+   * @param   {String} selector - CSS selector
+   * @returns {NodeList}
+   */
+  $$(selector) { return this._node.querySelectorAll(selector) }
 
   /**
    * Add event listener to given node.
    *
-   * @param {Element}  node - Node to add event listener to.
+   * @param {Node|NodeList}     node - Node to add event listener to.
    * @param {String}   type - Event type to add.
    * @param {Function} fn - Event handler
    */
   addEventListener(node, type, fn) {
+    if (node.length) {
+      node.forEach((n) => {
+        this.addEventListener(n, type, fn)
+      })
+
+      return
+    }
+
     node.addEventListener(type, fn)
 
     if (!this._eventListener[type]) {
@@ -257,7 +297,7 @@ class Feature {
   /**
    * Remove event listener from given node.
    *
-   * @param {Element} node
+   * @param {Node|NodeList} node
    *   Node to remove the event listener from.
    * @param {String|null} [type=null]
    *   Event type to remove (leave empty to remove listeners of all event types).
@@ -265,6 +305,14 @@ class Feature {
    *   Handler to remove (leave empty to remove all listeners).
    */
   removeEventListener(node, type = null, fn = null) {
+    if (node.length) {
+      node.forEach((n) => {
+        this.removeEventListener(n, type, fn)
+      })
+
+      return
+    }
+
     if (type &amp;&amp; fn) {
       node.removeEventListener(type, fn)
 
@@ -290,12 +338,20 @@ class Feature {
   /**
    * Remove all listeners added by this feature.
    *
-   * @param {Element|null} [node=null]
+   * @param {Node|null} [node=null]
    *   Limit removing event listeners on given node.
    * @param {Function|null} [fn=null]
    *   Limit removing event listeners on given handler.
    */
   removeAllEventListener(node = null, fn = null) {
+    if (node &amp;&amp; node.length) {
+      node.forEach((n) => {
+        this.removeAllEventListener(n, fn)
+      })
+
+      return
+    }
+
     for (let type in this._eventListener) {
       if (this._eventListener.hasOwnProperty(type)) {
         this._eventListener[type].forEach((listener, i) => {
@@ -316,7 +372,10 @@ class Feature {
 
   /** Destroy feature. */
   destroy() {
+    // remove all registered event listeners
     this.removeAllEventListener()
+    // destroy all features inside
+    destroy(this._node)
   }
 
 }
@@ -355,7 +414,7 @@ export {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Jan 25 2017 13:48:54 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Feb 06 2017 12:23:30 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

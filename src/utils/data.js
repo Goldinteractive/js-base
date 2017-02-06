@@ -11,7 +11,7 @@ import { UID } from '../variables'
  * @param   {Element} node - Node to get the cache from.
  * @returns {Object}
  */
-export function getCache(node) {
+export function getAll(node) {
   return (node[UID] = node[UID] || {})
 }
 
@@ -25,7 +25,7 @@ export function getCache(node) {
  * @returns {Object}
  */
 export function set(node, key, value) {
-  return (getCache(node)[key] = value)
+  return (getAll(node)[key] = value)
 }
 
 /**
@@ -37,10 +37,7 @@ export function set(node, key, value) {
  * @returns {String}
  */
 export function get(node, key) {
-  var cache = getCache(node)
-  if (cache[key] === undefined) {
-    cache[key] = node.dataset ? node.dataset[key] : node.getAttribute('data-'+key)
-  }
+  var cache = getAll(node)
   return cache[key]
 }
 
@@ -51,8 +48,6 @@ export function get(node, key) {
  * @param {String} key - Data key.
  */
 export function remove(node, key) {
-  var cache = getCache(node)
+  var cache = getAll(node)
   if (cache) { delete cache[key] }
-  else if (node.dataset) { delete node.dataset[key] }
-  else { node.removeAttribute('data-' + name) }
 }

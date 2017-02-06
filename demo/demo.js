@@ -28,4 +28,6 @@ Test.defaultOptions = {
 base.features.add('test', Test, { content: 'Hello <b>You</b>!' })
 base.features.init()
 
-// base.features.destroy()
+console.log(base)
+
+base.features.destroy()
