@@ -6,6 +6,11 @@
 import observable from 'riot-observable'
 import { extend } from './utils/object'
 
+import {
+  ATTR_FEATURES,
+  ATTR_FEATURES_IGNORE
+ } from './variables'
+
 var features = {}
 
 /**
@@ -40,23 +45,26 @@ function reinit(container = document.body, name = null) {
  */
 function init(container = document.body, name = null) {
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll('[data-feature]')
+  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
   for (let i = 0, featureNodesLength = featureNodes.length; i < featureNodesLength; i++) {
     var featureNode = featureNodes[i]
-    var dataFeatures = featureNode.getAttribute('data-feature').split(',')
+    var dataFeatures = featureNode.getAttribute(ATTR_FEATURES).split(',')
+    var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
     dataFeatures.forEach(function(featureName) {
       featureName = featureName.trim()
       var feature = features[featureName]
 
       // continue if feature has not been added
+      // or feature is ignored here
       // or name is not whitelisted
       // or is already initialized on this node
       if (!feature
+          || (ignoreFeatures && ignoreFeatures.indexOf(featureName) > -1)
           || (name && names.indexOf(featureName) < 0)
           || (featureNode._baseFeatureInstances
-              && featureNode._baseFeatureInstances[featureName])) return true
+              && featureNode._baseFeatureInstances[featureName])) return
 
       var instance = new feature.featureClass(
         featureName, featureNode, feature.options
@@ -85,15 +93,17 @@ function init(container = document.body, name = null) {
  */
 function destroy(container = document.body, name = null) {
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll('[data-feature]')
+  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
   for (let i = 0, featureNodesLength = featureNodes.length; i < featureNodesLength; i++) {
     var featureNode = featureNodes[i]
     var nodeInstances = getInstancesByNode(featureNode)
+    var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
     for (let featureName in nodeInstances) {
       if (nodeInstances.hasOwnProperty(featureName)
           && (!name || names.indexOf(featureName) > -1)
+          && (!ignoreFeatures || ignoreFeatures.indexOf(featureName) < 0)
       ) {
         nodeInstances[featureName].destroy()
         nodeInstances[featureName] = null
@@ -193,7 +203,7 @@ class Feature {
     var defaultOptions = this.constructor.defaultOptions || {}
 
     this._node = node
-    this._options = extend(defaultOptions, options)
+    this._options = extend({}, defaultOptions, options)
     this._eventListener = {}
 
     if (!this._node._baseFeatureInstances) {
@@ -334,7 +344,10 @@ class Feature {
 
   /** Destroy feature. */
   destroy() {
+    // remove all registered event listeners
     this.removeAllEventListener()
+    // destroy all features inside
+    destroy(this._node)
   }
 
 }
