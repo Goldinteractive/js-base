@@ -20,7 +20,10 @@ LIBRARY_PATH=./lib
 DEV_PATH=./demo
 DOCS_PATH=./docs
 
-build: js js-minified
+publish: jsdoc build
+	@ npm publish
+
+build: test js js-minified
 
 test:
 	# check soruce with eslint
