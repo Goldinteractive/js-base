@@ -226,20 +226,20 @@ class Feature {
   get options() { return this._options }
 
   /**
-   * Return first node by given selector inside the feature node.
+   * Return first element by given selector inside the feature node.
    *
    * @param   {String} selector - CSS selector
-   * @returns {Node}
+   * @returns {Element}
    */
   $(selector) { return this._node.querySelector(selector) }
 
   /**
-   * Return all nodes by given selector inside the feature node.
+   * Return all elements by given selector inside the feature node as array.
    *
    * @param   {String} selector - CSS selector
-   * @returns {NodeList}
+   * @returns {Element[]}
    */
-  $$(selector) { return this._node.querySelectorAll(selector) }
+  $$(selector) { return [...this._node.querySelectorAll(selector)] }
 
   /**
    * Add event listener to given node.
@@ -249,10 +249,10 @@ class Feature {
    * @param {Function} fn - Event handler
    */
   addEventListener(node, type, fn) {
-    if (node.length) {
-      node.forEach((n) => {
-        this.addEventListener(n, type, fn)
-      })
+    if (node.length > 0) {
+      for (let i = 0, length = node.length; i < length; i++) {
+        this.addEventListener(node[i], type, fn)
+      }
 
       return
     }
@@ -278,9 +278,9 @@ class Feature {
    */
   removeEventListener(node, type = null, fn = null) {
     if (node.length) {
-      node.forEach((n) => {
-        this.removeEventListener(n, type, fn)
-      })
+      for (let i = 0, length = node.length; i < length; i++) {
+        this.removeEventListener(node[i], type, fn)
+      }
 
       return
     }
@@ -317,9 +317,9 @@ class Feature {
    */
   removeAllEventListener(node = null, fn = null) {
     if (node && node.length) {
-      node.forEach((n) => {
-        this.removeAllEventListener(n, fn)
-      })
+      for (let i = 0, length = node.length; i < length; i++) {
+        this.removeAllEventListener(node[i], fn)
+      }
 
       return
     }
