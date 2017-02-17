@@ -10,7 +10,7 @@ const deviceWidth = window.innerWidth
 /**
  * DeviceInfo class.
  */
-class DeviceInfo {
+export class DeviceInfo {
 
   constructor(options) {
     this.breakpoints = options.breakpoints || {}
@@ -103,10 +103,4 @@ class DeviceInfo {
 
 }
 
-export {
-  /**
-   * DeviceInfoclass.
-   * @see module:base/device~DeviceInfo
-   */
-  DeviceInfo
-}
+export default {}

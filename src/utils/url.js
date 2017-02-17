@@ -3,9 +3,6 @@
  * @module base/utils/url
  */
 
-const loc = window.location
-const query = loc.search
-
 /**
  * Initial search parameters.
  * @type {Object}
@@ -16,7 +13,7 @@ export const params = getParams()
  * Return search parameters.
  * @returns {Object}
  */
-export function getParams() {
+export function getParams(query = window.location.search) {
   if (query === '') return {}
   return query.slice(1).split('&').reduce(function(a, b) {
     b = b.split('=')
@@ -32,5 +29,9 @@ export function getParams() {
  * @returns {String}
  */
 export function hash(href) {
-  return (href || loc.hash).substring(1)
+  return (href || window.location.hash).substring(1)
+}
+
+export default {
+  params, hash, getParams
 }

@@ -4,14 +4,14 @@
  */
 
 import observable from 'riot-observable'
-import { extend } from './utils/object'
+import { transitionEndEvent } from './utils/dom'
 
 import {
   ATTR_FEATURES,
   ATTR_FEATURES_IGNORE
  } from './variables'
 
-var features = {}
+export var features = {}
 
 /**
  * Reinitializes features.
@@ -22,7 +22,7 @@ var features = {}
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be reinitialized.
  */
-function reinit(container = document.body, name = null) {
+export function reinit(container = document.body, name = null) {
   destroy(container, name)
   init(container, name)
 }
@@ -43,7 +43,7 @@ function reinit(container = document.body, name = null) {
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
  */
-function init(container = document.body, name = null) {
+export function init(container = document.body, name = null) {
   var names = name ? name.split(',') : null
   var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
@@ -91,7 +91,7 @@ function init(container = document.body, name = null) {
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
  */
-function destroy(container = document.body, name = null) {
+export function destroy(container = document.body, name = null) {
   var names = name ? name.split(',') : null
   var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
@@ -126,7 +126,7 @@ function destroy(container = document.body, name = null) {
  * @param {Object} options
  *   Any options to initialize the feature with.
  */
-function add(name, featureClass, options = {}) {
+export function add(name, featureClass, options = {}) {
   if (features[name]) {
     throw new Error('Feature "'+ name +'" has been already added!')
   }
@@ -148,7 +148,7 @@ function add(name, featureClass, options = {}) {
  * @returns {Object|null}
  *   Feature instances indexed by name (used by `data-feature` attribute).
  */
-function getInstancesByNode(node) {
+export function getInstancesByNode(node) {
   return node._baseFeatureInstances || null
 }
 
@@ -168,7 +168,7 @@ function getInstancesByNode(node) {
  *
  * @returns {module:base/features~Feature|null} Feature instance.
  */
-function getInstanceByNode(node, name) {
+export function getInstanceByNode(node, name) {
   if (!node._baseFeatureInstances) {
     return null
   }
@@ -177,11 +177,13 @@ function getInstanceByNode(node, name) {
 }
 
 
+
+
 /**
  * Abstract Feature class.
  * @abstract
  */
-class Feature {
+export class Feature {
 
   /**
    * Constructor.
@@ -203,7 +205,7 @@ class Feature {
     var defaultOptions = this.constructor.defaultOptions || {}
 
     this._node = node
-    this._options = extend({}, defaultOptions, options)
+    this._options = Object.assign({}, defaultOptions, options)
     this._eventListener = {}
 
     if (!this._node._baseFeatureInstances) {
@@ -353,7 +355,7 @@ class Feature {
 }
 
 
-export {
+export default {
   /**
    * Feature class.
    * @see module:base/features~Feature

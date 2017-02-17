@@ -32,14 +32,14 @@
  */
 
 import observable from 'riot-observable'
-import { extend } from './utils/object'
+import { transitionEndEvent } from './utils/dom'
 
 import {
   ATTR_FEATURES,
   ATTR_FEATURES_IGNORE
  } from './variables'
 
-var features = {}
+export var features = {}
 
 /**
  * Reinitializes features.
@@ -50,7 +50,7 @@ var features = {}
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be reinitialized.
  */
-function reinit(container = document.body, name = null) {
+export function reinit(container = document.body, name = null) {
   destroy(container, name)
   init(container, name)
 }
@@ -71,7 +71,7 @@ function reinit(container = document.body, name = null) {
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
  */
-function init(container = document.body, name = null) {
+export function init(container = document.body, name = null) {
   var names = name ? name.split(',') : null
   var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
@@ -119,7 +119,7 @@ function init(container = document.body, name = null) {
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
  */
-function destroy(container = document.body, name = null) {
+export function destroy(container = document.body, name = null) {
   var names = name ? name.split(',') : null
   var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
@@ -154,7 +154,7 @@ function destroy(container = document.body, name = null) {
  * @param {Object} options
  *   Any options to initialize the feature with.
  */
-function add(name, featureClass, options = {}) {
+export function add(name, featureClass, options = {}) {
   if (features[name]) {
     throw new Error('Feature "'+ name +'" has been already added!')
   }
@@ -176,7 +176,7 @@ function add(name, featureClass, options = {}) {
  * @returns {Object|null}
  *   Feature instances indexed by name (used by `data-feature` attribute).
  */
-function getInstancesByNode(node) {
+export function getInstancesByNode(node) {
   return node._baseFeatureInstances || null
 }
 
@@ -196,7 +196,7 @@ function getInstancesByNode(node) {
  *
  * @returns {module:base/features~Feature|null} Feature instance.
  */
-function getInstanceByNode(node, name) {
+export function getInstanceByNode(node, name) {
   if (!node._baseFeatureInstances) {
     return null
   }
@@ -205,11 +205,13 @@ function getInstanceByNode(node, name) {
 }
 
 
+
+
 /**
  * Abstract Feature class.
  * @abstract
  */
-class Feature {
+export class Feature {
 
   /**
    * Constructor.
@@ -231,7 +233,7 @@ class Feature {
     var defaultOptions = this.constructor.defaultOptions || {}
 
     this._node = node
-    this._options = extend({}, defaultOptions, options)
+    this._options = Object.assign({}, defaultOptions, options)
     this._eventListener = {}
 
     if (!this._node._baseFeatureInstances) {
@@ -381,7 +383,7 @@ class Feature {
 }
 
 
-export {
+export default {
   /**
    * Feature class.
    * @see module:base/features~Feature
@@ -408,13 +410,13 @@ export {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features-Feature.html">Feature</a></li><li><a href="module-base_utils_device-DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom-Scroller.html">Scroller</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Feb 13 2017 16:39:55 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Feb 17 2017 17:27:41 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

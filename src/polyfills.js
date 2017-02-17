@@ -1,23 +1,9 @@
 /**
  * Fixes for shitty browsers.
- * IE, I'm looking at you.
  */
 
-/*
- * Hack in support for Function.name for browsers that don't support it.
- **/
-
-if (Function.prototype.name === undefined && Object.defineProperty !== undefined) {
-  Object.defineProperty(Function.prototype, 'name', {
-    get: function() {
-      var funcNameRegex = /function\s([^(]{1,})\(/
-      var results = (funcNameRegex).exec((this).toString())
-      return (results && results.length > 1) ? results[1].trim() : ''
-    },
-    set: function(value) {}
-  })
-}
-
+import 'core-js/fn/array/from'
+import 'core-js/fn/object/assign'
 
 /*
  * closest polyfill from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest

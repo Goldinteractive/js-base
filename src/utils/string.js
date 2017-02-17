@@ -3,14 +3,7 @@
  * @module base/utils/string
  */
 
-
-export {
-  /**
-   * Camel case given string.
-   * @param   {String} str - String to convert.
-   */
-  default as camelCase
-} from 'camel-case'
+import camelCase from 'camel-case'
 
 /**
  * Convert px value to number.
@@ -30,4 +23,10 @@ export function pxToInt(str) {
  */
 export function startsWith(str, value) {
   return str.slice(0, value.length) === value
+}
+
+export default {
+  camelCase,
+  pxToInt,
+  startsWith
 }

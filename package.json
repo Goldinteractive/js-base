@@ -1,6 +1,6 @@
 {
   "name": "gi-js-base",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Basic javascript foundation written in ES6/2015 Vanilla JS.",
   "main": "lib/base.js",
   "jsnext:main": "src/index.js",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "camel-case": "^3.0.0",
+    "core-js": "^2.4.1",
     "easing-js": "danro/easing-js",
     "metalsmith-navigation": "^0.2.9",
     "riot-observable": "^3.0.0"

@@ -5,7 +5,7 @@
 
 import './polyfills'
 
-import * as features from './features'
+import { default as features } from './features'
 import * as utils from './utils'
 import eventHub from './eventHub'
 

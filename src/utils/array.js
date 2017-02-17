@@ -24,3 +24,33 @@ export function contains(array, item) {
 export function random(array) {
   return array[Math.floor(Math.random() * array.length)]
 }
+
+/**
+ * Remove dublicates from array.
+ *
+ * @param   {Array} array - Target array.
+ * @returns {Array} Cleaned array.
+ */
+export function unique(array) {
+    var seen = {},
+      out = [],
+      len = array.length,
+      j = 0
+
+    for (let i = 0; i < len; i++) {
+      var item = array[i]
+      if (seen[item] !== 1) {
+        seen[item] = 1
+        out[j++] = item
+      }
+    }
+
+    return out
+}
+
+
+export default {
+  contains,
+  random,
+  unique
+}

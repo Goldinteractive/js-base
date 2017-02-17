@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: EventHub</title>
+    <title>JSDoc: Class: Feature</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: EventHub</h1>
+    <h1 class="page-title">Class: Feature</h1>
 
     
 
@@ -29,9 +29,9 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="module-base_events.html">base/events</a>~</span>EventHub</h2>
+            <span class="ancestors"><a href="module-base_features.html">base/features</a>.</span>Feature</h2>
         
-            <div class="class-description">EventHub Class.</div>
+            <div class="class-description">Abstract Feature class.</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="EventHub"><span class="type-signature"></span>new EventHub<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".Feature"><span class="type-signature">(abstract) </span>new Feature<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -92,7 +92,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="eventHub.js.html">eventHub.js</a>, <a href="eventHub.js.html#line11">line 11</a>
+        <a href="features.js.html">features.js</a>, <a href="features.js.html#line186">line 186</a>
     </li></ul></dd>
     
 

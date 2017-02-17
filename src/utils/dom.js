@@ -4,8 +4,49 @@
  */
 
 import * as easingEquations from 'easing-js/easing'
-import { extend } from './object'
-import { rAF } from './func'
+import { rAF } from './fn'
+
+/**
+ * Name of the animationend event.
+ * @type {String}
+ */
+export var animationEndEvent = (function() {
+  var el = document.createElement('div'),
+    properties = {
+      'animation': 'animationend',
+      'MozAnimation': 'mozAnimationEnd',
+      'WebkitAnimation': 'webkitAnimationEnd'
+    }
+
+  for (let property in properties) {
+    if (properties.hasOwnProperty(property)
+        && el.style[property] !== 'undefined'
+    ) {
+      return properties[property]
+    }
+  }
+})()
+
+/**
+ * Name of the transitionend event.
+ * @type {String}
+ */
+export var transitionEndEvent = (function() {
+  var el = document.createElement('div'),
+    properties = {
+      'transition': 'transitionend',
+      'MozTransition': 'transitionend',
+      'WebkitTransition': 'webkitTransitionEnd'
+    }
+
+  for (let property in properties) {
+    if (properties.hasOwnProperty(property)
+        && el.style[property] !== 'undefined'
+    ) {
+      return properties[property]
+    }
+  }
+})()
 
 /**
  * Return all computed styles.
@@ -13,7 +54,7 @@ import { rAF } from './func'
  * @param   {Element} element - Element to get computed styles from.
  * @returns {Object} Computed styles
  */
-function computedStyles(element) {
+export function computedStyles(element) {
   var computedStyle = {},
       styles = {}
 
@@ -36,15 +77,104 @@ function computedStyles(element) {
  *
  * @returns {String} Computed style
  */
-function computedStyle(element, prop) {
+export function computedStyle(element, prop) {
     return window.getComputedStyle(element, null).getPropertyValue(prop)
 }
+
+/**
+ * Return child nodes.
+ *
+ * @param  {Node} node - Node to get the children from.
+ * @param  {Node} skipMe - Node to skip
+ *
+ * @return {Node[]}
+ */
+export function children(node, skipMe) {
+  var children = []
+
+  for (; node; node = node.nextSibling) {
+    if (node.nodeType == 1 && node != skipMe) {
+      children.push(node)
+    }
+  }
+
+  return children
+}
+
+/**
+ * Return siblings of given node.
+ *
+ * @param  {Node} node Node
+ * @return {Node[]}
+ */
+export function siblings(node) {
+  return children(node.parentNode.firstChild, node)
+}
+
+/**
+ * Check whether the element matches the given selector.
+ *
+ * @param {Element} el
+ *      The element to check
+ * @param {String} selector
+ *        The selector to check against
+ * @return {Boolean}
+ */
+export function matches(element, selector) {
+  var p = Element.prototype
+  var f = p.matches
+    || p.webkitMatchesSelector
+    || p.mozMatchesSelector
+    || p.msMatchesSelector
+    || function(s) {
+      return [].indexOf.call(document.querySelectorAll(s), this) !== -1
+    }
+
+  return f.call(element, selector)
+}
+
+
+
+/**
+ * Sheet class.
+ * Dynamically create stylesheets.
+ */
+export class Sheet {
+
+  /**
+   * @Constructor
+   * @param {Object} options
+   *   Overwrite the [default options]{@link module:base/utils/dom~Sheet.defaultOptions}.
+   */
+  constructor(options = {}) {
+    this.options = Object.assign({}, Sheet.defaultOptions, options)
+    this.style = document.createElement('style')
+    this.style.setAttribute('media', this.options.media)
+    this.style.appendChild(document.createTextNode(''))
+  }
+
+  init() {
+    document.head.appendChild(this.style)
+  }
+
+}
+
+/**
+ * Default sheet options.
+ *
+ * @type {Object}
+ * @property {String} media='screen' - Scrolling speed (pixels per second).
+ */
+Sheet.defaultOptions = {
+  media: 'screen'
+}
+
 
 /**
  * Scroller class.
  * Scroll to position or element using custom speeds and easings.
  */
-class Scroller {
+export class Scroller {
 
   /**
    * Constructor.
@@ -52,7 +182,7 @@ class Scroller {
    *   Overwrite the [default options]{@link module:base/utils/dom~Scroller.defaultOptions}.
    */
   constructor(options = {}) {
-    this._opts = extend(Scroller.defaultOptions, options)
+    this._opts = Object.assign({}, Scroller.defaultOptions, options)
   }
 
   /**
@@ -65,7 +195,7 @@ class Scroller {
    * @returns {module:base/utils/dom~Scroller}
    */
   toElement(element, options = {}) {
-    var opts = extend(options, {
+    var opts = Object.assign(options, {
       y: element.offsetTop,
       x: element.offsetLeft
     })
@@ -86,7 +216,7 @@ class Scroller {
       scrollY = window.scrollY || document.documentElement.scrollTop,
       scrollX = window.scrollX || document.documentElement.scrollLeft
 
-    var opts = extend(this._opts, Scroller.defaultToOptions, options),
+    var opts = Object.assign({}, this._opts, options),
       scrollTargetX = opts.x,
       scrollTargetY = opts.y
 
@@ -180,13 +310,12 @@ Scroller.defaultToOptions = {
 }
 
 
-export {
-  /**
-   * Scroller class.
-   * @see module:base/utils/dom~Scroller
-   */
-  Scroller,
-
+export default {
+  animationEndEvent,
+  transitionEndEvent,
   computedStyles,
-  computedStyle
+  computedStyle,
+  siblings,
+  children,
+  matches
 }
