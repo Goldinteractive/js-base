@@ -3,15 +3,15 @@
  * @module base/utils
  */
 
-import * as array from './utils/array'
-import * as check from './utils/check'
-import * as dom from './utils/dom'
-import * as data from './utils/data'
-import * as device from './utils/device'
-import * as func from './utils/func'
-import * as string from './utils/string'
-import * as object from './utils/object'
-import * as url from './utils/url'
+import { default as array }  from './utils/array'
+import { default as check }  from './utils/check'
+import { default as dom }    from './utils/dom'
+import { default as data }   from './utils/data'
+import { default as device } from './utils/device'
+import { default as fn }     from './utils/fn'
+import { default as string } from './utils/string'
+import { default as object } from './utils/object'
+import { default as url }    from './utils/url'
 
 export {
   /** Array utility. */
@@ -25,7 +25,7 @@ export {
   /** Device utility. */
   device,
   /** Function utility. */
-  func,
+  fn,
   /** String utility. */
   string,
   /** Object utility. */

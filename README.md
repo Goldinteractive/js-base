@@ -39,7 +39,7 @@ plugins: [
 ### Browser compatibility
 
 * Newest two browser versions of Chrome, Firefox, Safari and Edge
-* IE 9 and above
+* IE 10 and above
 
 ### Development
 

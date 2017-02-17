@@ -74,6 +74,20 @@ export function isNumeric(value) {
 }
 
 /**
+ * Check whether the given param is a valid element node.
+ *
+ * @param   {*} value - Value to check
+ * @returns {Boolean}
+ */
+export function isElement(value) {
+  if (!value || !value.nodeType) {
+    return false
+  }
+
+  return value.nodeType === 1 || value.nodeType === 9
+}
+
+/**
  * Check if given value is empty.
  *
  * @param   {*} value - Value to check.
@@ -113,4 +127,17 @@ export function isEmpty(value) {
 export function isWritable(obj, key) {
   const descriptor = Object.getOwnPropertyDescriptor(obj, key)
   return isUndefined(obj[key]) || descriptor && descriptor.writable
+}
+
+
+export default {
+  isArray,
+  isString,
+  isUndefined,
+  isFunction,
+  isObject,
+  isNumeric,
+  isElement,
+  isEmpty,
+  isWritable
 }

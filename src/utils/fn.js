@@ -98,6 +98,27 @@ export function throttle(func, wait = 60) {
 }
 
 /**
+ * Execute functionality just once.
+ *
+ * @param  {Function} fn - Function to execute just once.
+ * @param  {*}        context - Context to execute the function in.
+ *
+ * @returns {Function}
+ */
+export function once(fn, context) {
+  var result
+
+  return function() {
+    if (fn) {
+      result = fn.apply(context || this, arguments)
+      fn = null
+    }
+
+    return result
+  }
+}
+
+/**
  * Request animation frame polyfill method.
  *
  * @see https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -111,3 +132,12 @@ export var rAF = (function() {
       window.setTimeout(callback, 1000 / 60)
     }
 })().bind(window)
+
+
+
+export default {
+  debounce,
+  throttle,
+  once,
+  rAF
+}
