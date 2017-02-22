@@ -5,8 +5,6 @@
 
 import { pxToInt } from './string'
 
-const deviceWidth = window.innerWidth
-
 /**
  * DeviceInfo class.
  */
@@ -46,7 +44,7 @@ export class DeviceInfo {
       throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
     }
 
-    return deviceWidth == this._breakpoints[breakpoint]
+    return window.innerWidth == this._breakpoints[breakpoint]
   }
 
   /**
@@ -61,7 +59,7 @@ export class DeviceInfo {
       throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
     }
 
-    return deviceWidth > this._breakpoints[breakpoint]
+    return window.innerWidth > this._breakpoints[breakpoint]
   }
 
   /**
@@ -76,7 +74,7 @@ export class DeviceInfo {
       throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
     }
 
-    return deviceWidth < this._breakpoints[breakpoint]
+    return window.innerWidth < this._breakpoints[breakpoint]
   }
 
   /**
