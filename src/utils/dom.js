@@ -84,10 +84,10 @@ export function computedStyle(element, prop) {
 /**
  * Return child nodes.
  *
- * @param  {Node} node - Node to get the children from.
- * @param  {Node} skipMe - Node to skip
+ * @param {Node} node - Node to get the children from.
+ * @param {Node} skipMe - Node to skip.
  *
- * @return {Node[]}
+ * @returns {Node[]}
  */
 export function children(node, skipMe) {
   var children = []
@@ -104,21 +104,44 @@ export function children(node, skipMe) {
 /**
  * Return siblings of given node.
  *
- * @param  {Node} node Node
- * @return {Node[]}
+ * @param   {Node} node Node - Target node.
+ * @returns {Node[]}
  */
 export function siblings(node) {
   return children(node.parentNode.firstChild, node)
 }
 
 /**
+ * Return parent nodes of given node.
+ *
+ * @param {Node} node - Target node.
+ * @param {Function} [match] - The match function to check the node against.
+ *
+ * @returns {Node[]}
+ */
+export function parents(node, match = null) {
+  var parents = []
+
+  for (; node && node !== document; node = node.parentNode) {
+    if (match) {
+      if (match(node)) {
+        parents.push(node)
+      }
+    } else {
+      parents.push(node)
+    }
+  }
+
+  return parents
+}
+
+/**
  * Check whether the element matches the given selector.
  *
- * @param {Element} el
- *      The element to check
- * @param {String} selector
- *        The selector to check against
- * @return {Boolean}
+ * @param {Element} element - The element to check.
+ * @param {String} selector - The selector to check against.
+ *
+ * @returns {Boolean}
  */
 export function matches(element, selector) {
   var p = Element.prototype
@@ -133,6 +156,29 @@ export function matches(element, selector) {
   return f.call(element, selector)
 }
 
+/**
+ * Set style attributes.
+ *
+ * @param {Element} element - Target element.
+ * @param {Object}  styles - Styles to set.
+ * @param {Boolean} [remember=false] - Whether to return original attributes.
+ *
+ * @returns {Object|{}} Original style attributes which got overwritten.
+ */
+export function style(element, styles, remember = false) {
+  var style = element.style
+  var original = {}
+
+  for (let key in styles) {
+    if (remember) {
+      original[key] = style[key] || ''
+    }
+
+    style[key] = styles[key]
+  }
+
+  return original
+}
 
 
 /**
@@ -316,6 +362,8 @@ export default {
   computedStyles,
   computedStyle,
   siblings,
+  parents,
   children,
-  matches
+  matches,
+  style
 }

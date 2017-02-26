@@ -5,6 +5,7 @@
 
 import observable from 'riot-observable'
 import { transitionEndEvent } from './utils/dom'
+import eventHub from './eventHub'
 
 import {
   ATTR_FEATURES,
@@ -42,12 +43,22 @@ export function reinit(container = document.body, name = null) {
  * @param {String} [name=null]
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
+ *
+ * @returns {Array} Initialized feature instances.
  */
 export function init(container = document.body, name = null) {
+  var instances = []
   var names = name ? name.split(',') : null
   var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
+  eventHub.trigger('features:initialize', {
+    container: container,
+    names: names,
+    nodes: featureNodes
+  })
+
   for (let i = 0, featureNodesLength = featureNodes.length; i < featureNodesLength; i++) {
+    var nodeInstances = []
     var featureNode = featureNodes[i]
     var dataFeatures = featureNode.getAttribute(ATTR_FEATURES).split(',')
     var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
@@ -71,8 +82,24 @@ export function init(container = document.body, name = null) {
       )
 
       instance.init()
+      instances.push(instance)
+      nodeInstances.push(instance)
+    })
+
+    // trigger event on all instances
+    nodeInstances.forEach(function(nodeInstance) {
+      nodeInstance.trigger('featuresInitialized', nodeInstances)
     })
   }
+
+  eventHub.trigger('features:initialized', {
+    container: container,
+    names: names,
+    nodes: featureNodes,
+    instances: instances
+  })
+
+  return instances
 }
 
 /**
@@ -95,6 +122,12 @@ export function destroy(container = document.body, name = null) {
   var names = name ? name.split(',') : null
   var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
 
+  eventHub.trigger('features:destroy', {
+    container: container,
+    names: names,
+    nodes: featureNodes
+  })
+
   for (let i = 0, featureNodesLength = featureNodes.length; i < featureNodesLength; i++) {
     var featureNode = featureNodes[i]
     var nodeInstances = getInstancesByNode(featureNode)
@@ -110,6 +143,12 @@ export function destroy(container = document.body, name = null) {
       }
     }
   }
+
+  eventHub.trigger('features:destroyed', {
+    container: container,
+    names: names,
+    nodes: featureNodes
+  })
 }
 
 /**
