@@ -3,6 +3,7 @@
  * @module base/utils/dom
  */
 
+import ready from 'when-dom-ready'
 import * as easingEquations from 'easing-js/easing'
 import { rAF } from './fn'
 
@@ -357,6 +358,7 @@ Scroller.defaultToOptions = {
 
 
 export default {
+  ready,
   animationEndEvent,
   transitionEndEvent,
   computedStyles,

@@ -26,7 +26,7 @@ publish: jsdoc build
 build: test js js-minified
 
 test:
-	# check soruce with eslint
+	# check source with eslint
 	@ $(ESLINT) $(SOURCE_PATH)
 
 js:
