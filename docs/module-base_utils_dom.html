@@ -377,7 +377,7 @@
 
             
 
-            <td class="description last">Node to skip</td>
+            <td class="description last">Node to skip.</td>
         </tr>
 
     
@@ -796,7 +796,7 @@
 
     
 
-    <h4 class="name" id=".matches"><span class="type-signature">(static) </span>matches<span class="signature">(el, selector)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".matches"><span class="type-signature">(static) </span>matches<span class="signature">(element, selector)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
@@ -839,7 +839,7 @@
 
         <tr>
             
-                <td class="name"><code>el</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
@@ -855,7 +855,7 @@
 
             
 
-            <td class="description last">The element to check</td>
+            <td class="description last">The element to check.</td>
         </tr>
 
     
@@ -878,7 +878,7 @@
 
             
 
-            <td class="description last">The selector to check against</td>
+            <td class="description last">The selector to check against.</td>
         </tr>
 
     
@@ -919,7 +919,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line123">line 123</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -954,6 +954,198 @@
     <dd>
         
 <span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".parents"><span class="type-signature">(static) </span>parents<span class="signature">(node, match<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;Node>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Return parent nodes of given node.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>node</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Node</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Target node.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>match</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The match function to check the node against.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line122">line 122</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Node></span>
 
 
     </dd>
@@ -1027,7 +1219,7 @@
 
             
 
-            <td class="description last">Node</td>
+            <td class="description last">Node - Target node.</td>
         </tr>
 
     
@@ -1113,6 +1305,252 @@
 
 
         
+            
+
+    
+
+    <h4 class="name" id=".style"><span class="type-signature">(static) </span>style<span class="signature">(element, styles, remember<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object|Object}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Set style attributes.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target element.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>styles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Styles to set.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>remember</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Whether to return original attributes.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Original style attributes which got overwritten.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
     
 
     
@@ -1134,7 +1572,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Feb 20 2017 11:48:57 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Feb 26 2017 01:21:31 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

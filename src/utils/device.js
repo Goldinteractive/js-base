@@ -1,3 +1,4 @@
+
 /**
  * Device module.
  * @module base/utils/device
@@ -19,7 +20,11 @@ export class DeviceInfo {
     return this._breakpoints
   }
 
-  /** Set breakpoints (pixel values will be converted to integers). */
+  /**
+   * Set breakpoints (pixel values will be converted to integers).
+   *
+   * @param {Object} breakpoints - Breakpoints
+   */
   set breakpoints(breakpoints) {
     var newBreakpoints = {}
 

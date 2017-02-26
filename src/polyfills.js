@@ -5,6 +5,23 @@
 import 'core-js/fn/array/from'
 import 'core-js/fn/object/assign'
 
+
+/*
+ * Promise polyfill.
+ */
+import Promise from 'promise-polyfill'
+
+if (!window.Promise) {
+  window.Promise = Promise
+}
+
+
+/**
+ * Fetch polyfill (requires Promise polyfill).
+ */
+import 'whatwg-fetch'
+
+
 /*
  * closest polyfill from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
  */
@@ -20,7 +37,6 @@ if (window.Element && !Element.prototype.closest) {
     return el
   }
 }
-
 
 
 /*

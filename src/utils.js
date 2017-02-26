@@ -12,6 +12,7 @@ import { default as fn }     from './utils/fn'
 import { default as string } from './utils/string'
 import { default as object } from './utils/object'
 import { default as url }    from './utils/url'
+import { default as fetch }  from './utils/fetch'
 
 export {
   /** Array utility. */
@@ -31,5 +32,7 @@ export {
   /** Object utility. */
   object,
   /** URL utility. */
-  url
+  url,
+  /** Fetch utility. */
+  fetch
 }
