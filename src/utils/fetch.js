@@ -1,5 +1,18 @@
+/**
+ * Fetch module.
+ * @module base/utils/fetch
+ */
+
+import fetchJsonP from 'fetch-jsonp'
+
 export var defaultOptions = {
   credentials: 'same-origin'
+}
+
+export var defaultJsonpOptions = {
+  timeout: 5000,
+  jsonpCallback: 'callback',
+  jsonpCallbackFunction: null
 }
 
 export function checkStatus(response) {
@@ -21,11 +34,17 @@ export function json(u, opts = {}) {
   return url(u, opts).then(r => r.json())
 }
 
+export function jsonP(u, opts = {}) {
+  opts = Object.assign({}, defaultJsonpOptions, opts)
+  return fetchJsonP(u, opts).then(r => r.json())
+}
+
 export function text(u, opts = {}) {
   return url(u, opts).then(r => r.text())
 }
 
 export default {
   defaultOptions,
-  url, json, text
+  defaultJsonpOptions,
+  url, json, jsonP, text
 }

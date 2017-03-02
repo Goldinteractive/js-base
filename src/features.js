@@ -4,6 +4,7 @@
  */
 
 import observable from 'riot-observable'
+import { isElement } from './utils/check'
 import { transitionEndEvent } from './utils/dom'
 import eventHub from './eventHub'
 
@@ -67,14 +68,10 @@ export function init(container = document.body, name = null) {
       featureName = featureName.trim()
       var feature = features[featureName]
 
-      // continue if feature has not been added
-      // or feature is ignored here
-      // or name is not whitelisted
-      // or is already initialized on this node
-      if (!feature
-          || (ignoreFeatures && ignoreFeatures.indexOf(featureName) > -1)
-          || (name && names.indexOf(featureName) < 0)
-          || (featureNode._baseFeatureInstances
+      if (!feature // feature has not been added yet
+          || (ignoreFeatures && ignoreFeatures.indexOf(featureName) > -1) // feature is ignored on this node
+          || (name && names.indexOf(featureName) < 0) // name is not whitelisted
+          || (featureNode._baseFeatureInstances // feature has already been initalized on this node
               && featureNode._baseFeatureInstances[featureName])) return
 
       var instance = new feature.featureClass(
@@ -135,8 +132,10 @@ export function destroy(container = document.body, name = null) {
 
     for (let featureName in nodeInstances) {
       if (nodeInstances.hasOwnProperty(featureName)
-          && (!name || names.indexOf(featureName) > -1)
-          && (!ignoreFeatures || ignoreFeatures.indexOf(featureName) < 0)
+          && (!name || names.indexOf(featureName) > -1) // name is whitelisted
+          && (!ignoreFeatures || ignoreFeatures.indexOf(featureName) < 0) // feature is ignore on this node
+          && (featureNode._baseFeatureInstances // feature instance exists
+              && featureNode._baseFeatureInstances[featureName])
       ) {
         nodeInstances[featureName].destroy()
         nodeInstances[featureName] = null
@@ -243,8 +242,11 @@ export class Feature {
 
     var defaultOptions = this.constructor.defaultOptions || {}
 
+    this._name = name
     this._node = node
     this._options = Object.assign({}, defaultOptions, options)
+
+    this._hubEvents = {}
     this._eventListener = {}
 
     if (!this._node._baseFeatureInstances) {
@@ -255,14 +257,20 @@ export class Feature {
   }
 
   /**
+   * Return name the feature has been initialized with.
+   * @returns {String}
+   */
+  get name() { return this._name }
+
+  /**
    * Return node the feature belongs to.
-   * @returns {Node} Root node the feature belongs to.
+   * @returns {Node}
    */
   get node() { return this._node }
 
   /**
    * Return given options the feature has been initialized with.
-   * @returns {Object} Initialized options.
+   * @returns {Object}
    */
   get options() { return this._options }
 
@@ -285,16 +293,16 @@ export class Feature {
   /**
    * Add event listener to given node.
    *
-   * @param {Node|NodeList}     node - Node to add event listener to.
-   * @param {String}   type - Event type to add.
+   * @param {Node|NodeList} node - Node to add event listener to.
+   * @param {String} type - Event type to add.
    * @param {Function} fn - Event handler
    */
   addEventListener(node, type, fn) {
-    if (node.length > 0) {
-      for (let i = 0, length = node.length; i < length; i++) {
-        this.addEventListener(node[i], type, fn)
+    if (!isElement(node) && node !== window) {
+      var currentNode = node.length
+      while (currentNode--) {
+        this.addEventListener(node[currentNode], type, fn)
       }
-
       return
     }
 
@@ -318,11 +326,11 @@ export class Feature {
    *   Handler to remove (leave empty to remove all listeners).
    */
   removeEventListener(node, type = null, fn = null) {
-    if (node.length) {
-      for (let i = 0, length = node.length; i < length; i++) {
-        this.removeEventListener(node[i], type, fn)
+    if (!isElement(node) && node !== window) {
+      var currentNode = node.length
+      while (currentNode--) {
+        this.removeEventListener(node[currentNode], type, fn)
       }
-
       return
     }
 
@@ -357,17 +365,17 @@ export class Feature {
    *   Limit removing event listeners on given handler.
    */
   removeAllEventListener(node = null, fn = null) {
-    if (node && node.length) {
-      for (let i = 0, length = node.length; i < length; i++) {
-        this.removeAllEventListener(node[i], fn)
+    if (node && !isElement(node) && node !== window) {
+      var currentNode = node.length
+      while (currentNode--) {
+        this.removeAllEventListener(node[currentNode], fn)
       }
-
       return
     }
 
     for (let type in this._eventListener) {
       if (this._eventListener.hasOwnProperty(type)) {
-        this._eventListener[type].forEach((listener, i) => {
+        this._eventListener[type].forEach((listener) => {
           if ((!node || node == listener.node)
               && (!fn || fn == listener.fn)
           ) {
@@ -377,7 +385,51 @@ export class Feature {
       }
     }
 
-    this._eventListener = []
+    // reset internal references to event listeners
+    this._eventListener = {}
+  }
+
+  /** Add event to global event hub. */
+  onHub(event, fn) {
+    eventHub.on(event, fn)
+
+    if (!this._hubEvents[event]) {
+      this._hubEvents[event] = []
+    }
+
+    this._hubEvents[event].push(fn)
+  }
+
+  /** Remove event from global event hub. */
+  offHub(event, fn = null) {
+    if (event && fn) {
+      eventHub.off(event, fn)
+
+      this._hubEvents[event].forEach((listener, i) => {
+        if (fn == listener) {
+          this._hubEvents[event].splice(i, 1)
+        }
+      })
+    } else if (event) {
+      this._hubEvents[event].forEach((listener, i) => {
+          eventHub.off(event, listener)
+          this._hubEvents[event].splice(i, 1)
+      })
+    }
+  }
+
+  /** Remove all events from global event hub added by this feature. */
+  offAllHub() {
+    for (let event in this._hubEvents) {
+      if (this._hubEvents.hasOwnProperty(event)) {
+        this._hubEvents[event].forEach((listener) => {
+          eventHub.off(event, listener)
+        })
+      }
+    }
+
+    // reset internal referencens to hub events
+    this._hubEvents = {}
   }
 
   /** Initialize feature. */
@@ -385,10 +437,27 @@ export class Feature {
 
   /** Destroy feature. */
   destroy() {
+    this.trigger('destroy')
+
     // remove all registered event listeners
     this.removeAllEventListener()
+
+    // remove all events from global event hub
+    this.offAllHub()
+
     // destroy all features inside
     destroy(this._node)
+
+    // remove feature instance from node
+    this._node._baseFeatureInstances[name] = null
+    delete this._node._baseFeatureInstances[name]
+
+    // clean up properties
+    this._name = null
+    this._node = null
+    this._options = null
+
+    this.trigger('destroyed')
   }
 
 }

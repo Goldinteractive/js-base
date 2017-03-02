@@ -3,7 +3,6 @@
  * @module base/utils/dom
  */
 
-import ready from 'when-dom-ready'
 import * as easingEquations from 'easing-js/easing'
 import { rAF } from './fn'
 
@@ -83,19 +82,20 @@ export function computedStyle(element, prop) {
 }
 
 /**
- * Return child nodes.
+ * Return child elements.
  *
- * @param {Node} node - Node to get the children from.
- * @param {Node} skipMe - Node to skip.
+ * @param {Element} element - Element to get the children from.
+ * @param {Element} skipElement - Element to skip.
  *
- * @returns {Node[]}
+ * @returns {Element[]}
  */
-export function children(node, skipMe) {
+export function children(element, skipElement) {
   var children = []
+  var element = element.children[0]
 
-  for (; node; node = node.nextSibling) {
-    if (node.nodeType == 1 && node != skipMe) {
-      children.push(node)
+  for (; element; element = element.nextElementSibling) {
+    if (element != skipElement) {
+      children.push(element)
     }
   }
 
@@ -103,33 +103,57 @@ export function children(node, skipMe) {
 }
 
 /**
- * Return siblings of given node.
+ * Return siblings of given element.
  *
- * @param   {Node} node Node - Target node.
- * @returns {Node[]}
+ * @param   {Element} element - Target element.
+ * @returns {Element[]}
  */
-export function siblings(node) {
-  return children(node.parentNode.firstChild, node)
+export function siblings(element) {
+  return children(element.parentElement, element)
 }
 
 /**
- * Return parent nodes of given node.
+ * Return matching parent.
  *
- * @param {Node} node - Target node.
- * @param {Function} [match] - The match function to check the node against.
+ * @param  {Element} element - Target element to get the parent from.
+ * @param  {Function} match - The match function to check the parent agains.
  *
- * @returns {Node[]}
+ * @returns {Element}
  */
-export function parents(node, match = null) {
+export function parent(element, match) {
+  var parent = null
+
+  for (; parent === null
+         && element
+         && element !== document
+       ; element = element.parentElement
+  ) {
+    if (match(element)) {
+      parent = element
+    }
+  }
+
+  return parent
+}
+
+/**
+ * Return parent elements of given element.
+ *
+ * @param {Element} element - Target element to get the parents from.
+ * @param {Function} [match] - The match function to check the parent against.
+ *
+ * @returns {Element[]}
+ */
+export function parents(element, match = null) {
   var parents = []
 
-  for (; node && node !== document; node = node.parentNode) {
+  for (; element && element !== document; element = element.parentElement) {
     if (match) {
-      if (match(node)) {
-        parents.push(node)
+      if (match(element)) {
+        parents.push(element)
       }
     } else {
-      parents.push(node)
+      parents.push(element)
     }
   }
 
@@ -155,6 +179,18 @@ export function matches(element, selector) {
     }
 
   return f.call(element, selector)
+}
+
+/**
+ * Return index of current element.
+ *
+ * @param   {Element} element - Element
+ * @returns {Integer}
+ */
+export function index(element) {
+  var i = 0, child = element
+  while ((child = child.previousElementSibling) != null) i++
+  return i
 }
 
 /**
@@ -358,12 +394,13 @@ Scroller.defaultToOptions = {
 
 
 export default {
-  ready,
   animationEndEvent,
   transitionEndEvent,
   computedStyles,
   computedStyle,
   siblings,
+  index,
+  parent,
   parents,
   children,
   matches,
