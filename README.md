@@ -10,8 +10,8 @@ Basic javascript foundation written in ES6/2015 Vanilla JS.
 
 * [`promise-polyfill`](https://github.com/taylorhakes/promise-polyfill)
 * [`whatwg-fetch`](https://github.com/github/fetch)
+* [`fetch-jsonp`](https://github.com/camsong/fetch-jsonp)
 * [`core-js`](https://github.com/zloirock/core-js)
-* [`when-dom-ready`](https://github.com/lukechilds/when-dom-ready)
 * [`riot-observable`](https://github.com/riot/observable)
 * [`easing-js`](https://github.com/danro/easing-js)
 

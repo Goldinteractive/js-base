@@ -196,7 +196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line14">line 14</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -268,7 +268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line35">line 35</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -295,14 +295,14 @@
 
     
 
-    <h4 class="name" id=".children"><span class="type-signature">(static) </span>children<span class="signature">(node, skipMe)</span><span class="type-signature"> &rarr; {Array.&lt;Node>}</span></h4>
+    <h4 class="name" id=".children"><span class="type-signature">(static) </span>children<span class="signature">(element, skipElement)</span><span class="type-signature"> &rarr; {Array.&lt;Element>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Return child nodes.
+    Return child elements.
 </div>
 
 
@@ -338,13 +338,13 @@
 
         <tr>
             
-                <td class="name"><code>node</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Node</span>
+<span class="param-type">Element</span>
 
 
             
@@ -354,20 +354,20 @@
 
             
 
-            <td class="description last">Node to get the children from.</td>
+            <td class="description last">Element to get the children from.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>skipMe</code></td>
+                <td class="name"><code>skipElement</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Node</span>
+<span class="param-type">Element</span>
 
 
             
@@ -377,7 +377,7 @@
 
             
 
-            <td class="description last">Node to skip.</td>
+            <td class="description last">Element to skip.</td>
         </tr>
 
     
@@ -418,7 +418,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line93">line 93</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -452,7 +452,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;Node></span>
+<span class="param-type">Array.&lt;Element></span>
 
 
     </dd>
@@ -590,7 +590,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line81">line 81</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -743,7 +743,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line58">line 58</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -782,6 +782,155 @@
     <dd>
         
 <span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".index"><span class="type-signature">(static) </span>index<span class="signature">(element)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Return index of current element.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Element</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line190">line 190</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
 
 
     </dd>
@@ -919,7 +1068,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line147">line 147</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -968,14 +1117,14 @@
 
     
 
-    <h4 class="name" id=".parents"><span class="type-signature">(static) </span>parents<span class="signature">(node, match<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;Node>}</span></h4>
+    <h4 class="name" id=".parent"><span class="type-signature">(static) </span>parent<span class="signature">(element, match)</span><span class="type-signature"> &rarr; {Element}</span></h4>
 
     
 
 
 
 <div class="description">
-    Return parent nodes of given node.
+    Return matching parent.
 </div>
 
 
@@ -999,8 +1148,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -1013,31 +1160,23 @@
 
         <tr>
             
-                <td class="name"><code>node</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Node</span>
+<span class="param-type">Element</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Target node.</td>
+            <td class="description last">Target element to get the parent from.</td>
         </tr>
 
     
@@ -1057,20 +1196,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">The match function to check the node against.</td>
+            <td class="description last">The match function to check the parent agains.</td>
         </tr>
 
     
@@ -1145,7 +1274,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;Node></span>
+<span class="param-type">Element</span>
 
 
     </dd>
@@ -1160,14 +1289,206 @@
 
     
 
-    <h4 class="name" id=".siblings"><span class="type-signature">(static) </span>siblings<span class="signature">(node)</span><span class="type-signature"> &rarr; {Array.&lt;Node>}</span></h4>
+    <h4 class="name" id=".parents"><span class="type-signature">(static) </span>parents<span class="signature">(element, match<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;Element>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Return siblings of given node.
+    Return parent elements of given element.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Target element to get the parents from.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>match</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The match function to check the parent against.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line147">line 147</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;Element></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".siblings"><span class="type-signature">(static) </span>siblings<span class="signature">(element)</span><span class="type-signature"> &rarr; {Array.&lt;Element>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Return siblings of given element.
 </div>
 
 
@@ -1203,13 +1524,13 @@
 
         <tr>
             
-                <td class="name"><code>node</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Node</span>
+<span class="param-type">Element</span>
 
 
             
@@ -1219,7 +1540,7 @@
 
             
 
-            <td class="description last">Node - Target node.</td>
+            <td class="description last">Target element.</td>
         </tr>
 
     
@@ -1294,7 +1615,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;Node></span>
+<span class="param-type">Array.&lt;Element></span>
 
 
     </dd>
@@ -1499,7 +1820,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line169">line 169</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -1566,13 +1887,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Feb 26 2017 14:22:38 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Mar 02 2017 12:03:13 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

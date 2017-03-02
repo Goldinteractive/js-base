@@ -31,7 +31,6 @@
  * @module base/utils/dom
  */
 
-import ready from 'when-dom-ready'
 import * as easingEquations from 'easing-js/easing'
 import { rAF } from './fn'
 
@@ -111,19 +110,20 @@ export function computedStyle(element, prop) {
 }
 
 /**
- * Return child nodes.
+ * Return child elements.
  *
- * @param {Node} node - Node to get the children from.
- * @param {Node} skipMe - Node to skip.
+ * @param {Element} element - Element to get the children from.
+ * @param {Element} skipElement - Element to skip.
  *
- * @returns {Node[]}
+ * @returns {Element[]}
  */
-export function children(node, skipMe) {
+export function children(element, skipElement) {
   var children = []
+  var element = element.children[0]
 
-  for (; node; node = node.nextSibling) {
-    if (node.nodeType == 1 &amp;&amp; node != skipMe) {
-      children.push(node)
+  for (; element; element = element.nextElementSibling) {
+    if (element != skipElement) {
+      children.push(element)
     }
   }
 
@@ -131,33 +131,57 @@ export function children(node, skipMe) {
 }
 
 /**
- * Return siblings of given node.
+ * Return siblings of given element.
  *
- * @param   {Node} node Node - Target node.
- * @returns {Node[]}
+ * @param   {Element} element - Target element.
+ * @returns {Element[]}
  */
-export function siblings(node) {
-  return children(node.parentNode.firstChild, node)
+export function siblings(element) {
+  return children(element.parentElement, element)
 }
 
 /**
- * Return parent nodes of given node.
+ * Return matching parent.
  *
- * @param {Node} node - Target node.
- * @param {Function} [match] - The match function to check the node against.
+ * @param  {Element} element - Target element to get the parent from.
+ * @param  {Function} match - The match function to check the parent agains.
  *
- * @returns {Node[]}
+ * @returns {Element}
  */
-export function parents(node, match = null) {
+export function parent(element, match) {
+  var parent = null
+
+  for (; parent === null
+         &amp;&amp; element
+         &amp;&amp; element !== document
+       ; element = element.parentElement
+  ) {
+    if (match(element)) {
+      parent = element
+    }
+  }
+
+  return parent
+}
+
+/**
+ * Return parent elements of given element.
+ *
+ * @param {Element} element - Target element to get the parents from.
+ * @param {Function} [match] - The match function to check the parent against.
+ *
+ * @returns {Element[]}
+ */
+export function parents(element, match = null) {
   var parents = []
 
-  for (; node &amp;&amp; node !== document; node = node.parentNode) {
+  for (; element &amp;&amp; element !== document; element = element.parentElement) {
     if (match) {
-      if (match(node)) {
-        parents.push(node)
+      if (match(element)) {
+        parents.push(element)
       }
     } else {
-      parents.push(node)
+      parents.push(element)
     }
   }
 
@@ -183,6 +207,18 @@ export function matches(element, selector) {
     }
 
   return f.call(element, selector)
+}
+
+/**
+ * Return index of current element.
+ *
+ * @param   {Element} element - Element
+ * @returns {Integer}
+ */
+export function index(element) {
+  var i = 0, child = element
+  while ((child = child.previousElementSibling) != null) i++
+  return i
 }
 
 /**
@@ -386,12 +422,13 @@ Scroller.defaultToOptions = {
 
 
 export default {
-  ready,
   animationEndEvent,
   transitionEndEvent,
   computedStyles,
   computedStyle,
   siblings,
+  index,
+  parent,
   parents,
   children,
   matches,
@@ -407,13 +444,13 @@ export default {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Feb 26 2017 14:22:36 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Mar 02 2017 12:03:13 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

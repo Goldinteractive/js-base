@@ -32,6 +32,7 @@
  */
 
 import observable from 'riot-observable'
+import { isElement } from './utils/check'
 import { transitionEndEvent } from './utils/dom'
 import eventHub from './eventHub'
 
@@ -95,14 +96,10 @@ export function init(container = document.body, name = null) {
       featureName = featureName.trim()
       var feature = features[featureName]
 
-      // continue if feature has not been added
-      // or feature is ignored here
-      // or name is not whitelisted
-      // or is already initialized on this node
-      if (!feature
-          || (ignoreFeatures &amp;&amp; ignoreFeatures.indexOf(featureName) > -1)
-          || (name &amp;&amp; names.indexOf(featureName) &lt; 0)
-          || (featureNode._baseFeatureInstances
+      if (!feature // feature has not been added yet
+          || (ignoreFeatures &amp;&amp; ignoreFeatures.indexOf(featureName) > -1) // feature is ignored on this node
+          || (name &amp;&amp; names.indexOf(featureName) &lt; 0) // name is not whitelisted
+          || (featureNode._baseFeatureInstances // feature has already been initalized on this node
               &amp;&amp; featureNode._baseFeatureInstances[featureName])) return
 
       var instance = new feature.featureClass(
@@ -163,8 +160,10 @@ export function destroy(container = document.body, name = null) {
 
     for (let featureName in nodeInstances) {
       if (nodeInstances.hasOwnProperty(featureName)
-          &amp;&amp; (!name || names.indexOf(featureName) > -1)
-          &amp;&amp; (!ignoreFeatures || ignoreFeatures.indexOf(featureName) &lt; 0)
+          &amp;&amp; (!name || names.indexOf(featureName) > -1) // name is whitelisted
+          &amp;&amp; (!ignoreFeatures || ignoreFeatures.indexOf(featureName) &lt; 0) // feature is ignore on this node
+          &amp;&amp; (featureNode._baseFeatureInstances // feature instance exists
+              &amp;&amp; featureNode._baseFeatureInstances[featureName])
       ) {
         nodeInstances[featureName].destroy()
         nodeInstances[featureName] = null
@@ -271,8 +270,11 @@ export class Feature {
 
     var defaultOptions = this.constructor.defaultOptions || {}
 
+    this._name = name
     this._node = node
     this._options = Object.assign({}, defaultOptions, options)
+
+    this._hubEvents = {}
     this._eventListener = {}
 
     if (!this._node._baseFeatureInstances) {
@@ -283,14 +285,20 @@ export class Feature {
   }
 
   /**
+   * Return name the feature has been initialized with.
+   * @returns {String}
+   */
+  get name() { return this._name }
+
+  /**
    * Return node the feature belongs to.
-   * @returns {Node} Root node the feature belongs to.
+   * @returns {Node}
    */
   get node() { return this._node }
 
   /**
    * Return given options the feature has been initialized with.
-   * @returns {Object} Initialized options.
+   * @returns {Object}
    */
   get options() { return this._options }
 
@@ -313,16 +321,16 @@ export class Feature {
   /**
    * Add event listener to given node.
    *
-   * @param {Node|NodeList}     node - Node to add event listener to.
-   * @param {String}   type - Event type to add.
+   * @param {Node|NodeList} node - Node to add event listener to.
+   * @param {String} type - Event type to add.
    * @param {Function} fn - Event handler
    */
   addEventListener(node, type, fn) {
-    if (node.length > 0) {
-      for (let i = 0, length = node.length; i &lt; length; i++) {
-        this.addEventListener(node[i], type, fn)
+    if (!isElement(node) &amp;&amp; node !== window) {
+      var currentNode = node.length
+      while (currentNode--) {
+        this.addEventListener(node[currentNode], type, fn)
       }
-
       return
     }
 
@@ -346,11 +354,11 @@ export class Feature {
    *   Handler to remove (leave empty to remove all listeners).
    */
   removeEventListener(node, type = null, fn = null) {
-    if (node.length) {
-      for (let i = 0, length = node.length; i &lt; length; i++) {
-        this.removeEventListener(node[i], type, fn)
+    if (!isElement(node) &amp;&amp; node !== window) {
+      var currentNode = node.length
+      while (currentNode--) {
+        this.removeEventListener(node[currentNode], type, fn)
       }
-
       return
     }
 
@@ -385,17 +393,17 @@ export class Feature {
    *   Limit removing event listeners on given handler.
    */
   removeAllEventListener(node = null, fn = null) {
-    if (node &amp;&amp; node.length) {
-      for (let i = 0, length = node.length; i &lt; length; i++) {
-        this.removeAllEventListener(node[i], fn)
+    if (node &amp;&amp; !isElement(node) &amp;&amp; node !== window) {
+      var currentNode = node.length
+      while (currentNode--) {
+        this.removeAllEventListener(node[currentNode], fn)
       }
-
       return
     }
 
     for (let type in this._eventListener) {
       if (this._eventListener.hasOwnProperty(type)) {
-        this._eventListener[type].forEach((listener, i) => {
+        this._eventListener[type].forEach((listener) => {
           if ((!node || node == listener.node)
               &amp;&amp; (!fn || fn == listener.fn)
           ) {
@@ -405,7 +413,51 @@ export class Feature {
       }
     }
 
-    this._eventListener = []
+    // reset internal references to event listeners
+    this._eventListener = {}
+  }
+
+  /** Add event to global event hub. */
+  onHub(event, fn) {
+    eventHub.on(event, fn)
+
+    if (!this._hubEvents[event]) {
+      this._hubEvents[event] = []
+    }
+
+    this._hubEvents[event].push(fn)
+  }
+
+  /** Remove event from global event hub. */
+  offHub(event, fn = null) {
+    if (event &amp;&amp; fn) {
+      eventHub.off(event, fn)
+
+      this._hubEvents[event].forEach((listener, i) => {
+        if (fn == listener) {
+          this._hubEvents[event].splice(i, 1)
+        }
+      })
+    } else if (event) {
+      this._hubEvents[event].forEach((listener, i) => {
+          eventHub.off(event, listener)
+          this._hubEvents[event].splice(i, 1)
+      })
+    }
+  }
+
+  /** Remove all events from global event hub added by this feature. */
+  offAllHub() {
+    for (let event in this._hubEvents) {
+      if (this._hubEvents.hasOwnProperty(event)) {
+        this._hubEvents[event].forEach((listener) => {
+          eventHub.off(event, listener)
+        })
+      }
+    }
+
+    // reset internal referencens to hub events
+    this._hubEvents = {}
   }
 
   /** Initialize feature. */
@@ -413,10 +465,27 @@ export class Feature {
 
   /** Destroy feature. */
   destroy() {
+    this.trigger('destroy')
+
     // remove all registered event listeners
     this.removeAllEventListener()
+
+    // remove all events from global event hub
+    this.offAllHub()
+
     // destroy all features inside
     destroy(this._node)
+
+    // remove feature instance from node
+    this._node._baseFeatureInstances[name] = null
+    delete this._node._baseFeatureInstances[name]
+
+    // clean up properties
+    this._name = null
+    this._node = null
+    this._options = null
+
+    this.trigger('destroyed')
   }
 
 }
@@ -449,13 +518,13 @@ export default {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Feb 26 2017 14:22:36 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Mar 02 2017 12:03:13 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
