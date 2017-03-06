@@ -91,7 +91,7 @@ export function computedStyle(element, prop) {
  */
 export function children(element, skipElement) {
   var children = []
-  var element = element.children[0]
+  element = element.children[0]
 
   for (; element; element = element.nextElementSibling) {
     if (element != skipElement) {

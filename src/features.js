@@ -269,6 +269,16 @@ export class Feature {
   get node() { return this._node }
 
   /**
+   * Replaces current feature node with given one.
+   * @param {Node} node - Replacement ndoe.
+   */
+  replaceNode(node) {
+    var replacedNode = this._node.parentElement.replaceChild(node, this._node)
+    this._node = node
+    return replacedNode
+  }
+
+  /**
    * Return given options the feature has been initialized with.
    * @returns {Object}
    */

@@ -2258,6 +2258,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       }
 
       /**
+       * Replaces current feature node with given one.
+       * @param {Node} node - Replacement ndoe.
+       */
+      ,
+      set: function set(node) {
+        this._node = node;
+      }
+
+      /**
        * Return given options the feature has been initialized with.
        * @returns {Object}
        */
