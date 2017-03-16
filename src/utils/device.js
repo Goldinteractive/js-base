@@ -7,6 +7,12 @@
 import { pxToInt } from './string'
 
 /**
+ * Whether the device supports touch events.
+ * @type {Boolean}
+ */
+export var supportsTouch = 'ontouchstart' in window || !!navigator.msMaxTouchPoints
+
+/**
  * DeviceInfo class.
  */
 export class DeviceInfo {
@@ -106,4 +112,6 @@ export class DeviceInfo {
 
 }
 
-export default {}
+export default {
+  supportsTouch
+}

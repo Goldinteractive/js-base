@@ -721,7 +721,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    */
   function children(element, skipElement) {
     var children = [];
-    var element = element.children[0];
+    element = element.children[0];
 
     for (; element; element = element.nextElementSibling) {
       if (element != skipElement) {
@@ -1999,6 +1999,25 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
     _createClass(Feature, [{
+      key: 'replaceNode',
+
+
+      /**
+       * Replaces current feature node with given one.
+       * @param {Node} node - Replacement ndoe.
+       */
+      value: function replaceNode(node) {
+        var replacedNode = this._node.parentElement.replaceChild(node, this._node);
+        this._node = node;
+        return replacedNode;
+      }
+
+      /**
+       * Return given options the feature has been initialized with.
+       * @returns {Object}
+       */
+
+    }, {
       key: '$',
 
 
@@ -2256,21 +2275,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       get: function get() {
         return this._node;
       }
-
-      /**
-       * Replaces current feature node with given one.
-       * @param {Node} node - Replacement ndoe.
-       */
-      ,
-      set: function set(node) {
-        this._node = node;
-      }
-
-      /**
-       * Return given options the feature has been initialized with.
-       * @returns {Object}
-       */
-
     }, {
       key: 'options',
       get: function get() {
@@ -2665,7 +2669,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.DeviceInfo = undefined;
+  exports.DeviceInfo = exports.supportsTouch = undefined;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -2690,6 +2694,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       return Constructor;
     };
   }();
+
+  /**
+   * Whether the device supports touch events.
+   * @type {Boolean}
+   */
+  var supportsTouch = exports.supportsTouch = 'ontouchstart' in window || !!navigator.msMaxTouchPoints;
+
+  /**
+   * DeviceInfo class.
+   */
 
   var DeviceInfo = exports.DeviceInfo = function () {
     function DeviceInfo(options) {
@@ -2811,7 +2825,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     return DeviceInfo;
   }();
 
-  exports.default = {};
+  exports.default = {
+    supportsTouch: supportsTouch
+  };
 });
 
 /***/ }),
