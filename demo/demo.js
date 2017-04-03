@@ -1,5 +1,8 @@
 import * as base from './../src'
 
+import { Scroller } from './../src/utils/dom'
+window.scroll = new Scroller()
+
 class Test extends base.features.Feature {
 
   init() {

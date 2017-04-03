@@ -7,6 +7,7 @@ import observable from 'riot-observable'
 import { isElement } from './utils/check'
 import { transitionEndEvent } from './utils/dom'
 import eventHub from './eventHub'
+import passiveEvents from './utils/device'
 
 import {
   ATTR_FEATURES,
@@ -306,17 +307,24 @@ export class Feature {
    * @param {Node|NodeList} node - Node to add event listener to.
    * @param {String} type - Event type to add.
    * @param {Function} fn - Event handler
+   * @param {Object|Boolean} options - Event handler options
    */
-  addEventListener(node, type, fn) {
+  addEventListener(node, type, fn, options = {}) {
     if (!isElement(node) && node !== window) {
       var currentNode = node.length
       while (currentNode--) {
-        this.addEventListener(node[currentNode], type, fn)
+        this.addEventListener(node[currentNode], type, fn, options)
       }
       return
     }
 
-    node.addEventListener(type, fn)
+    options = Object.assign({}, Feature.defaultEventListenerOptions, options)
+
+    if (passiveEvents) {
+      node.addEventListener(type, fn, options)
+    } else {
+      node.addEventListener(type, fn, options.capture)
+    }
 
     if (!this._eventListener[type]) {
       this._eventListener[type] = []
@@ -470,6 +478,12 @@ export class Feature {
     this.trigger('destroyed')
   }
 
+}
+
+Feature.defaultEventListenerOptions = {
+  passive: false,
+  capture: false,
+  once: false
 }
 
 
