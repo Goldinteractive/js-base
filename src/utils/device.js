@@ -6,11 +6,15 @@
 
 import { pxToInt } from './string'
 
-/**
- * Whether the device supports touch events.
- * @type {Boolean}
- */
-export var supportsTouch = 'ontouchstart' in window || !!navigator.msMaxTouchPoints
+import detectIt from 'detect-it'
+
+export var deviceType = detectIt.deviceTye
+export var hasMouse = detectIt.hasMouse
+export var hasTouch = detectIt.hasTouch
+export var maxTouchPoints = detectIt.maxTouchPoints
+export var passiveEvents = detectIt.passiveEvents
+export var primaryHover = detectIt.primaryHover
+export var primaryPointer = detectIt.primaryPointer
 
 /**
  * DeviceInfo class.
@@ -113,5 +117,11 @@ export class DeviceInfo {
 }
 
 export default {
-  supportsTouch
+  deviceType,
+  hasMouse,
+  hasTouch,
+  maxTouchPoints,
+  passiveEvents,
+  primaryHover,
+  primaryPointer
 }

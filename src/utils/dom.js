@@ -10,43 +10,13 @@ import { rAF } from './fn'
  * Name of the animationend event.
  * @type {String}
  */
-export var animationEndEvent = (function() {
-  var el = document.createElement('div'),
-    properties = {
-      'animation': 'animationend',
-      'MozAnimation': 'mozAnimationEnd',
-      'WebkitAnimation': 'webkitAnimationEnd'
-    }
-
-  for (let property in properties) {
-    if (properties.hasOwnProperty(property)
-        && el.style[property] !== 'undefined'
-    ) {
-      return properties[property]
-    }
-  }
-})()
+export var animationEndEvent = 'animationend'
 
 /**
  * Name of the transitionend event.
  * @type {String}
  */
-export var transitionEndEvent = (function() {
-  var el = document.createElement('div'),
-    properties = {
-      'transition': 'transitionend',
-      'MozTransition': 'transitionend',
-      'WebkitTransition': 'webkitTransitionEnd'
-    }
-
-  for (let property in properties) {
-    if (properties.hasOwnProperty(property)
-        && el.style[property] !== 'undefined'
-    ) {
-      return properties[property]
-    }
-  }
-})()
+export var transitionEndEvent = 'transitionend'
 
 /**
  * Return all computed styles.
@@ -299,11 +269,11 @@ export class Scroller {
       scrollY = window.scrollY || document.documentElement.scrollTop,
       scrollX = window.scrollX || document.documentElement.scrollLeft
 
-    var opts = Object.assign({}, this._opts, options),
+    var opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options),
       scrollTargetX = opts.x,
       scrollTargetY = opts.y
 
-    if (scrollTargetX) {
+    if (scrollTargetX !== null) {
       scrollTargetX = scrollTargetX - opts.offsetX
       scrollTargetX = scrollTargetX < 0 ? 0 : scrollTargetX
 
@@ -316,7 +286,7 @@ export class Scroller {
       )
     }
 
-    if (scrollTargetY) {
+    if (scrollTargetY !== null) {
       scrollTargetY = scrollTargetY - opts.offsetY
       scrollTargetY = scrollTargetY < 0 ? 0 : scrollTargetY
 
@@ -338,14 +308,18 @@ export class Scroller {
       var p = currentTime / time
       var t = easingEquations[opts.easing](p)
 
-      var posY = scrollTargetY ? scrollY + ((scrollTargetY - scrollY) * t) : scrollY
-      var posX = scrollTargetX ? scrollX + ((scrollTargetX - scrollX) * t) : scrollX
+      var posY = scrollTargetY !== null ? scrollY + ((scrollTargetY - scrollY) * t) : scrollY
+      var posX = scrollTargetX !== null ? scrollX + ((scrollTargetX - scrollX) * t) : scrollX
 
       if (p < 1) {
         rAF(tick)
         window.scrollTo(posX, posY)
       } else {
-        window.scrollTo(scrollTargetX || scrollX, scrollTargetY || scrollY)
+        window.scrollTo(
+          scrollTargetX !== null ? scrollTargetX : scrollX,
+          scrollTargetY !== null ? scrollTargetY : scrollY
+        )
+
         if (opts.cb) opts.cb()
       }
     }

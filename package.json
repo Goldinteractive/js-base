@@ -1,6 +1,6 @@
 {
   "name": "gi-js-base",
-  "version": "0.0.38",
+  "version": "0.0.42",
   "description": "Basic javascript foundation written in ES6/2015 Vanilla JS.",
   "main": "lib/base.js",
   "jsnext:main": "src/index.js",
@@ -27,6 +27,7 @@
   "dependencies": {
     "camel-case": "^3.0.0",
     "core-js": "^2.4.1",
+    "detect-it": "^2.1.1",
     "easing-js": "danro/easing-js",
     "fetch-jsonp": "^1.0.6",
     "promise-polyfill": "^6.0.2",

@@ -13,6 +13,7 @@ Basic javascript foundation written in ES6/2015 Vanilla JS.
 * [`fetch-jsonp`](https://github.com/camsong/fetch-jsonp)
 * [`core-js`](https://github.com/zloirock/core-js)
 * [`riot-observable`](https://github.com/riot/observable)
+* [`detect-it`](https://github.com/rafrex/detect-it)
 * [`easing-js`](https://github.com/danro/easing-js)
 
 ### Installation

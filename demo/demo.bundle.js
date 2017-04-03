@@ -71,7 +71,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var store      = __webpack_require__(32)('wks')
-  , uid        = __webpack_require__(19)
+  , uid        = __webpack_require__(20)
   , Symbol     = __webpack_require__(1).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
 
@@ -111,7 +111,7 @@ module.exports = function(it, key){
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(13);
+var isObject = __webpack_require__(14);
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
@@ -122,7 +122,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(12)(function(){
+module.exports = !__webpack_require__(13)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -131,7 +131,7 @@ module.exports = !__webpack_require__(12)(function(){
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP         = __webpack_require__(7)
-  , createDesc = __webpack_require__(15);
+  , createDesc = __webpack_require__(16);
 module.exports = __webpack_require__(5) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -162,407 +162,6 @@ exports.f = __webpack_require__(5) ? Object.defineProperty : function defineProp
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(9)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require('./../variables'));
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports, global.variables);
-    global.check = mod.exports;
-  }
-})(this, function (exports, _variables) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.isArray = isArray;
-  exports.isString = isString;
-  exports.isUndefined = isUndefined;
-  exports.isFunction = isFunction;
-  exports.isObject = isObject;
-  exports.isNumeric = isNumeric;
-  exports.isElement = isElement;
-  exports.isEmpty = isEmpty;
-  exports.isWritable = isWritable;
-
-  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-  };
-
-  /**
-   * Check if given value is array.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isArray(value) {
-    return value && value.constructor === Array;
-  }
-
-  /**
-   * Check if given value is string.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isString(value) {
-    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == _variables.T_STRING;
-  }
-
-  /**
-   * Check if given value is undefined.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isUndefined(value) {
-    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_UNDEF;
-  }
-
-  /**
-   * Check if given value is function.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isFunction(value) {
-    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_FUNCTION;
-  }
-
-  /**
-   * Check if given value is an object.
-   * Note: Arrays and functions are also objects.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isObject(value) {
-    return value === Object(value);
-  }
-
-  /**
-   * Check if given value is numeric.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isNumeric(value) {
-    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_NUMBER && !isNaN(value) && isFinite(value);
-  }
-
-  /**
-   * Check whether the given param is a valid element node.
-   *
-   * @param   {*} value - Value to check
-   * @returns {Boolean}
-   */
-  function isElement(value) {
-    if (!value || !value.nodeType) {
-      return false;
-    }
-
-    return value.nodeType === 1 || value.nodeType === 9;
-  }
-
-  /**
-   * Check if given value is empty.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isEmpty(value) {
-    // compare value with values considered as empty
-    for (var i = 0, len = _variables.CHECK_EMPTY.length; i < len; i++) {
-      if (value === _variables.CHECK_EMPTY[i]) {
-        return true;
-      }
-    }
-
-    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_OBJECT) {
-      for (var key in value) {
-        if (value.hasOwnProperty(key)) {
-          return false;
-        }
-      }
-
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Check if an object's property could be overridden.
-   *
-   * @source riot.js
-   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/check.js
-   *
-   * @param   {Object} obj -
-   * @param   {String} key -
-   * @returns {Boolean}
-   */
-  function isWritable(obj, key) {
-    var descriptor = Object.getOwnPropertyDescriptor(obj, key);
-    return isUndefined(obj[key]) || descriptor && descriptor.writable;
-  }
-
-  exports.default = {
-    isArray: isArray,
-    isString: isString,
-    isUndefined: isUndefined,
-    isFunction: isFunction,
-    isObject: isObject,
-    isNumeric: isNumeric,
-    isElement: isElement,
-    isEmpty: isEmpty,
-    isWritable: isWritable
-  };
-});
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof exports !== "undefined") {
-    factory(exports);
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports);
-    global.variables = mod.exports;
-  }
-})(this, function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  var undef;
-
-  var UID = exports.UID = '_base' + Date.now(),
-      ATTR_FEATURES = exports.ATTR_FEATURES = 'data-feature',
-      ATTR_FEATURES_IGNORE = exports.ATTR_FEATURES_IGNORE = 'data-feature-ignore',
-      T_STRING = exports.T_STRING = 'string',
-      T_UNDEF = exports.T_UNDEF = 'undefined',
-      T_OBJECT = exports.T_OBJECT = 'object',
-      T_NUMBER = exports.T_NUMBER = 'number',
-      T_FUNCTION = exports.T_FUNCTION = 'function',
-      CHECK_EMPTY = exports.CHECK_EMPTY = [undef, null, false, 0, '', '0'];
-});
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-// 7.2.1 RequireObjectCoercible(argument)
-module.exports = function(it){
-  if(it == undefined)throw TypeError("Can't call method on  " + it);
-  return it;
-};
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global    = __webpack_require__(1)
-  , core      = __webpack_require__(2)
-  , hide      = __webpack_require__(6)
-  , redefine  = __webpack_require__(30)
-  , ctx       = __webpack_require__(25)
-  , PROTOTYPE = 'prototype';
-
-var $export = function(type, name, source){
-  var IS_FORCED = type & $export.F
-    , IS_GLOBAL = type & $export.G
-    , IS_STATIC = type & $export.S
-    , IS_PROTO  = type & $export.P
-    , IS_BIND   = type & $export.B
-    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE]
-    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-    , expProto  = exports[PROTOTYPE] || (exports[PROTOTYPE] = {})
-    , key, own, out, exp;
-  if(IS_GLOBAL)source = name;
-  for(key in source){
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    // export native or passed
-    out = (own ? target : source)[key];
-    // bind timers to global for call from export context
-    exp = IS_BIND && own ? ctx(out, global) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // extend global
-    if(target)redefine(target, key, out, type & $export.U);
-    // export
-    if(exports[key] != out)hide(exports, key, exp);
-    if(IS_PROTO && expProto[key] != out)expProto[key] = out;
-  }
-};
-global.core = core;
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
-module.exports = $export;
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-module.exports = function(exec){
-  try {
-    return !!exec();
-  } catch(e){
-    return true;
-  }
-};
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-module.exports = function(it){
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-module.exports = function(bitmap, value){
-  return {
-    enumerable  : !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable    : !(bitmap & 4),
-    value       : value
-  };
-};
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__(32)('keys')
-  , uid    = __webpack_require__(19);
-module.exports = function(key){
-  return shared[key] || (shared[key] = uid(key));
-};
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil  = Math.ceil
-  , floor = Math.floor;
-module.exports = function(it){
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.13 ToObject(argument)
-var defined = __webpack_require__(10);
-module.exports = function(it){
-  return Object(defined(it));
-};
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-var id = 0
-  , px = Math.random();
-module.exports = function(key){
-  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-};
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(35)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require('riot-observable'));
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports, global.riotObservable);
-    global.eventHub = mod.exports;
-  }
-})(this, function (exports, _riotObservable) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.globalEventHub = exports.EventHub = undefined;
-
-  var _riotObservable2 = _interopRequireDefault(_riotObservable);
-
-  function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var EventHub = function EventHub() {
-    _classCallCheck(this, EventHub);
-
-    (0, _riotObservable2.default)(this);
-  };
-
-  var globalEventHub = new EventHub();
-
-  exports.EventHub = EventHub;
-  exports.globalEventHub = globalEventHub;
-  exports.default = globalEventHub;
-});
-
-/***/ }),
-/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -644,39 +243,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * Name of the animationend event.
    * @type {String}
    */
-  var animationEndEvent = exports.animationEndEvent = function () {
-    var el = document.createElement('div'),
-        properties = {
-      'animation': 'animationend',
-      'MozAnimation': 'mozAnimationEnd',
-      'WebkitAnimation': 'webkitAnimationEnd'
-    };
-
-    for (var property in properties) {
-      if (properties.hasOwnProperty(property) && el.style[property] !== 'undefined') {
-        return properties[property];
-      }
-    }
-  }();
+  var animationEndEvent = exports.animationEndEvent = 'animationend';
 
   /**
    * Name of the transitionend event.
    * @type {String}
    */
-  var transitionEndEvent = exports.transitionEndEvent = function () {
-    var el = document.createElement('div'),
-        properties = {
-      'transition': 'transitionend',
-      'MozTransition': 'transitionend',
-      'WebkitTransition': 'webkitTransitionEnd'
-    };
-
-    for (var property in properties) {
-      if (properties.hasOwnProperty(property) && el.style[property] !== 'undefined') {
-        return properties[property];
-      }
-    }
-  }();
+  var transitionEndEvent = exports.transitionEndEvent = 'transitionend';
 
   /**
    * Return all computed styles.
@@ -952,11 +525,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             scrollY = window.scrollY || document.documentElement.scrollTop,
             scrollX = window.scrollX || document.documentElement.scrollLeft;
 
-        var opts = Object.assign({}, this._opts, options),
+        var opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options),
             scrollTargetX = opts.x,
             scrollTargetY = opts.y;
 
-        if (scrollTargetX) {
+        if (scrollTargetX !== null) {
           scrollTargetX = scrollTargetX - opts.offsetX;
           scrollTargetX = scrollTargetX < 0 ? 0 : scrollTargetX;
 
@@ -964,7 +537,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           timeX = Math.max(opts.minScrollTime, Math.min(Math.abs(scrollX - scrollTargetX) / opts.speed, opts.maxScrollTime));
         }
 
-        if (scrollTargetY) {
+        if (scrollTargetY !== null) {
           scrollTargetY = scrollTargetY - opts.offsetY;
           scrollTargetY = scrollTargetY < 0 ? 0 : scrollTargetY;
 
@@ -981,14 +554,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           var p = currentTime / time;
           var t = easingEquations[opts.easing](p);
 
-          var posY = scrollTargetY ? scrollY + (scrollTargetY - scrollY) * t : scrollY;
-          var posX = scrollTargetX ? scrollX + (scrollTargetX - scrollX) * t : scrollX;
+          var posY = scrollTargetY !== null ? scrollY + (scrollTargetY - scrollY) * t : scrollY;
+          var posX = scrollTargetX !== null ? scrollX + (scrollTargetX - scrollX) * t : scrollX;
 
           if (p < 1) {
             (0, _fn.rAF)(tick);
             window.scrollTo(posX, posY);
           } else {
-            window.scrollTo(scrollTargetX || scrollX, scrollTargetY || scrollY);
+            window.scrollTo(scrollTargetX !== null ? scrollTargetX : scrollX, scrollTargetY !== null ? scrollTargetY : scrollY);
+
             if (opts.cb) opts.cb();
           }
         }
@@ -1050,6 +624,407 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     matches: matches,
     style: style
   };
+});
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('./../variables'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.variables);
+    global.check = mod.exports;
+  }
+})(this, function (exports, _variables) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.isArray = isArray;
+  exports.isString = isString;
+  exports.isUndefined = isUndefined;
+  exports.isFunction = isFunction;
+  exports.isObject = isObject;
+  exports.isNumeric = isNumeric;
+  exports.isElement = isElement;
+  exports.isEmpty = isEmpty;
+  exports.isWritable = isWritable;
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
+
+  /**
+   * Check if given value is array.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isArray(value) {
+    return value && value.constructor === Array;
+  }
+
+  /**
+   * Check if given value is string.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isString(value) {
+    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == _variables.T_STRING;
+  }
+
+  /**
+   * Check if given value is undefined.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isUndefined(value) {
+    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_UNDEF;
+  }
+
+  /**
+   * Check if given value is function.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isFunction(value) {
+    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_FUNCTION;
+  }
+
+  /**
+   * Check if given value is an object.
+   * Note: Arrays and functions are also objects.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isObject(value) {
+    return value === Object(value);
+  }
+
+  /**
+   * Check if given value is numeric.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isNumeric(value) {
+    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_NUMBER && !isNaN(value) && isFinite(value);
+  }
+
+  /**
+   * Check whether the given param is a valid element node.
+   *
+   * @param   {*} value - Value to check
+   * @returns {Boolean}
+   */
+  function isElement(value) {
+    if (!value || !value.nodeType) {
+      return false;
+    }
+
+    return value.nodeType === 1 || value.nodeType === 9;
+  }
+
+  /**
+   * Check if given value is empty.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isEmpty(value) {
+    // compare value with values considered as empty
+    for (var i = 0, len = _variables.CHECK_EMPTY.length; i < len; i++) {
+      if (value === _variables.CHECK_EMPTY[i]) {
+        return true;
+      }
+    }
+
+    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _variables.T_OBJECT) {
+      for (var key in value) {
+        if (value.hasOwnProperty(key)) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Check if an object's property could be overridden.
+   *
+   * @source riot.js
+   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/check.js
+   *
+   * @param   {Object} obj -
+   * @param   {String} key -
+   * @returns {Boolean}
+   */
+  function isWritable(obj, key) {
+    var descriptor = Object.getOwnPropertyDescriptor(obj, key);
+    return isUndefined(obj[key]) || descriptor && descriptor.writable;
+  }
+
+  exports.default = {
+    isArray: isArray,
+    isString: isString,
+    isUndefined: isUndefined,
+    isFunction: isFunction,
+    isObject: isObject,
+    isNumeric: isNumeric,
+    isElement: isElement,
+    isEmpty: isEmpty,
+    isWritable: isWritable
+  };
+});
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports !== "undefined") {
+    factory(exports);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports);
+    global.variables = mod.exports;
+  }
+})(this, function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var undef;
+
+  var UID = exports.UID = '_base' + Date.now(),
+      ATTR_FEATURES = exports.ATTR_FEATURES = 'data-feature',
+      ATTR_FEATURES_IGNORE = exports.ATTR_FEATURES_IGNORE = 'data-feature-ignore',
+      T_STRING = exports.T_STRING = 'string',
+      T_UNDEF = exports.T_UNDEF = 'undefined',
+      T_OBJECT = exports.T_OBJECT = 'object',
+      T_NUMBER = exports.T_NUMBER = 'number',
+      T_FUNCTION = exports.T_FUNCTION = 'function',
+      CHECK_EMPTY = exports.CHECK_EMPTY = [undef, null, false, 0, '', '0'];
+});
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global    = __webpack_require__(1)
+  , core      = __webpack_require__(2)
+  , hide      = __webpack_require__(6)
+  , redefine  = __webpack_require__(30)
+  , ctx       = __webpack_require__(25)
+  , PROTOTYPE = 'prototype';
+
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE]
+    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+    , expProto  = exports[PROTOTYPE] || (exports[PROTOTYPE] = {})
+    , key, own, out, exp;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    // export native or passed
+    out = (own ? target : source)[key];
+    // bind timers to global for call from export context
+    exp = IS_BIND && own ? ctx(out, global) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // extend global
+    if(target)redefine(target, key, out, type & $export.U);
+    // export
+    if(exports[key] != out)hide(exports, key, exp);
+    if(IS_PROTO && expProto[key] != out)expProto[key] = out;
+  }
+};
+global.core = core;
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library` 
+module.exports = $export;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+module.exports = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+module.exports = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(32)('keys')
+  , uid    = __webpack_require__(20);
+module.exports = function(key){
+  return shared[key] || (shared[key] = uid(key));
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil  = Math.ceil
+  , floor = Math.floor;
+module.exports = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__(11);
+module.exports = function(it){
+  return Object(defined(it));
+};
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+var id = 0
+  , px = Math.random();
+module.exports = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(35)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('riot-observable'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.riotObservable);
+    global.eventHub = mod.exports;
+  }
+})(this, function (exports, _riotObservable) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.globalEventHub = exports.EventHub = undefined;
+
+  var _riotObservable2 = _interopRequireDefault(_riotObservable);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var EventHub = function EventHub() {
+    _classCallCheck(this, EventHub);
+
+    (0, _riotObservable2.default)(this);
+  };
+
+  var globalEventHub = new EventHub();
+
+  exports.EventHub = EventHub;
+  exports.globalEventHub = globalEventHub;
+  exports.default = globalEventHub;
 });
 
 /***/ }),
@@ -1330,7 +1305,7 @@ module.exports = function(fn, that, length){
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(13)
+var isObject = __webpack_require__(14)
   , document = __webpack_require__(1).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
@@ -1376,7 +1351,7 @@ module.exports = Object.keys || function keys(O){
 var global    = __webpack_require__(1)
   , hide      = __webpack_require__(6)
   , has       = __webpack_require__(3)
-  , SRC       = __webpack_require__(19)('src')
+  , SRC       = __webpack_require__(20)('src')
   , TO_STRING = 'toString'
   , $toString = Function[TO_STRING]
   , TPL       = ('' + $toString).split(TO_STRING);
@@ -1435,7 +1410,7 @@ module.exports = function(key){
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = __webpack_require__(28)
-  , defined = __webpack_require__(10);
+  , defined = __webpack_require__(11);
 module.exports = function(it){
   return IObject(defined(it));
 };
@@ -1445,7 +1420,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(17)
+var toInteger = __webpack_require__(18)
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -1595,7 +1570,7 @@ module.exports = function(it){
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(37), __webpack_require__(39), __webpack_require__(20), __webpack_require__(38)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(37), __webpack_require__(39), __webpack_require__(21), __webpack_require__(38)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -1669,20 +1644,20 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(35), __webpack_require__(8), __webpack_require__(21), __webpack_require__(20), __webpack_require__(9)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(35), __webpack_require__(9), __webpack_require__(8), __webpack_require__(21), __webpack_require__(42), __webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('riot-observable'), require('./utils/check'), require('./utils/dom'), require('./eventHub'), require('./variables'));
+    factory(exports, require('riot-observable'), require('./utils/check'), require('./utils/dom'), require('./eventHub'), require('./utils/device'), require('./variables'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.riotObservable, global.check, global.dom, global.eventHub, global.variables);
+    factory(mod.exports, global.riotObservable, global.check, global.dom, global.eventHub, global.device, global.variables);
     global.features = mod.exports;
   }
-})(this, function (exports, _riotObservable, _check, _dom, _eventHub, _variables) {
+})(this, function (exports, _riotObservable, _check, _dom, _eventHub, _device, _variables) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -1698,6 +1673,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   var _riotObservable2 = _interopRequireDefault(_riotObservable);
 
   var _eventHub2 = _interopRequireDefault(_eventHub);
+
+  var _device2 = _interopRequireDefault(_device);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -2050,20 +2027,29 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
        * @param {Node|NodeList} node - Node to add event listener to.
        * @param {String} type - Event type to add.
        * @param {Function} fn - Event handler
+       * @param {Object|Boolean} options - Event handler options
        */
 
     }, {
       key: 'addEventListener',
       value: function addEventListener(node, type, fn) {
+        var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
         if (!(0, _check.isElement)(node) && node !== window) {
           var currentNode = node.length;
           while (currentNode--) {
-            this.addEventListener(node[currentNode], type, fn);
+            this.addEventListener(node[currentNode], type, fn, options);
           }
           return;
         }
 
-        node.addEventListener(type, fn);
+        options = Object.assign({}, Feature.defaultEventListenerOptions, options);
+
+        if (_device2.default) {
+          node.addEventListener(type, fn, options);
+        } else {
+          node.addEventListener(type, fn, options.capture);
+        }
 
         if (!this._eventListener[type]) {
           this._eventListener[type] = [];
@@ -2285,6 +2271,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     return Feature;
   }();
 
+  Feature.defaultEventListenerOptions = {
+    passive: false,
+    capture: false,
+    once: false
+  };
+
   exports.default = {
     /**
      * Feature class.
@@ -2410,7 +2402,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(40), __webpack_require__(8), __webpack_require__(21), __webpack_require__(41), __webpack_require__(42), __webpack_require__(22), __webpack_require__(23), __webpack_require__(44), __webpack_require__(45), __webpack_require__(43)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(40), __webpack_require__(9), __webpack_require__(8), __webpack_require__(41), __webpack_require__(42), __webpack_require__(22), __webpack_require__(23), __webpack_require__(44), __webpack_require__(45), __webpack_require__(43)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -2560,7 +2552,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(9)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(10)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -2650,26 +2642,34 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(23)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(23), __webpack_require__(91)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./string'));
+    factory(exports, require('./string'), require('detect-it'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.string);
+    factory(mod.exports, global.string, global.detectIt);
     global.device = mod.exports;
   }
-})(this, function (exports, _string) {
+})(this, function (exports, _string, _detectIt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.DeviceInfo = exports.supportsTouch = undefined;
+  exports.DeviceInfo = exports.primaryPointer = exports.primaryHover = exports.passiveEvents = exports.maxTouchPoints = exports.hasTouch = exports.hasMouse = exports.deviceType = undefined;
+
+  var _detectIt2 = _interopRequireDefault(_detectIt);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -2695,11 +2695,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     };
   }();
 
-  /**
-   * Whether the device supports touch events.
-   * @type {Boolean}
-   */
-  var supportsTouch = exports.supportsTouch = 'ontouchstart' in window || !!navigator.msMaxTouchPoints;
+  var deviceType = exports.deviceType = _detectIt2.default.deviceTye;
+  var hasMouse = exports.hasMouse = _detectIt2.default.hasMouse;
+  var hasTouch = exports.hasTouch = _detectIt2.default.hasTouch;
+  var maxTouchPoints = exports.maxTouchPoints = _detectIt2.default.maxTouchPoints;
+  var passiveEvents = exports.passiveEvents = _detectIt2.default.passiveEvents;
+  var primaryHover = exports.primaryHover = _detectIt2.default.primaryHover;
+  var primaryPointer = exports.primaryPointer = _detectIt2.default.primaryPointer;
 
   /**
    * DeviceInfo class.
@@ -2826,7 +2828,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }();
 
   exports.default = {
-    supportsTouch: supportsTouch
+    deviceType: deviceType,
+    hasMouse: hasMouse,
+    hasTouch: hasTouch,
+    maxTouchPoints: maxTouchPoints,
+    passiveEvents: passiveEvents,
+    primaryHover: primaryHover,
+    primaryPointer: primaryPointer
   };
 });
 
@@ -2938,7 +2946,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(8)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(9)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -3202,7 +3210,7 @@ module.exports = function(it){
 "use strict";
 
 var $defineProperty = __webpack_require__(7)
-  , createDesc      = __webpack_require__(15);
+  , createDesc      = __webpack_require__(16);
 
 module.exports = function(object, index, value){
   if(index in object)$defineProperty.f(object, index, createDesc(0, value));
@@ -3219,7 +3227,7 @@ module.exports = __webpack_require__(1).document && document.documentElement;
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(5) && !__webpack_require__(12)(function(){
+module.exports = !__webpack_require__(5) && !__webpack_require__(13)(function(){
   return Object.defineProperty(__webpack_require__(26)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -3228,7 +3236,7 @@ module.exports = !__webpack_require__(5) && !__webpack_require__(12)(function(){
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators  = __webpack_require__(14)
+var Iterators  = __webpack_require__(15)
   , ITERATOR   = __webpack_require__(0)('iterator')
   , ArrayProto = Array.prototype;
 
@@ -3260,7 +3268,7 @@ module.exports = function(iterator, fn, value, entries){
 "use strict";
 
 var create         = __webpack_require__(62)
-  , descriptor     = __webpack_require__(15)
+  , descriptor     = __webpack_require__(16)
   , setToStringTag = __webpack_require__(31)
   , IteratorPrototype = {};
 
@@ -3279,11 +3287,11 @@ module.exports = function(Constructor, NAME, next){
 "use strict";
 
 var LIBRARY        = __webpack_require__(60)
-  , $export        = __webpack_require__(11)
+  , $export        = __webpack_require__(12)
   , redefine       = __webpack_require__(30)
   , hide           = __webpack_require__(6)
   , has            = __webpack_require__(3)
-  , Iterators      = __webpack_require__(14)
+  , Iterators      = __webpack_require__(15)
   , $iterCreate    = __webpack_require__(57)
   , setToStringTag = __webpack_require__(31)
   , getPrototypeOf = __webpack_require__(65)
@@ -3390,12 +3398,12 @@ module.exports = false;
 var getKeys  = __webpack_require__(29)
   , gOPS     = __webpack_require__(64)
   , pIE      = __webpack_require__(67)
-  , toObject = __webpack_require__(18)
+  , toObject = __webpack_require__(19)
   , IObject  = __webpack_require__(28)
   , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__(12)(function(){
+module.exports = !$assign || __webpack_require__(13)(function(){
   var A = {}
     , B = {}
     , S = Symbol()
@@ -3427,7 +3435,7 @@ module.exports = !$assign || __webpack_require__(12)(function(){
 var anObject    = __webpack_require__(4)
   , dPs         = __webpack_require__(63)
   , enumBugKeys = __webpack_require__(27)
-  , IE_PROTO    = __webpack_require__(16)('IE_PROTO')
+  , IE_PROTO    = __webpack_require__(17)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
   , PROTOTYPE   = 'prototype';
 
@@ -3496,8 +3504,8 @@ exports.f = Object.getOwnPropertySymbols;
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(3)
-  , toObject    = __webpack_require__(18)
-  , IE_PROTO    = __webpack_require__(16)('IE_PROTO')
+  , toObject    = __webpack_require__(19)
+  , IE_PROTO    = __webpack_require__(17)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function(O){
@@ -3515,7 +3523,7 @@ module.exports = Object.getPrototypeOf || function(O){
 var has          = __webpack_require__(3)
   , toIObject    = __webpack_require__(33)
   , arrayIndexOf = __webpack_require__(50)(false)
-  , IE_PROTO     = __webpack_require__(16)('IE_PROTO');
+  , IE_PROTO     = __webpack_require__(17)('IE_PROTO');
 
 module.exports = function(object, names){
   var O      = toIObject(object)
@@ -3540,8 +3548,8 @@ exports.f = {}.propertyIsEnumerable;
 /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(17)
-  , defined   = __webpack_require__(10);
+var toInteger = __webpack_require__(18)
+  , defined   = __webpack_require__(11);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function(TO_STRING){
@@ -3562,7 +3570,7 @@ module.exports = function(TO_STRING){
 /* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(17)
+var toInteger = __webpack_require__(18)
   , max       = Math.max
   , min       = Math.min;
 module.exports = function(index, length){
@@ -3575,7 +3583,7 @@ module.exports = function(index, length){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(13);
+var isObject = __webpack_require__(14);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function(it, S){
@@ -3593,7 +3601,7 @@ module.exports = function(it, S){
 
 var classof   = __webpack_require__(51)
   , ITERATOR  = __webpack_require__(0)('iterator')
-  , Iterators = __webpack_require__(14);
+  , Iterators = __webpack_require__(15);
 module.exports = __webpack_require__(2).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
     || it['@@iterator']
@@ -3607,8 +3615,8 @@ module.exports = __webpack_require__(2).getIteratorMethod = function(it){
 "use strict";
 
 var ctx            = __webpack_require__(25)
-  , $export        = __webpack_require__(11)
-  , toObject       = __webpack_require__(18)
+  , $export        = __webpack_require__(12)
+  , toObject       = __webpack_require__(19)
   , call           = __webpack_require__(56)
   , isArrayIter    = __webpack_require__(55)
   , toLength       = __webpack_require__(34)
@@ -3649,7 +3657,7 @@ $export($export.S + $export.F * !__webpack_require__(59)(function(iter){ Array.f
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
-var $export = __webpack_require__(11);
+var $export = __webpack_require__(12);
 
 $export($export.S + $export.F, 'Object', {assign: __webpack_require__(61)});
 
@@ -5354,20 +5362,20 @@ module.exports = g;
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(36)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(36), __webpack_require__(8)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== "undefined") {
-    factory(require('./../src'));
+    factory(require('./../src'), require('./../src/utils/dom'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(global.src);
+    factory(global.src, global.dom);
     global.demo = mod.exports;
   }
-})(this, function (_src) {
+})(this, function (_src, _dom) {
   'use strict';
 
   var base = _interopRequireWildcard(_src);
@@ -5462,6 +5470,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
+  window.scroll = new _dom.Scroller();
+
   var Test = function (_base$features$Featur) {
     _inherits(Test, _base$features$Featur);
 
@@ -5521,6 +5531,232 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   base.features.destroy();
 });
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var detectHover = {
+  update: function update() {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' && typeof window.matchMedia === 'function') {
+      detectHover.hover = window.matchMedia('(hover: hover)').matches;
+      detectHover.none = window.matchMedia('(hover: none)').matches || window.matchMedia('(hover: on-demand)').matches;
+      detectHover.anyHover = window.matchMedia('(any-hover: hover)').matches;
+      detectHover.anyNone = window.matchMedia('(any-hover: none)').matches || window.matchMedia('(any-hover: on-demand)').matches;
+    }
+  }
+};
+
+detectHover.update();
+exports.default = detectHover;
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _detectHover = __webpack_require__(90);
+
+var _detectHover2 = _interopRequireDefault(_detectHover);
+
+var _detectPointer = __webpack_require__(93);
+
+var _detectPointer2 = _interopRequireDefault(_detectPointer);
+
+var _detectTouchEvents = __webpack_require__(94);
+
+var _detectTouchEvents2 = _interopRequireDefault(_detectTouchEvents);
+
+var _detectPassiveEvents = __webpack_require__(92);
+
+var _detectPassiveEvents2 = _interopRequireDefault(_detectPassiveEvents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * detectIt object structure
+ * const detectIt = {
+ *   deviceType: 'mouseOnly' / 'touchOnly' / 'hybrid',
+ *   passiveEvents: boolean,
+ *   hasTouch: boolean,
+ *   hasMouse: boolean,
+ *   maxTouchPoints: number,
+ *   primaryHover: 'hover' / 'none',
+ *   primaryPointer: 'fine' / 'coarse' / 'none',
+ *   state: {
+ *     detectHover,
+ *     detectPointer,
+ *     detectTouchEvents,
+ *     detectPassiveEvents,
+ *   },
+ *   update() {...},
+ * }
+ */
+
+function determineDeviceType(hasTouch, anyHover, anyFine) {
+  /*
+   * A hybrid device is one that both hasTouch and any input device can hover
+   * or has a fine pointer.
+   */
+  if (hasTouch && (anyHover || anyFine)) return 'hybrid';
+
+  /*
+   * In almost all cases a device that doesn’t support touch will have a mouse,
+   * but there may be rare exceptions. Note that it doesn’t work to do additional tests
+   * based on hover and pointer media queries as older browsers don’t support these.
+   * Essentially, 'mouseOnly' is the default.
+   */
+  return hasTouch ? 'touchOnly' : 'mouseOnly';
+}
+
+var detectIt = {
+  state: {
+    detectHover: _detectHover2.default,
+    detectPointer: _detectPointer2.default,
+    detectTouchEvents: _detectTouchEvents2.default,
+    detectPassiveEvents: _detectPassiveEvents2.default
+  },
+  update: function update() {
+    detectIt.state.detectHover.update();
+    detectIt.state.detectPointer.update();
+    detectIt.state.detectTouchEvents.update();
+    detectIt.state.detectPassiveEvents.update();
+    detectIt.updateOnlyOwnProperties();
+  },
+  updateOnlyOwnProperties: function updateOnlyOwnProperties() {
+    if (typeof window !== 'undefined') {
+      detectIt.passiveEvents = detectIt.state.detectPassiveEvents.hasSupport || false;
+
+      detectIt.hasTouch = detectIt.state.detectTouchEvents.hasApi || false;
+
+      detectIt.deviceType = determineDeviceType(detectIt.hasTouch, detectIt.state.detectHover.anyHover, detectIt.state.detectPointer.anyFine);
+
+      detectIt.hasMouse = detectIt.deviceType !== 'touchOnly';
+      detectIt.maxTouchPoints = detectIt.state.detectTouchEvents.maxTouchPoints;
+
+      detectIt.primaryHover = detectIt.state.detectHover.hover && 'hover' || detectIt.state.detectHover.none && 'none' ||
+      // if it's a mouseOnly device that doesn't support level 4 media queries,
+      // then assume it hovers
+      detectIt.deviceType === 'mouseOnly' && 'hover' ||
+      // if it's a touchOnly device that doesn't support level 4 media queries,
+      // then assume it doesn't hover, otherwise it's undefined
+      detectIt.deviceType === 'touchOnly' && 'none' || undefined;
+
+      detectIt.primaryPointer = detectIt.state.detectPointer.fine && 'fine' || detectIt.state.detectPointer.coarse && 'coarse' || detectIt.state.detectPointer.none && 'none' ||
+      // if it's a mouseOnly device that doesn't support level 4 media queries,
+      // then assume it has a fine pointer
+      detectIt.deviceType === 'mouseOnly' && 'fine' ||
+      // if it's a touchOnly device that doesn't support level 4 media queries,
+      // then assume it has a coarse pointer, otherwise it's undefined
+      detectIt.deviceType === 'touchOnly' && 'coarse' || undefined;
+    }
+  }
+};
+
+detectIt.updateOnlyOwnProperties();
+exports.default = detectIt;
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+// adapted from https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+var detectPassiveEvents = {
+  update: function update() {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' && typeof window.addEventListener === 'function' && typeof Object.defineProperty === 'function') {
+      var passive = false;
+      var options = Object.defineProperty({}, 'passive', {
+        get: function get() {
+          passive = true;
+        }
+      });
+      window.addEventListener('test', null, options);
+
+      detectPassiveEvents.hasSupport = passive;
+    }
+  }
+};
+
+detectPassiveEvents.update();
+exports.default = detectPassiveEvents;
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var detectPointer = {
+  update: function update() {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' && typeof window.matchMedia === 'function') {
+      detectPointer.fine = window.matchMedia('(pointer: fine)').matches;
+      detectPointer.coarse = window.matchMedia('(pointer: coarse)').matches;
+      detectPointer.none = window.matchMedia('(pointer: none)').matches;
+      detectPointer.anyFine = window.matchMedia('(any-pointer: fine)').matches;
+      detectPointer.anyCoarse = window.matchMedia('(any-pointer: coarse)').matches;
+      detectPointer.anyNone = window.matchMedia('(any-pointer: none)').matches;
+    }
+  }
+};
+
+detectPointer.update();
+exports.default = detectPointer;
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var detectTouchEvents = {
+  update: function update() {
+    if ((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object') {
+      detectTouchEvents.hasApi = 'ontouchstart' in window;
+      detectTouchEvents.maxTouchPoints = detectTouchEvents.hasApi ? window.navigator && window.navigator.maxTouchPoints : undefined;
+    }
+  }
+};
+
+detectTouchEvents.update();
+exports.default = detectTouchEvents;
 
 /***/ })
 /******/ ]);
