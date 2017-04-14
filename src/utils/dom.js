@@ -5,6 +5,7 @@
 
 import * as easingEquations from 'easing-js/easing'
 import { rAF } from './fn'
+import { pxToInt } from './string'
 
 /**
  * Name of the animationend event.
@@ -17,6 +18,34 @@ export var animationEndEvent = 'animationend'
  * @type {String}
  */
 export var transitionEndEvent = 'transitionend'
+
+/**
+ * Return outerWidth of given element.
+ *
+ * @param   {Element} element - Target element.
+ * @returns {Number}
+ */
+export function outerHeight(element) {
+  var height = element.offsetHeight,
+    style = window.getComputedStyle(element)
+
+  height += pxToInt(style.marginTop) + pxToInt(style.marginBottom)
+  return height
+}
+
+/**
+ * Return outerWidth of given element.
+ *
+ * @param   {Element} element - Target element.
+ * @returns {Number}
+ */
+export function outerWidth(element) {
+  var width = element.offsetWidth,
+    style = window.getComputedStyle(element)
+
+  width += pxToInt(style.marginLeft) + pxToInt(style.marginRight)
+  return width
+}
 
 /**
  * Return all computed styles.
@@ -173,8 +202,8 @@ export function index(element) {
  * @returns {Object|{}} Original style attributes which got overwritten.
  */
 export function style(element, styles, remember = false) {
-  var style = element.style
-  var original = {}
+  var style = element.style,
+    original = {}
 
   for (let key in styles) {
     if (remember) {
@@ -372,6 +401,8 @@ export default {
   transitionEndEvent,
   computedStyles,
   computedStyle,
+  outerWidth,
+  outerHeight,
   siblings,
   index,
   parent,
