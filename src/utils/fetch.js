@@ -27,7 +27,7 @@ export function checkStatus(response) {
 
 export function url(u, opts = {}) {
   opts = Object.assign({}, defaultOptions, opts)
-  return fetch(u).then(checkStatus)
+  return fetch(u, opts).then(checkStatus)
 }
 
 export function json(u, opts = {}) {
