@@ -20,6 +20,26 @@ export var animationEndEvent = 'animationend'
 export var transitionEndEvent = 'transitionend'
 
 /**
+ * Return first element in page by given selector.
+ *
+ * @param   {String} selector
+ * @returns {Element}
+ */
+export function $(selector) {
+  return document.querySelector(selector)
+}
+
+/**
+ * Return all elements in page by given selector as array.
+ *
+ * @param   {String} selector
+ * @returns {Element[]}
+ */
+export function $$(selector) {
+  return [...document.querySelectorAll(selector)]
+}
+
+/**
  * Return outerWidth of given element.
  *
  * @param   {Element} element - Target element.
@@ -217,6 +237,7 @@ export function style(element, styles, remember = false) {
 }
 
 
+
 /**
  * Sheet class.
  * Dynamically create stylesheets.
@@ -295,8 +316,8 @@ export class Scroller {
    */
   to(options = {}) {
     var timeX = 0, timeY = 0, currentTime = 0,
-      scrollY = window.scrollY || document.documentElement.scrollTop,
-      scrollX = window.scrollX || document.documentElement.scrollLeft
+      scrollY = window.pageYOffset || document.documentElement.scrollTop,
+      scrollX = window.pageXOffset || document.documentElement.scrollLeft
 
     var opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options),
       scrollTargetX = opts.x,
@@ -409,5 +430,7 @@ export default {
   parents,
   children,
   matches,
-  style
+  style,
+  $,
+  $$
 }

@@ -3,6 +3,10 @@ import * as base from './../src'
 import { Scroller } from './../src/utils/dom'
 window.scroll = new Scroller()
 
+window.setTimeout(() => {
+  window.scroll.to({y: 200})
+}, 100)
+
 class Test extends base.features.Feature {
 
   init() {
