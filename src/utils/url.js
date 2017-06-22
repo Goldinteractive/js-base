@@ -4,26 +4,35 @@
  */
 
 import eventHub from '../eventHub'
+import qs from 'qs'
 
 /**
  * Initial search parameters.
  * @type {Object}
  */
-export const params = getParams()
+export const params = parseQuery()
 
 /**
  * Return search parameters.
  *
- * @param   {String} [query=window.location.search] - Query string.
+ * @param   {String} [query=window.location.search.substring(1)] - Query string.
+ * @param   {Array}  [options] - Parse options.
  * @returns {Object}
  */
-export function getParams(query = window.location.search) {
-  if (query === '') return {}
-  return query.slice(1).split('&').reduce(function(a, b) {
-    b = b.split('=')
-    a[b[0]] = decodeURIComponent(b[1])
-    return a
-  }, {})
+export function parseQuery(query = window.location.search.substring(1), options) {
+  return qs.parse(query, options)
+}
+
+/**
+ * Simple serialize.
+ *
+ * @param {Object} obj - Object to serialize.
+ * @param {Array}  [options] - Stringify options.
+ *
+ * @return {String}
+ */
+export function stringifyQuery(obj, options) {
+  return qs.stringify(obj, options)
 }
 
 /**
@@ -54,7 +63,8 @@ window.addEventListener('popstate', function(e) {
 export default {
   params,
   hash,
-  getParams,
+  parseQuery,
+  stringifyQuery,
   pushState,
   replaceState
 }
