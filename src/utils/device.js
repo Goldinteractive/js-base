@@ -8,13 +8,11 @@ import { pxToInt } from './string'
 
 import detectIt from 'detect-it'
 
-export var deviceType = detectIt.deviceTye
+export var deviceType = detectIt.deviceType
 export var hasMouse = detectIt.hasMouse
 export var hasTouch = detectIt.hasTouch
-export var maxTouchPoints = detectIt.maxTouchPoints
 export var passiveEvents = detectIt.passiveEvents
-export var primaryHover = detectIt.primaryHover
-export var primaryPointer = detectIt.primaryPointer
+export var primaryInput = detectIt.primaryInput
 
 /**
  * DeviceInfo class.
@@ -120,8 +118,6 @@ export default {
   deviceType,
   hasMouse,
   hasTouch,
-  maxTouchPoints,
   passiveEvents,
-  primaryHover,
-  primaryPointer
+  primaryInput
 }
