@@ -234,6 +234,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   exports.matches = matches;
   exports.index = index;
   exports.style = style;
+  exports.scrollY = scrollY;
+  exports.scrollX = scrollX;
 
   var easingEquations = _interopRequireWildcard(_easing);
 
@@ -518,6 +520,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }
 
   /**
+   * Return vertical scroll position.
+   * @returns {Integer}
+   */
+  function scrollY() {
+    return window.pageYOffset || document.documentElement.scrollTop;
+  }
+
+  /**
+   * Return horizontal scroll position.
+   * @returns {Integer}
+   */
+  function scrollX() {
+    return window.pageXOffset || document.documentElement.scrollLeft;
+  }
+
+  /**
    * Sheet class.
    * Dynamically create stylesheets.
    */
@@ -595,9 +613,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       value: function toElement(element) {
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+        var viewportOffset = element.getBoundingClientRect();
+
         var opts = Object.assign(options, {
-          y: element.offsetTop,
-          x: element.offsetLeft
+          y: viewportOffset.top + scrollY(),
+          x: viewportOffset.left + scrollX()
         });
 
         return this.to(opts);
@@ -620,8 +640,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var timeX = 0,
             timeY = 0,
             currentTime = 0,
-            scrollY = window.pageYOffset || document.documentElement.scrollTop,
-            scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+            scrollYPos = scrollY(),
+            scrollXPos = scrollX();
 
         var opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options),
             scrollTargetX = opts.x,
@@ -632,7 +652,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           scrollTargetX = scrollTargetX < 0 ? 0 : scrollTargetX;
 
           // determine scroll time for x axis
-          timeX = Math.max(opts.minScrollTime, Math.min(Math.abs(scrollX - scrollTargetX) / opts.speed, opts.maxScrollTime));
+          timeX = Math.max(opts.minScrollTime, Math.min(Math.abs(scrollXPos - scrollTargetX) / opts.speed, opts.maxScrollTime));
         }
 
         if (scrollTargetY !== null) {
@@ -640,7 +660,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           scrollTargetY = scrollTargetY < 0 ? 0 : scrollTargetY;
 
           // determine scroll time for y axis
-          timeY = Math.max(opts.minScrollTime, Math.min(Math.abs(scrollY - scrollTargetY) / opts.speed, opts.maxScrollTime));
+          timeY = Math.max(opts.minScrollTime, Math.min(Math.abs(scrollYPos - scrollTargetY) / opts.speed, opts.maxScrollTime));
         }
 
         var time = Math.max(timeX, timeY);
@@ -652,14 +672,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           var p = currentTime / time;
           var t = easingEquations[opts.easing](p);
 
-          var posY = scrollTargetY !== null ? scrollY + (scrollTargetY - scrollY) * t : scrollY;
-          var posX = scrollTargetX !== null ? scrollX + (scrollTargetX - scrollX) * t : scrollX;
+          var posY = scrollTargetY !== null ? scrollYPos + (scrollTargetY - scrollYPos) * t : scrollYPos;
+          var posX = scrollTargetX !== null ? scrollXPos + (scrollTargetX - scrollXPos) * t : scrollXPos;
 
           if (p < 1) {
             (0, _fn.rAF)(tick);
             window.scrollTo(posX, posY);
           } else {
-            window.scrollTo(scrollTargetX !== null ? scrollTargetX : scrollX, scrollTargetY !== null ? scrollTargetY : scrollY);
+            window.scrollTo(scrollTargetX !== null ? scrollTargetX : scrollXPos, scrollTargetY !== null ? scrollTargetY : scrollYPos);
 
             if (opts.cb) opts.cb();
           }
@@ -722,6 +742,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     children: children,
     matches: matches,
     style: style,
+    scrollY: scrollY,
+    scrollX: scrollX,
     $: $,
     $$: $$
   };
