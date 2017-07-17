@@ -298,9 +298,11 @@ export class Scroller {
    * @returns {module:base/utils/dom~Scroller}
    */
   toElement(element, options = {}) {
+    var viewportOffset = element.getBoundingClientRect()
+
     var opts = Object.assign(options, {
-      y: element.offsetTop,
-      x: element.offsetLeft
+      y: viewportOffset.top,
+      x: viewportOffset.left
     })
 
     return this.to(opts)
