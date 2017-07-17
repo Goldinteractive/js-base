@@ -236,6 +236,22 @@ export function style(element, styles, remember = false) {
   return original
 }
 
+/**
+ * Return vertical scroll position.
+ * @returns {Integer}
+ */
+export function scrollY() {
+  return window.pageYOffset || document.documentElement.scrollTop
+}
+
+/**
+ * Return horizontal scroll position.
+ * @returns {Integer}
+ */
+export function scrollX() {
+  return window.pageXOffset || document.documentElement.scrollLeft
+}
+
 
 
 /**
@@ -301,8 +317,8 @@ export class Scroller {
     var viewportOffset = element.getBoundingClientRect()
 
     var opts = Object.assign(options, {
-      y: viewportOffset.top,
-      x: viewportOffset.left
+      y: viewportOffset.top + scrollY(),
+      x: viewportOffset.left + scrollX()
     })
 
     return this.to(opts)
@@ -318,8 +334,8 @@ export class Scroller {
    */
   to(options = {}) {
     var timeX = 0, timeY = 0, currentTime = 0,
-      scrollY = window.pageYOffset || document.documentElement.scrollTop,
-      scrollX = window.pageXOffset || document.documentElement.scrollLeft
+      scrollYPos = scrollY(),
+      scrollXPos = scrollX()
 
     var opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options),
       scrollTargetX = opts.x,
@@ -333,7 +349,7 @@ export class Scroller {
       timeX = Math.max(
         opts.minScrollTime,
         Math.min(
-          Math.abs(scrollX - scrollTargetX) / opts.speed, opts.maxScrollTime
+          Math.abs(scrollXPos - scrollTargetX) / opts.speed, opts.maxScrollTime
         )
       )
     }
@@ -346,7 +362,7 @@ export class Scroller {
       timeY = Math.max(
         opts.minScrollTime,
         Math.min(
-          Math.abs(scrollY - scrollTargetY) / opts.speed, opts.maxScrollTime
+          Math.abs(scrollYPos - scrollTargetY) / opts.speed, opts.maxScrollTime
         )
       )
     }
@@ -360,16 +376,16 @@ export class Scroller {
       var p = currentTime / time
       var t = easingEquations[opts.easing](p)
 
-      var posY = scrollTargetY !== null ? scrollY + ((scrollTargetY - scrollY) * t) : scrollY
-      var posX = scrollTargetX !== null ? scrollX + ((scrollTargetX - scrollX) * t) : scrollX
+      var posY = scrollTargetY !== null ? scrollYPos + ((scrollTargetY - scrollYPos) * t) : scrollYPos
+      var posX = scrollTargetX !== null ? scrollXPos + ((scrollTargetX - scrollXPos) * t) : scrollXPos
 
       if (p < 1) {
         rAF(tick)
         window.scrollTo(posX, posY)
       } else {
         window.scrollTo(
-          scrollTargetX !== null ? scrollTargetX : scrollX,
-          scrollTargetY !== null ? scrollTargetY : scrollY
+          scrollTargetX !== null ? scrollTargetX : scrollXPos,
+          scrollTargetY !== null ? scrollTargetY : scrollYPos
         )
 
         if (opts.cb) opts.cb()
@@ -433,6 +449,8 @@ export default {
   children,
   matches,
   style,
+  scrollY,
+  scrollX,
   $,
   $$
 }
