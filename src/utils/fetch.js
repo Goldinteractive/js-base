@@ -6,7 +6,10 @@
 import fetchJsonP from 'fetch-jsonp'
 
 export var defaultOptions = {
-  credentials: 'same-origin'
+  credentials: 'same-origin',
+  headers: {
+    'http_x_requested_with': 'fetch'
+  }
 }
 
 export var defaultJsonpOptions = {
@@ -27,6 +30,12 @@ export function checkStatus(response) {
 
 export function url(u, opts = {}) {
   opts = Object.assign({}, defaultOptions, opts)
+
+  // TODO: implement queryParams
+  // if (opts.queryParams) {
+
+  // }
+
   return fetch(u, opts).then(checkStatus)
 }
 
@@ -36,6 +45,12 @@ export function json(u, opts = {}) {
 
 export function jsonP(u, opts = {}) {
   opts = Object.assign({}, defaultJsonpOptions, opts)
+
+  // TODO: implement queryParams
+  // if (opts.queryParams) {
+
+  // }
+
   return fetchJsonP(u, opts).then(r => r.json())
 }
 
