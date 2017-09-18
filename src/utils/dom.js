@@ -23,20 +23,22 @@ export var transitionEndEvent = 'transitionend'
  * Return first element in page by given selector.
  *
  * @param   {String} selector
+ * @param   {Element} element
  * @returns {Element}
  */
-export function $(selector) {
-  return document.querySelector(selector)
+export function $(selector, element = document) {
+  return element.querySelector(selector)
 }
 
 /**
  * Return all elements in page by given selector as array.
  *
  * @param   {String} selector
+ * @param   {Element} element
  * @returns {Element[]}
  */
-export function $$(selector) {
-  return [...document.querySelectorAll(selector)]
+export function $$(selector, element = document) {
+  return [...element.querySelectorAll(selector)]
 }
 
 /**
