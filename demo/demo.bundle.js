@@ -231,7 +231,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   exports.siblings = siblings;
   exports.parent = parent;
   exports.parents = parents;
-  exports.matches = matches;
   exports.index = index;
   exports.style = style;
   exports.scrollY = scrollY;
@@ -308,20 +307,26 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * Return first element in page by given selector.
    *
    * @param   {String} selector
+   * @param   {Element} element
    * @returns {Element}
    */
   function $(selector) {
-    return document.querySelector(selector);
+    var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+
+    return element.querySelector(selector);
   }
 
   /**
    * Return all elements in page by given selector as array.
    *
    * @param   {String} selector
+   * @param   {Element} element
    * @returns {Element[]}
    */
   function $$(selector) {
-    return [].concat(_toConsumableArray(document.querySelectorAll(selector)));
+    var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+
+    return [].concat(_toConsumableArray(element.querySelectorAll(selector)));
   }
 
   /**
@@ -460,23 +465,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }
 
     return parents;
-  }
-
-  /**
-   * Check whether the element matches the given selector.
-   *
-   * @param {Element} element - The element to check.
-   * @param {String} selector - The selector to check against.
-   *
-   * @returns {Boolean}
-   */
-  function matches(element, selector) {
-    var p = Element.prototype;
-    var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
-      return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
-    };
-
-    return f.call(element, selector);
   }
 
   /**
@@ -740,7 +728,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     parent: parent,
     parents: parents,
     children: children,
-    matches: matches,
     style: style,
     scrollY: scrollY,
     scrollX: scrollX,
@@ -775,6 +762,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     value: true
   });
   exports.pxToInt = pxToInt;
+  exports.pad = pad;
   exports.startsWith = startsWith;
 
   var _camelCase2 = _interopRequireDefault(_camelCase);
@@ -796,22 +784,41 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }
 
   /**
-   * Faster String startsWith alternative
-   * @param   {String} str - Source string.
-   * @param   {String} value - Test string.
-   * @returns {Boolean}
+   * Pad function to add leading zeros or any given string.
+   *
+   * @see https://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
+   *
+   * @param {String|Number} n - String or number to pad.
+   * @param {Number} length - Length to pad.
+   * @param {String} [z='0'] - String to use for padding.
    */
   /**
    * String module.
    * @module base/utils/string
    */
 
+  function pad(n, length) {
+    var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '0';
+
+    z = z;
+    n = n + '';
+    return n.length >= length ? n : new Array(length - n.length + 1).join(z) + n;
+  }
+
+  /**
+   * Faster String startsWith alternative
+   *
+   * @param   {String} str - Source string.
+   * @param   {String} value - Test string.
+   * @returns {Boolean}
+   */
   function startsWith(str, value) {
     return str.slice(0, value.length) === value;
   }
 
   exports.default = {
     camelCase: _camelCase2.default,
+    pad: pad,
     pxToInt: pxToInt,
     startsWith: startsWith
   };
@@ -1476,7 +1483,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * @see https://developer.mozilla.org/de/docs/Web/API/window/requestAnimationFrame
    */
   var rAF = exports.rAF = function () {
-    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
+    return window.requestAnimationFrame || function (callback) {
       window.setTimeout(callback, 1000 / 60);
     };
   }().bind(window);
@@ -2247,17 +2254,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(41), __webpack_require__(55), __webpack_require__(11), __webpack_require__(65)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(41), __webpack_require__(55), __webpack_require__(11), __webpack_require__(65), __webpack_require__(100)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./features'), require('./utils'), require('./eventHub'), require('./polyfills'));
+    factory(exports, require('./features'), require('./utils'), require('./eventHub'), require('./polyfills'), require('./globals'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.features, global.utils, global.eventHub, global.polyfills);
+    factory(mod.exports, global.features, global.utils, global.eventHub, global.polyfills, global.globals);
     global.index = mod.exports;
   }
 })(this, function (exports, _features, _utils, _eventHub) {
@@ -3711,6 +3718,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   exports.contains = contains;
   exports.random = random;
   exports.unique = unique;
+  exports.shuffle = shuffle;
+  exports.clone = clone;
+  exports.max = max;
+  exports.min = min;
+  exports.sum = sum;
+  exports.avg = avg;
   /**
    * Array module.
    * @module base/utils/array
@@ -3761,10 +3774,81 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     return out;
   }
 
+  /**
+   * Shuffle given array.
+   *
+   * @param   {Array} array - Target array.
+   * @returns {Array} Shuffled array.
+   */
+  function shuffle(array) {
+    return array.slice().sort(function () {
+      return Math.random() > 0.5 ? 1 : -1;
+    });
+  }
+
+  /**
+   * Clone given array.
+   *
+   * @param   {Array} array - Target array.
+   * @returns {Array} Cloned array.
+   */
+  function clone(array) {
+    return array.slice(0);
+  }
+
+  /**
+   * Return largest number from given array.
+   *
+   * @param   {Number[]} array - Target array.
+   * @returns {Number} Largest number of given array.
+   */
+  function max(array) {
+    return Math.max.apply(Math, this);
+  }
+
+  /**
+   * Return smallest number from given array.
+   *
+   * @param   {Number[]} array - Target array.
+   * @returns {Number} Smallest number of given array.
+   */
+  function min(array) {
+    return Math.min.apply(Math, this);
+  }
+
+  /**
+   * Return sum from given array.
+   *
+   * @param   {Number[]} array - Target array.
+   * @returns {Number} Total sum of given array.
+   */
+  function sum(array) {
+    return array.reduce(function (a, b) {
+      return a + b;
+    });
+  }
+
+  /**
+   * Return average from given array.
+   *
+   * @param   {Number[]} array
+   * @returns {Number} Average of given array.
+   */
+  function avg(array) {
+    var arraySum = sum(array);
+    return arraySum / array.length;
+  }
+
   exports.default = {
+    shuffle: shuffle,
     contains: contains,
     random: random,
-    unique: unique
+    unique: unique,
+    clone: clone,
+    max: max,
+    min: min,
+    sum: sum,
+    avg: avg
   };
 });
 
@@ -3944,6 +4028,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    *
    * @param   {String} [query=window.location.search.substring(1)] - Query string.
    * @param   {Array}  [options] - Parse options.
+   *
    * @returns {Object}
    */
   function parseQuery() {
@@ -3959,7 +4044,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * @param {Object} obj - Object to serialize.
    * @param {Array}  [options] - Stringify options.
    *
-   * @return {String}
+   * @returns {String}
    */
   function stringifyQuery(obj, options) {
     return _qs2.default.stringify(obj, options);
@@ -4443,6 +4528,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   exports.json = json;
   exports.jsonP = jsonP;
   exports.text = text;
+  exports.script = script;
 
   var _fetchJsonp2 = _interopRequireDefault(_fetchJsonp);
 
@@ -4453,7 +4539,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }
 
   var defaultOptions = exports.defaultOptions = {
-    credentials: 'same-origin'
+    credentials: 'same-origin',
+    headers: {
+      'http_x_requested_with': 'fetch'
+    }
   }; /**
       * Fetch module.
       * @module base/utils/fetch
@@ -4479,6 +4568,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     opts = Object.assign({}, defaultOptions, opts);
+
+    // TODO: implement queryParams
+    // if (opts.queryParams) {
+
+    // }
+
     return fetch(u, opts).then(checkStatus);
   }
 
@@ -4494,6 +4589,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     opts = Object.assign({}, defaultJsonpOptions, opts);
+
+    // TODO: implement queryParams
+    // if (opts.queryParams) {
+
+    // }
+
     return (0, _fetchJsonp2.default)(u, opts).then(function (r) {
       return r.json();
     });
@@ -4507,10 +4608,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     });
   }
 
+  function script(u) {
+    var tag = document.createElement('script'),
+        firstScriptTag = document.getElementsByTagName('script')[0];
+
+    tag.src = u;
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
+
   exports.default = {
     defaultOptions: defaultOptions,
     defaultJsonpOptions: defaultJsonpOptions,
-    url: url, json: json, jsonP: jsonP, text: text
+    url: url, json: json, jsonP: jsonP, text: text,
+    script: script
   };
 });
 
@@ -4664,7 +4774,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     window.Promise = _promisePolyfill2.default;
   }
 
-  /**
+  /*
    * Fetch polyfill (requires Promise polyfill).
    */
 
@@ -4677,45 +4787,43 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    */
 
   /*
-   * closest polyfill from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+   * Element.matches and Elements.closest polyfill
+   * from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
    */
-  if (window.Element && !Element.prototype.closest) {
+  if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+  }
+
+  if (!Element.prototype.closest) {
     Element.prototype.closest = function (s) {
-      var i,
-          el = this,
-          matches = (this.document || this.ownerDocument).querySelectorAll(s);
+      var el = this;
+      var ancestor = this;
+
+      if (!document.documentElement.contains(el)) {
+        return null;
+      }
 
       do {
-        i = matches.length;
-        while (--i >= 0 && matches.item(i) !== el) {}
-      } while (i < 0 && (el = el.parentElement));
-      return el;
+        if (ancestor.matches(s)) {
+          return ancestor;
+        }
+
+        ancestor = ancestor.parentElement;
+      } while (ancestor !== null);
+
+      return null;
     };
   }
 
   /*
    * Performance polyfill.
+   * @license http://opensource.org/licenses/MIT
+   * copyright Paul Irish 2015
    */
-
-  // @license http://opensource.org/licenses/MIT
-  // copyright Paul Irish 2015
-
-
-  // Date.now() is supported everywhere except IE8. For IE8 we use the Date.now polyfill
-  //   github.com/Financial-Times/polyfill-service/blob/master/polyfills/Date.now/polyfill.js
-  // as Safari 6 doesn't have support for NavigationTiming, we use a Date.now() timestamp for relative values
-
-  // if you want values similar to what you'd get with real perf.now, place this towards the head of the page
-  // but in reality, you're just getting the delta between now() calls, so it's not terribly important where it's placed
 
   if ('performance' in window === false) {
     window.performance = {};
   }
-
-  Date.now = Date.now || function () {
-    // thanks IE8
-    return new Date().getTime();
-  };
 
   if ('now' in window.performance === false) {
     var nowOffset = Date.now();
@@ -6457,6 +6565,46 @@ exports.f = {}.propertyIsEnumerable;
   self.fetch.polyfill = true
 })(typeof self !== 'undefined' ? self : this);
 
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports !== "undefined") {
+    factory(require('./eventHub'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(global.eventHub);
+    global.globals = mod.exports;
+  }
+})(this, function (_eventHub) {
+  'use strict';
+
+  var _eventHub2 = _interopRequireDefault(_eventHub);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  /**
+   * Fire event hub event when youtube iframe api is ready.
+   */
+  window.onYouTubeIframeAPIReady = function () {
+    _eventHub2.default.trigger('apiReady:youtube');
+  }; /**
+      * Global stuff.
+      */
+});
 
 /***/ })
 /******/ ]);

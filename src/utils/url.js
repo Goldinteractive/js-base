@@ -17,6 +17,7 @@ export const params = parseQuery()
  *
  * @param   {String} [query=window.location.search.substring(1)] - Query string.
  * @param   {Array}  [options] - Parse options.
+ *
  * @returns {Object}
  */
 export function parseQuery(query = window.location.search.substring(1), options) {
@@ -29,7 +30,7 @@ export function parseQuery(query = window.location.search.substring(1), options)
  * @param {Object} obj - Object to serialize.
  * @param {Array}  [options] - Stringify options.
  *
- * @return {String}
+ * @returns {String}
  */
 export function stringifyQuery(obj, options) {
   return qs.stringify(obj, options)
