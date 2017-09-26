@@ -182,24 +182,6 @@ export function parents(element, match = null) {
 }
 
 /**
- * Check whether the element matches the given selector.
- *
- * @param {Element} element - The element to check.
- * @param {String} selector - The selector to check against.
- *
- * @returns {Boolean}
- */
-export function matches(element, selector) {
-  var p = Element.prototype
-  var f = p.matches
-    || p.webkitMatchesSelector
-    || p.mozMatchesSelector
-    || p.msMatchesSelector
-
-  return f.call(element, selector)
-}
-
-/**
  * Return index of current element.
  *
  * @param   {Element} element - Element
@@ -446,7 +428,6 @@ export default {
   parent,
   parents,
   children,
-  matches,
   style,
   scrollY,
   scrollX,
