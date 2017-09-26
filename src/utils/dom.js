@@ -195,9 +195,6 @@ export function matches(element, selector) {
     || p.webkitMatchesSelector
     || p.mozMatchesSelector
     || p.msMatchesSelector
-    || function(s) {
-      return [].indexOf.call(document.querySelectorAll(s), this) !== -1
-    }
 
   return f.call(element, selector)
 }
