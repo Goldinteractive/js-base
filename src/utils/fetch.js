@@ -58,8 +58,17 @@ export function text(u, opts = {}) {
   return url(u, opts).then(r => r.text())
 }
 
+export function script(u) {
+  var tag = document.createElement('script'),
+    firstScriptTag = document.getElementsByTagName('script')[0]
+
+  tag.src = u
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+}
+
 export default {
   defaultOptions,
   defaultJsonpOptions,
-  url, json, jsonP, text
+  url, json, jsonP, text,
+  script
 }
