@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Sheet</title>
+    <title>JSDoc: Source: globals.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,131 +17,30 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Sheet</h1>
+    <h1 class="page-title">Source: globals.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            <span class="ancestors"><a href="module-base_utils_dom.html">base/utils/dom</a>.</span>Sheet</h2>
-        
-            <div class="class-description">Sheet class.
-Dynamically create stylesheets.</div>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Global stuff.
+ */
 
-<article>
-    <div class="container-overview">
-    
-        
+import eventHub from './eventHub'
 
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="Sheet"><span class="type-signature"></span>new Sheet<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line242">line 242</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+/**
+ * Fire event hub event when youtube iframe api is ready.
+ */
+window.onYouTubeIframeAPIReady = function() {
+  eventHub.trigger('apiReady:youtube')
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -295,7 +295,7 @@
 
     
 
-    <h4 class="name" id=".$"><span class="type-signature">(static) </span>$<span class="signature">(selector)</span><span class="type-signature"> &rarr; {Element}</span></h4>
+    <h4 class="name" id=".$"><span class="type-signature">(static) </span>$<span class="signature">(selector, element)</span><span class="type-signature"> &rarr; {Element}</span></h4>
 
     
 
@@ -358,6 +358,29 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -395,7 +418,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line28">line 28</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -444,7 +467,7 @@
 
     
 
-    <h4 class="name" id=".$$"><span class="type-signature">(static) </span>$$<span class="signature">(selector)</span><span class="type-signature"> &rarr; {Array.&lt;Element>}</span></h4>
+    <h4 class="name" id=".$$"><span class="type-signature">(static) </span>$$<span class="signature">(selector, element)</span><span class="type-signature"> &rarr; {Array.&lt;Element>}</span></h4>
 
     
 
@@ -507,6 +530,29 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -544,7 +590,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line38">line 38</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -716,7 +762,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line111">line 111</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -888,7 +934,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line99">line 99</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line101">line 101</a>
     </li></ul></dd>
     
 
@@ -1041,7 +1087,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line76">line 76</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -1194,178 +1240,6 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line209">line 209</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Integer</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".matches"><span class="type-signature">(static) </span>matches<span class="signature">(element, selector)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Check whether the element matches the given selector.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Element</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The element to check.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>selector</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The selector to check against.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
         <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line190">line 190</a>
     </li></ul></dd>
     
@@ -1400,7 +1274,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">Integer</span>
 
 
     </dd>
@@ -1515,7 +1389,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line48">line 48</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -1664,7 +1538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line62">line 62</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -1836,7 +1710,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line142">line 142</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -2028,7 +1902,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line166">line 166</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -2128,7 +2002,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line251">line 251</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line232">line 232</a>
     </li></ul></dd>
     
 
@@ -2228,7 +2102,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line243">line 243</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
@@ -2377,7 +2251,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line130">line 130</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -2616,7 +2490,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line224">line 224</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -2689,7 +2563,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jul 17 2017 16:29:52 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Sep 26 2017 15:51:07 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
