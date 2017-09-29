@@ -6,7 +6,7 @@
 import { UID } from '../variables'
 
 /**
- * Return base data cache from given node.
+ * Return data cache from given node.
  *
  * @param   {Element} node - Node to get the cache from.
  * @returns {Object}
