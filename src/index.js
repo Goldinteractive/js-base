@@ -3,15 +3,14 @@
  * @module base
  */
 
-// js class
 document.documentElement.classList.remove('no-js')
 document.documentElement.classList.add('js')
 
 import './polyfills'
 import './globals'
 
-import { default as features } from './features'
-import * as utils from './utils'
+import features from './features'
+import utils from './utils'
 import eventHub from './eventHub'
 
 var paths = {

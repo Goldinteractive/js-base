@@ -3,18 +3,19 @@
  * @module base/utils
  */
 
-import { default as array }  from './utils/array'
-import { default as check }  from './utils/check'
-import { default as dom }    from './utils/dom'
-import { default as data }   from './utils/data'
-import { default as device } from './utils/device'
-import { default as fn }     from './utils/fn'
-import { default as string } from './utils/string'
-import { default as object } from './utils/object'
-import { default as url }    from './utils/url'
-import { default as fetch }  from './utils/fetch'
+import array from './utils/array'
+import check from './utils/check'
+import dom from './utils/dom'
+import data from './utils/data'
+import device from './utils/device'
+import fn from './utils/fn'
+import string from './utils/string'
+import object from './utils/object'
+import url from './utils/url'
+import fetch from './utils/fetch'
+import media from './utils/media'
 
-export {
+export default {
   /** Array utility. */
   array,
   /** Check utility. */
@@ -34,5 +35,7 @@ export {
   /** URL utility. */
   url,
   /** Fetch utility. */
-  fetch
+  fetch,
+  /** Media utility. */
+  media
 }
