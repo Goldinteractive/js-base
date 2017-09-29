@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Source: utils/media.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Source: utils/media.js</h1>
 
     
 
@@ -27,32 +27,36 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Base module.
- * @module base
+ * Media module.
+ * @module base/utils/media
  */
 
-document.documentElement.classList.remove('no-js')
-document.documentElement.classList.add('js')
+import eventHub from '../eventHub'
 
-import './polyfills'
-import './globals'
+/**
+ * Flag whether youtube api has been loaded yet.
+ * @var {Boolean}
+ */
+export var youtubeApiLoaded = false
 
-import features from './features'
-import utils from './utils'
-import eventHub from './eventHub'
-
-var paths = {
-  assets: 'assets'
+/**
+ * Check whether a media element is playing.
+ *
+ * @param   {HTMLMediaElement} media - Video or audio element
+ * @returns {Boolean} Whether the media element is currently playing.
+ */
+export function isPlaying(media) {
+  return media.currentTime > 0
+    &amp;&amp; !media.paused
+    &amp;&amp; !media.ended
+    &amp;&amp; media.readyState >= media.HAVE_CURRENT_DATA
 }
 
-export {
-  paths,
-  /** Features module. */
-  features,
-  /** Utility modules. */
-  utils,
-  /** Global event hub. */
-  eventHub
+eventHub.on('apiReady:youtube', () => youtubeApiLoaded = true)
+
+export default {
+  youtubeApiLoaded,
+  isPlaying
 }
 </code></pre>
         </article>
