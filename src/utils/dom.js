@@ -300,8 +300,8 @@ export class Scroller {
   toElement(element, options = {}) {
     let rootElement = this._opts.rootElement
     let opts = Object.assign(options, {
-      y: element.scrollTop + rootElement.scrollTop,
-      x: element.scrollLeft + rootElement.scrollLeft
+      y: element.offsetTop,
+      x: element.offsetLeft
     })
 
     return this.to(opts)
