@@ -1,6 +1,6 @@
 {
   "name": "gi-js-base",
-  "version": "0.0.53",
+  "version": "0.0.55",
   "description": "Basic javascript foundation written in ES6/2015 Vanilla JS.",
   "main": "lib/base.js",
   "jsnext:main": "src/index.js",
