@@ -1,11 +1,15 @@
 import * as base from './../src'
 
 import { Scroller } from './../src/utils/dom'
-window.scroll = new Scroller()
+
+let scroll = new Scroller()
+let scrollInnerDiv = new Scroller({ rootElement: document.getElementById('test' )})
+
+scrollInnerDiv.to({y: 100})
 
 window.setTimeout(() => {
-  window.scroll.to({y: 200})
-}, 100)
+  scroll.to({y: 200})
+}, 1000)
 
 class Test extends base.features.Feature {
 
@@ -33,7 +37,7 @@ class Test extends base.features.Feature {
 
   destroy() {
     super.destroy()
-    console.log('test')
+    console.log('feature destroyed')
   }
 
 }
