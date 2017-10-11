@@ -11,13 +11,13 @@ import { pxToInt } from './string'
  * Name of the animationend event.
  * @type {String}
  */
-export var animationEndEvent = 'animationend'
+export let animationEndEvent = 'animationend'
 
 /**
  * Name of the transitionend event.
  * @type {String}
  */
-export var transitionEndEvent = 'transitionend'
+export let transitionEndEvent = 'transitionend'
 
 /**
  * Return first element in page by given selector.
@@ -48,7 +48,7 @@ export function $$(selector, element = document) {
  * @returns {Number}
  */
 export function outerHeight(element) {
-  var height = element.offsetHeight,
+  let height = element.offsetHeight,
     style = window.getComputedStyle(element)
 
   height += pxToInt(style.marginTop) + pxToInt(style.marginBottom)
@@ -62,7 +62,7 @@ export function outerHeight(element) {
  * @returns {Number}
  */
 export function outerWidth(element) {
-  var width = element.offsetWidth,
+  let width = element.offsetWidth,
     style = window.getComputedStyle(element)
 
   width += pxToInt(style.marginLeft) + pxToInt(style.marginRight)
@@ -72,18 +72,20 @@ export function outerWidth(element) {
 /**
  * Return all computed styles.
  *
- * @param   {Element} element - Element to get computed styles from.
+ * @param {Element} element - Element to get computed styles from.
+ * @param {String|null} [pseudoElement=null] - String for pseudo element.
+ *
  * @returns {Object} Computed styles
  */
-export function computedStyles(element) {
-  var computedStyle = {},
+export function computedStyles(element, pseudoElement = null) {
+  let computedStyle = {},
       styles = {}
 
-  computedStyle = window.getComputedStyle(element, null)
+  computedStyle = window.getComputedStyle(element, pseudoElement)
 
   for (let i = 0, length = computedStyle.length; i < length; i++) {
-    var prop = computedStyle[i]
-    var val = computedStyle.getPropertyValue(prop)
+    let prop = computedStyle[i]
+    let val = computedStyle.getPropertyValue(prop)
     styles[prop] = val
   }
 
@@ -95,11 +97,12 @@ export function computedStyles(element) {
  *
  * @param {Element} element - Element to get computed style from.
  * @param {Element} prop - Style to get.
+ * @param {String|null} [pseudoElement=null] - String for pseudo element.
  *
  * @returns {String} Computed style
  */
-export function computedStyle(element, prop) {
-    return window.getComputedStyle(element, null).getPropertyValue(prop)
+export function computedStyle(element, prop, pseudoElement) {
+    return window.getComputedStyle(element, pseudoElement).getPropertyValue(prop)
 }
 
 /**
@@ -111,7 +114,7 @@ export function computedStyle(element, prop) {
  * @returns {Element[]}
  */
 export function children(element, skipElement) {
-  var children = []
+  let children = []
   element = element.children[0]
 
   for (; element; element = element.nextElementSibling) {
@@ -142,7 +145,7 @@ export function siblings(element) {
  * @returns {Element}
  */
 export function parent(element, match) {
-  var parent = null
+  let parent = null
 
   for (; parent === null
          && element
@@ -166,7 +169,7 @@ export function parent(element, match) {
  * @returns {Element[]}
  */
 export function parents(element, match = null) {
-  var parents = []
+  let parents = []
 
   for (; element && element !== document; element = element.parentElement) {
     if (match) {
@@ -188,7 +191,7 @@ export function parents(element, match = null) {
  * @returns {Integer}
  */
 export function index(element) {
-  var i = 0, child = element
+  let i = 0, child = element
   while ((child = child.previousElementSibling) != null) i++
   return i
 }
@@ -203,7 +206,7 @@ export function index(element) {
  * @returns {Object|{}} Original style attributes which got overwritten.
  */
 export function style(element, styles, remember = false) {
-  var style = element.style,
+  let style = element.style,
     original = {}
 
   for (let key in styles) {
@@ -218,7 +221,7 @@ export function style(element, styles, remember = false) {
 }
 
 /**
- * Return vertical scroll position.
+ * Return vertical scroll position of page.
  * @returns {Integer}
  */
 export function scrollY() {
@@ -226,7 +229,7 @@ export function scrollY() {
 }
 
 /**
- * Return horizontal scroll position.
+ * Return horizontal scroll position page.
  * @returns {Integer}
  */
 export function scrollX() {
@@ -295,11 +298,10 @@ export class Scroller {
    * @returns {module:base/utils/dom~Scroller}
    */
   toElement(element, options = {}) {
-    var viewportOffset = element.getBoundingClientRect()
-
-    var opts = Object.assign(options, {
-      y: viewportOffset.top + scrollY(),
-      x: viewportOffset.left + scrollX()
+    let rootElement = this._opts.rootElement
+    let opts = Object.assign(options, {
+      y: element.scrollTop + rootElement.scrollTop,
+      x: element.scrollLeft + rootElement.scrollLeft
     })
 
     return this.to(opts)
@@ -314,13 +316,15 @@ export class Scroller {
    * @returns {module:base/utils/dom~Scroller}
    */
   to(options = {}) {
-    var timeX = 0, timeY = 0, currentTime = 0,
-      scrollYPos = scrollY(),
-      scrollXPos = scrollX()
-
-    var opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options),
-      scrollTargetX = opts.x,
-      scrollTargetY = opts.y
+    let timeX = 0
+    let timeY = 0
+    let currentTime = 0
+    let rootElement = this._opts.rootElement
+    let scrollYPos = rootElement.scrollTop
+    let scrollXPos = rootElement.scrollLeft
+    let opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options)
+    let scrollTargetX = opts.x
+    let scrollTargetY = opts.y
 
     if (scrollTargetX !== null) {
       scrollTargetX = scrollTargetX - opts.offsetX
@@ -348,27 +352,25 @@ export class Scroller {
       )
     }
 
-    var time = Math.max(timeX, timeY)
+    let time = Math.max(timeX, timeY)
 
     // add animation loop
     function tick() {
       currentTime += 1 / 60
 
-      var p = currentTime / time
-      var t = easingEquations[opts.easing](p)
+      let p = currentTime / time
+      let t = easingEquations[opts.easing](p)
 
-      var posY = scrollTargetY !== null ? scrollYPos + ((scrollTargetY - scrollYPos) * t) : scrollYPos
-      var posX = scrollTargetX !== null ? scrollXPos + ((scrollTargetX - scrollXPos) * t) : scrollXPos
+      let posY = scrollTargetY !== null ? scrollYPos + ((scrollTargetY - scrollYPos) * t) : scrollYPos
+      let posX = scrollTargetX !== null ? scrollXPos + ((scrollTargetX - scrollXPos) * t) : scrollXPos
 
       if (p < 1) {
         rAF(tick)
-        window.scrollTo(posX, posY)
+        rootElement.scrollTop = posY
+        rootElement.scrollLeft = posX
       } else {
-        window.scrollTo(
-          scrollTargetX !== null ? scrollTargetX : scrollXPos,
-          scrollTargetY !== null ? scrollTargetY : scrollYPos
-        )
-
+        rootElement.scrollTop = scrollTargetY !== null ? scrollTargetY : scrollYPos
+        rootElement.scrollLeft = scrollTargetX !== null ? scrollTargetX : scrollXPos
         if (opts.cb) opts.cb()
       }
     }
@@ -384,6 +386,7 @@ export class Scroller {
  * Default scroller options.
  *
  * @type {Object}
+ * @property {Number} rootElement=document.documentElement - Target root element.
  * @property {Number} speed=1000 - Scrolling speed (pixels per second).
  * @property {Number} easing='easeOutSine' - [Easing equation]{@link https://github.com/danro/easing-js/blob/master/easing.js}.
  * @property {Number} offsetX=0 - Offset that is taken away from target x position (e.g. for a fixed sidebar width).
@@ -392,6 +395,7 @@ export class Scroller {
  * @property {Number} maxScrollTime=0.8 - Maximum scrolling time.
  */
 Scroller.defaultOptions = {
+  rootElement: document.documentElement,
   speed: 1000,
   easing: 'easeOutSine',
   offsetY: 0,
