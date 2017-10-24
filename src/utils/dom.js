@@ -6,6 +6,8 @@
 import * as easingEquations from 'easing-js/easing'
 import { rAF } from './fn'
 import { pxToInt } from './string'
+import { max } from './array'
+import { isArray } from './check'
 
 /**
  * Name of the animationend event.
@@ -319,9 +321,11 @@ export class Scroller {
     let timeX = 0
     let timeY = 0
     let currentTime = 0
-    let rootElement = this._opts.rootElement
-    let scrollYPos = rootElement.scrollTop
-    let scrollXPos = rootElement.scrollLeft
+    let rootElement = isArray(this._opts.rootElement) ? this._opts.rootElement : [this._opts.rootElement]
+
+    let scrollYPos = max(rootElement.map(element => element.scrollTop))
+    let scrollXPos = max(rootElement.map(element => element.scrollLeft))
+
     let opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options)
     let scrollTargetX = opts.x
     let scrollTargetY = opts.y
@@ -366,11 +370,15 @@ export class Scroller {
 
       if (p < 1) {
         rAF(tick)
-        rootElement.scrollTop = posY
-        rootElement.scrollLeft = posX
+        rootElement.forEach(element => {
+          element.scrollTop = posY
+          element.scrollLeft = posX
+        })
       } else {
-        rootElement.scrollTop = scrollTargetY !== null ? scrollTargetY : scrollYPos
-        rootElement.scrollLeft = scrollTargetX !== null ? scrollTargetX : scrollXPos
+        rootElement.forEach(element => {
+          element.scrollTop = scrollTargetY !== null ? scrollTargetY : scrollYPos
+          element.scrollLeft = scrollTargetX !== null ? scrollTargetX : scrollXPos
+        })
         if (opts.cb) opts.cb()
       }
     }
@@ -386,7 +394,7 @@ export class Scroller {
  * Default scroller options.
  *
  * @type {Object}
- * @property {Number} rootElement=document.documentElement - Target root element.
+ * @property {Number} rootElement=[document.documentElement, document.body] - Target root element(s).
  * @property {Number} speed=1000 - Scrolling speed (pixels per second).
  * @property {Number} easing='easeOutSine' - [Easing equation]{@link https://github.com/danro/easing-js/blob/master/easing.js}.
  * @property {Number} offsetX=0 - Offset that is taken away from target x position (e.g. for a fixed sidebar width).
@@ -395,7 +403,7 @@ export class Scroller {
  * @property {Number} maxScrollTime=0.8 - Maximum scrolling time.
  */
 Scroller.defaultOptions = {
-  rootElement: document.documentElement,
+  rootElement: [document.documentElement, document.body],
   speed: 1000,
   easing: 'easeOutSine',
   offsetY: 0,

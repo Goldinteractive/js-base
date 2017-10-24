@@ -77,7 +77,7 @@ export function clone(array) {
  * @returns {Number} Largest number of given array.
  */
 export function max(array) {
-  return Math.max.apply(Math, this)
+  return Math.max.apply(Math, array)
 }
 
 /**
@@ -87,7 +87,7 @@ export function max(array) {
  * @returns {Number} Smallest number of given array.
  */
 export function min(array) {
-  return Math.min.apply(Math, this)
+  return Math.min.apply(Math, array)
 }
 
 /**
