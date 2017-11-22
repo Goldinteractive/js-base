@@ -17,6 +17,28 @@ import {
 export var features = {}
 
 /**
+ * Default initialization options.
+ *
+ * @type {Object}
+ * @property {Boolean} ustChildNodes=false
+ *   Set to true if you don't want to initialize the features of the container node.
+ */
+export var defaultInitOptions = {
+  justChildNodes: true
+}
+
+/**
+ * Default destroy options.
+ *
+ * @type {Object}
+ * @property {Boolean} ustChildNodes=false
+ *   Set to true if you don't want to destroy the features of the container node.
+ */
+export var defaultDestroyOptions = {
+  justChildNodes: true
+}
+
+/**
  * Reinitializes features.
  *
  * @param {Node} [container=document.body]
@@ -45,13 +67,21 @@ export function reinit(container = document.body, name = null) {
  * @param {String} [name=null]
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
+ * @param {Object} [options={}]
+ *   Further initialize options to overwrite the [default ones]{@link module:base/features.defaultInitOptions}.
  *
  * @returns {Array} Initialized feature instances.
  */
-export function init(container = document.body, name = null) {
+export function init(container = document.body, name = null, options = {}) {
+  options = Object.assign({}, defaultInitOptions, options)
+
   var instances = []
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
+  var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
+
+  if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
+    featureNodes.push(container)
+  }
 
   eventHub.trigger('features:initialize', {
     container: container,
@@ -59,9 +89,8 @@ export function init(container = document.body, name = null) {
     nodes: featureNodes
   })
 
-  for (let i = 0, featureNodesLength = featureNodes.length; i < featureNodesLength; i++) {
+  featureNodes.forEach((featureNode) => {
     var nodeInstances = []
-    var featureNode = featureNodes[i]
     var dataFeatures = featureNode.getAttribute(ATTR_FEATURES).split(',')
     var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
@@ -88,7 +117,7 @@ export function init(container = document.body, name = null) {
     nodeInstances.forEach(function(nodeInstance) {
       nodeInstance.trigger('featuresInitialized', nodeInstances)
     })
-  }
+  })
 
   eventHub.trigger('features:initialized', {
     container: container,
@@ -115,10 +144,18 @@ export function init(container = document.body, name = null) {
  * @param {String} [name=null]
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
+ * @param {Object} [options={}]
+ *   Further destroy options to overwrite the [default ones]{@link module:base/features.defaultDestroyOptions}.
  */
-export function destroy(container = document.body, name = null) {
+export function destroy(container = document.body, name = null, options = {}) {
+  options = Object.assign({}, defaultDestroyOptions, options)
+
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
+  var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
+
+  if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
+    featureNodes.push(container)
+  }
 
   eventHub.trigger('features:destroy', {
     container: container,
@@ -126,8 +163,7 @@ export function destroy(container = document.body, name = null) {
     nodes: featureNodes
   })
 
-  for (let i = 0, featureNodesLength = featureNodes.length; i < featureNodesLength; i++) {
-    var featureNode = featureNodes[i]
+  featureNodes.forEach((featureNode) => {
     var nodeInstances = getInstancesByNode(featureNode)
     var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
@@ -142,7 +178,7 @@ export function destroy(container = document.body, name = null) {
         nodeInstances[featureName] = null
       }
     }
-  }
+  })
 
   eventHub.trigger('features:destroyed', {
     container: container,
