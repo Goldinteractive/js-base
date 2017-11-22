@@ -45,6 +45,28 @@ import {
 export var features = {}
 
 /**
+ * Default initialization options.
+ *
+ * @type {Object}
+ * @property {Boolean} justChildNodes=false
+ *   Set to true if you don't want to initialize the features of the container node.
+ */
+export var defaultInitOptions = {
+  justChildNodes: true
+}
+
+/**
+ * Default destroy options.
+ *
+ * @type {Object}
+ * @property {Boolean} justChildNodes=false
+ *   Set to true if you don't want to destroy the features of the container node.
+ */
+export var defaultDestroyOptions = {
+  justChildNodes: true
+}
+
+/**
  * Reinitializes features.
  *
  * @param {Node} [container=document.body]
@@ -73,13 +95,21 @@ export function reinit(container = document.body, name = null) {
  * @param {String} [name=null]
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
+ * @param {Object} [options={}]
+ *   Further initialize options to overwrite the [default ones]{@link module:base/features.defaultInitOptions}.
  *
  * @returns {Array} Initialized feature instances.
  */
-export function init(container = document.body, name = null) {
+export function init(container = document.body, name = null, options = {}) {
+  options = Object.assign({}, defaultInitOptions, options)
+
   var instances = []
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
+  var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
+
+  if (!options.justChildNodes &amp;&amp; container.getAttribute(ATTR_FEATURES)) {
+    featureNodes.push(container)
+  }
 
   eventHub.trigger('features:initialize', {
     container: container,
@@ -87,9 +117,8 @@ export function init(container = document.body, name = null) {
     nodes: featureNodes
   })
 
-  for (let i = 0, featureNodesLength = featureNodes.length; i &lt; featureNodesLength; i++) {
+  featureNodes.forEach((featureNode) => {
     var nodeInstances = []
-    var featureNode = featureNodes[i]
     var dataFeatures = featureNode.getAttribute(ATTR_FEATURES).split(',')
     var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
@@ -116,7 +145,7 @@ export function init(container = document.body, name = null) {
     nodeInstances.forEach(function(nodeInstance) {
       nodeInstance.trigger('featuresInitialized', nodeInstances)
     })
-  }
+  })
 
   eventHub.trigger('features:initialized', {
     container: container,
@@ -143,10 +172,18 @@ export function init(container = document.body, name = null) {
  * @param {String} [name=null]
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be initialized.
+ * @param {Object} [options={}]
+ *   Further destroy options to overwrite the [default ones]{@link module:base/features.defaultDestroyOptions}.
  */
-export function destroy(container = document.body, name = null) {
+export function destroy(container = document.body, name = null, options = {}) {
+  options = Object.assign({}, defaultDestroyOptions, options)
+
   var names = name ? name.split(',') : null
-  var featureNodes = container.querySelectorAll(`[${ATTR_FEATURES}]`)
+  var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
+
+  if (!options.justChildNodes &amp;&amp; container.getAttribute(ATTR_FEATURES)) {
+    featureNodes.push(container)
+  }
 
   eventHub.trigger('features:destroy', {
     container: container,
@@ -154,8 +191,7 @@ export function destroy(container = document.body, name = null) {
     nodes: featureNodes
   })
 
-  for (let i = 0, featureNodesLength = featureNodes.length; i &lt; featureNodesLength; i++) {
-    var featureNode = featureNodes[i]
+  featureNodes.forEach((featureNode) => {
     var nodeInstances = getInstancesByNode(featureNode)
     var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
 
@@ -170,7 +206,7 @@ export function destroy(container = document.body, name = null) {
         nodeInstances[featureName] = null
       }
     }
-  }
+  })
 
   eventHub.trigger('features:destroyed', {
     container: container,
@@ -542,13 +578,13 @@ export default {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Oct 11 2017 10:43:13 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 22 2017 11:18:09 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -28,8 +28,8 @@
 
 <header>
     
-        <h2>
-            <span class="ancestors"><a href="module-base_utils_dom.html">base/utils/dom</a>.</span>Scroller</h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-base_utils_dom.html">base/utils/dom</a>.</span>Scroller<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Scroller class.
 Scroll to position or element using custom speeds and easings.</div>
@@ -46,18 +46,73 @@ Scroll to position or element using custom speeds and easings.</div>
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Scroller"><span class="type-signature"></span>new Scroller<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    <h4 class="name" id="Scroller"><span class="type-signature"></span>new Scroller<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    
 
     
 
 
 
+<div class="description">
+    Constructor.
+</div>
 
 
 
 
 
 
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Overwrite the default options.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -93,7 +148,7 @@ Scroll to position or element using custom speeds and easings.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line280">line 280</a>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line282">line 282</a>
     </li></ul></dd>
     
 
@@ -119,6 +174,8 @@ Scroll to position or element using custom speeds and easings.</div>
 
 
 
+
+
     
     </div>
 
@@ -128,12 +185,848 @@ Scroll to position or element using custom speeds and easings.</div>
 
     
 
-     
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".defaultOptions"><span class="type-signature">(static) </span>defaultOptions<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    Default scroller options.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rootElement</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    [document.documentElement,
+                
+                </td>
+            
+
+            <td class="description last">document.body] - Target root element(s).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>speed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    1000
+                
+                </td>
+            
+
+            <td class="description last">Scrolling speed (pixels per second).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>easing</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    'easeOutSine'
+                
+                </td>
+            
+
+            <td class="description last"><a href="https://github.com/danro/easing-js/blob/master/easing.js">Easing equation</a>.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offsetX</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Offset that is taken away from target x position (e.g. for a fixed sidebar width).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offsetY</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Offset that is taken away from target y position (e.g. for a fixed header height).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minScrollTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    0.1
+                
+                </td>
+            
+
+            <td class="description last">Minimum scrolling time.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxScrollTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    0.8
+                
+                </td>
+            
+
+            <td class="description last">Maximum scrolling time.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
 
     
 
     
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line405">line 405</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".defaultToOptions"><span class="type-signature">(static) </span>defaultToOptions<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    Default options for scrolling to methods.
+These will extend the default options.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Target position on x axis.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Target position on y axis.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Callback to execute when scrolling has finished.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line424">line 424</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="to"><span class="type-signature"></span>to<span class="signature">(options)</span><span class="type-signature"> &rarr; {module:base/utils/dom~Scroller}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Scroll to a target position.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Overwrite the default to options.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line320">line 320</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">module:base/utils/dom~Scroller</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="toElement"><span class="type-signature"></span>toElement<span class="signature">(element, options)</span><span class="type-signature"> &rarr; {module:base/utils/dom~Scroller}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Scroll to given element.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Target element.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Overwrite the default to options.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_dom.js.html">utils/dom.js</a>, <a href="utils_dom.js.html#line302">line 302</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">module:base/utils/dom~Scroller</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
     
 
     
@@ -149,13 +1042,13 @@ Scroll to position or element using custom speeds and easings.</div>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_features-Feature.Feature.html">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li><li><a href="module-base_utils_dom-Scroller.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom-Sheet.Sheet.html">Sheet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_object.html">base/utils/object</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Oct 11 2017 10:43:13 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 22 2017 11:18:09 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
