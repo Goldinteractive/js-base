@@ -20,7 +20,7 @@ export var features = {}
  * Default initialization options.
  *
  * @type {Object}
- * @property {Boolean} ustChildNodes=false
+ * @property {Boolean} justChildNodes=false
  *   Set to true if you don't want to initialize the features of the container node.
  */
 export var defaultInitOptions = {
@@ -31,7 +31,7 @@ export var defaultInitOptions = {
  * Default destroy options.
  *
  * @type {Object}
- * @property {Boolean} ustChildNodes=false
+ * @property {Boolean} justChildNodes=false
  *   Set to true if you don't want to destroy the features of the container node.
  */
 export var defaultDestroyOptions = {

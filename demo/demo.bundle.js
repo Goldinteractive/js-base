@@ -2624,7 +2624,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * Default initialization options.
    *
    * @type {Object}
-   * @property {Boolean} ustChildNodes=false
+   * @property {Boolean} justChildNodes=false
    *   Set to true if you don't want to initialize the features of the container node.
    */
   var defaultInitOptions = exports.defaultInitOptions = {
@@ -2634,7 +2634,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      * Default destroy options.
      *
      * @type {Object}
-     * @property {Boolean} ustChildNodes=false
+     * @property {Boolean} justChildNodes=false
      *   Set to true if you don't want to destroy the features of the container node.
      */
   };var defaultDestroyOptions = exports.defaultDestroyOptions = {
