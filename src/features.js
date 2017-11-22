@@ -24,7 +24,7 @@ export var features = {}
  *   Set to true if you don't want to initialize the features of the container node.
  */
 export var defaultInitOptions = {
-  justChildNodes: true
+  justChildNodes: false
 }
 
 /**
@@ -35,7 +35,7 @@ export var defaultInitOptions = {
  *   Set to true if you don't want to destroy the features of the container node.
  */
 export var defaultDestroyOptions = {
-  justChildNodes: true
+  justChildNodes: false
 }
 
 /**
@@ -498,9 +498,6 @@ export class Feature {
 
     // remove all events from global event hub
     this.offAllHub()
-
-    // destroy all features inside
-    destroy(this._node)
 
     // remove feature instance from node
     this._node._baseFeatureInstances[name] = null

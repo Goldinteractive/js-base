@@ -2468,6 +2468,26 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     content: 'Hello World!'
   };
 
+  var Body = function (_base$features$Featur2) {
+    _inherits(Body, _base$features$Featur2);
+
+    function Body() {
+      _classCallCheck(this, Body);
+
+      return _possibleConstructorReturn(this, (Body.__proto__ || Object.getPrototypeOf(Body)).apply(this, arguments));
+    }
+
+    _createClass(Body, [{
+      key: 'init',
+      value: function init() {
+        console.log('body');
+      }
+    }]);
+
+    return Body;
+  }(base.features.Feature);
+
+  base.features.add('body', Body);
   base.features.add('test', Test, { content: 'Hello <b>You</b>!' });
   base.features.init();
 
@@ -2563,9 +2583,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.Feature = exports.destroy = exports.defaultDestroyOptions = exports.defaultInitOptions = exports.features = undefined;
+  exports.Feature = exports.defaultDestroyOptions = exports.defaultInitOptions = exports.features = undefined;
   exports.reinit = reinit;
   exports.init = init;
+  exports.destroy = destroy;
   exports.add = add;
   exports.getInstancesByNode = getInstancesByNode;
   exports.getInstanceByNode = getInstanceByNode;
@@ -2628,7 +2649,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    *   Set to true if you don't want to initialize the features of the container node.
    */
   var defaultInitOptions = exports.defaultInitOptions = {
-    justChildNodes: true
+    justChildNodes: false
 
     /**
      * Default destroy options.
@@ -2638,7 +2659,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      *   Set to true if you don't want to destroy the features of the container node.
      */
   };var defaultDestroyOptions = exports.defaultDestroyOptions = {
-    justChildNodes: true
+    justChildNodes: false
 
     /**
      * Reinitializes features.
@@ -2653,7 +2674,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
     var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-    _destroy(container, name);
+    destroy(container, name);
     init(container, name);
   }
 
@@ -2754,7 +2775,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * @param {Object} [options={}]
    *   Further destroy options to overwrite the [default ones]{@link module:base/features.defaultDestroyOptions}.
    */
-  function _destroy() {
+  function destroy() {
     var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
     var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
@@ -2810,7 +2831,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
    * @param {Object} options
    *   Any options to initialize the feature with.
    */
-  exports.destroy = _destroy;
   function add(name, featureClass) {
     var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
@@ -3167,9 +3187,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         // remove all events from global event hub
         this.offAllHub();
 
-        // destroy all features inside
-        _destroy(this._node);
-
         // remove feature instance from node
         this._node._baseFeatureInstances[name] = null;
         delete this._node._baseFeatureInstances[name];
@@ -3220,7 +3237,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      */
     Feature: Feature,
 
-    init: init, destroy: _destroy, reinit: reinit, add: add,
+    init: init, destroy: destroy, reinit: reinit, add: add,
     getInstanceByNode: getInstanceByNode,
     getInstancesByNode: getInstancesByNode,
 

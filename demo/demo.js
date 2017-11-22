@@ -46,6 +46,15 @@ Test.defaultOptions = {
   content: 'Hello World!'
 }
 
+class Body extends base.features.Feature {
+
+    init() {
+      console.log('body')
+    }
+
+}
+
+base.features.add('body', Body)
 base.features.add('test', Test, { content: 'Hello <b>You</b>!' })
 base.features.init()
 
