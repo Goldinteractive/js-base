@@ -4,15 +4,16 @@
  */
 
 import fetchJsonP from 'fetch-jsonp'
+import { stringifyQuery } from './url'
 
-export var defaultOptions = {
+export let defaultOptions = {
   credentials: 'same-origin',
   headers: {
     'http_x_requested_with': 'fetch'
   }
 }
 
-export var defaultJsonpOptions = {
+export let defaultJsonpOptions = {
   timeout: 5000,
   jsonpCallback: 'callback',
   jsonpCallbackFunction: null
@@ -22,7 +23,7 @@ export function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response
   } else {
-    var error = new Error(response.statusText)
+    let error = new Error(response.statusText)
     error.response = response
     throw error
   }
@@ -31,10 +32,10 @@ export function checkStatus(response) {
 export function url(u, opts = {}) {
   opts = Object.assign({}, defaultOptions, opts)
 
-  // TODO: implement queryParams
-  // if (opts.queryParams) {
-
-  // }
+  if (opts.queryParams) {
+    let query = stringifyQuery(opts.queryParams, opts.stringifyOptions)
+    u = `${u}${u.indexOf('?') > -1 ? '&' : '?'}${query}`
+  }
 
   return fetch(u, opts).then(checkStatus)
 }
@@ -46,10 +47,10 @@ export function json(u, opts = {}) {
 export function jsonP(u, opts = {}) {
   opts = Object.assign({}, defaultJsonpOptions, opts)
 
-  // TODO: implement queryParams
-  // if (opts.queryParams) {
-
-  // }
+  if (opts.queryParams) {
+    let query = stringifyQuery(opts.queryParams, opts.stringifyOptions)
+    u = `${u}${u.indexOf('?') > -1 ? '&' : '?'}${query}`
+  }
 
   return fetchJsonP(u, opts).then(r => r.json())
 }
@@ -59,7 +60,7 @@ export function text(u, opts = {}) {
 }
 
 export function script(u) {
-  var tag = document.createElement('script'),
+  let tag = document.createElement('script'),
     firstScriptTag = document.getElementsByTagName('script')[0]
 
   tag.src = u
