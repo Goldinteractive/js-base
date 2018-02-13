@@ -443,6 +443,11 @@ export class Feature {
     this._eventListener = {}
   }
 
+  /** Emit event to global event hub. */
+  triggerHub(event, ...args) {
+    eventHub.trigger(event, ...args)
+  }
+
   /** Add event to global event hub. */
   onHub(event, fn) {
     eventHub.on(event, fn)
