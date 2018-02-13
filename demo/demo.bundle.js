@@ -4644,20 +4644,20 @@ module.exports = function (str, opts) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(64)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(64), __webpack_require__(59)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('fetch-jsonp'));
+    factory(exports, require('fetch-jsonp'), require('./url'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.fetchJsonp);
+    factory(mod.exports, global.fetchJsonp, global.url);
     global.fetch = mod.exports;
   }
-})(this, function (exports, _fetchJsonp) {
+})(this, function (exports, _fetchJsonp, _url) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -4679,15 +4679,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     };
   }
 
+  /**
+   * Fetch module.
+   * @module base/utils/fetch
+   */
+
   var defaultOptions = exports.defaultOptions = {
     credentials: 'same-origin',
     headers: {
       'http_x_requested_with': 'fetch'
     }
-  }; /**
-      * Fetch module.
-      * @module base/utils/fetch
-      */
+  };
 
   var defaultJsonpOptions = exports.defaultJsonpOptions = {
     timeout: 5000,
@@ -4710,10 +4712,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
     opts = Object.assign({}, defaultOptions, opts);
 
-    // TODO: implement queryParams
-    // if (opts.queryParams) {
-
-    // }
+    if (opts.queryParams) {
+      var query = (0, _url.stringifyQuery)(opts.queryParams, opts.stringifyOptions);
+      u = '' + u + (u.indexOf('?') > -1 ? '&' : '?') + query;
+    }
 
     return fetch(u, opts).then(checkStatus);
   }
@@ -4731,10 +4733,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
     opts = Object.assign({}, defaultJsonpOptions, opts);
 
-    // TODO: implement queryParams
-    // if (opts.queryParams) {
-
-    // }
+    if (opts.queryParams) {
+      var query = (0, _url.stringifyQuery)(opts.queryParams, opts.stringifyOptions);
+      u = '' + u + (u.indexOf('?') > -1 ? '&' : '?') + query;
+    }
 
     return (0, _fetchJsonp2.default)(u, opts).then(function (r) {
       return r.json();
