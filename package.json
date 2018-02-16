@@ -1,14 +1,15 @@
 {
-  "name": "gi-js-base",
-  "version": "0.0.61",
+  "name": "@goldinteractive/js-base",
+  "version": "0.0.1",
   "description": "Basic javascript foundation written in ES6/2015 Vanilla JS.",
   "main": "lib/base.js",
   "jsnext:main": "src/index.js",
+  "module": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Goldinteractive/js-base.git"
   },
-  "author": "Manuel Sommerhalder",
+  "author": "Gold Interactive",
   "license": "MIT",
   "scripts": {
     "build": "make build",
