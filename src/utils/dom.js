@@ -441,6 +441,7 @@ export default {
   parents,
   children,
   style,
+  Scroller,
   scrollY,
   scrollX,
   $,
