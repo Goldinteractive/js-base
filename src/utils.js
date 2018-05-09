@@ -14,6 +14,7 @@ import object from './utils/object'
 import url from './utils/url'
 import fetch from './utils/fetch'
 import media from './utils/media'
+import clipboard from './utils/clipboard'
 
 export default {
   /** Array utility. */
@@ -37,5 +38,6 @@ export default {
   /** Fetch utility. */
   fetch,
   /** Media utility. */
-  media
+  media,
+  clipboard
 }
