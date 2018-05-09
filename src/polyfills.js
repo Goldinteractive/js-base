@@ -33,25 +33,15 @@ if (!Element.prototype.matches) {
 
 if (!Element.prototype.closest) {
   Element.prototype.closest = function(s) {
-    var el = this
-    var ancestor = this
-
-    if (!document.documentElement.contains(el)) {
-      return null
-    }
-
+    var el = this;
+    if (!document.documentElement.contains(el)) return null;
     do {
-      if (ancestor.matches(s)) {
-        return ancestor
-      }
-
-      ancestor = ancestor.parentElement
-    } while (ancestor !== null)
-
-    return null
-  }
+      if (el.matches(s)) return el;
+      el = el.parentElement || el.parentNode;
+    } while (el !== null && el.nodeType === 1);
+    return null;
+  };
 }
-
 
 /*
  * Performance polyfill.

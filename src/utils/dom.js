@@ -135,7 +135,7 @@ export function children(element, skipElement) {
  * @returns {Element[]}
  */
 export function siblings(element) {
-  return children(element.parentElement, element)
+  return children(element.parentNode, element)
 }
 
 /**
@@ -152,7 +152,7 @@ export function parent(element, match) {
   for (; parent === null
          && element
          && element !== document
-       ; element = element.parentElement
+       ; element = element.parentNode
   ) {
     if (match(element)) {
       parent = element
@@ -173,7 +173,7 @@ export function parent(element, match) {
 export function parents(element, match = null) {
   let parents = []
 
-  for (; element && element !== document; element = element.parentElement) {
+  for (; element && element !== document; element = element.parentNode) {
     if (match) {
       if (match(element)) {
         parents.push(element)
