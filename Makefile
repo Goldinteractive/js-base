@@ -10,6 +10,7 @@ CONFIG_PATH=./.config
 WEBPACK=$(NODE_MODULES)/.bin/webpack
 ESLINT=$(NODE_MODULES)/.bin/eslint
 BROWSERSYNC=$(NODE_MODULES)/.bin/browser-sync
+JSDOC=$(NODE_MODULES)/.bin/jsdoc
 
 WEBPACK_CONFIG=$(CONFIG_PATH)/webpack.js
 BROWSERSYNC_CONFIG=$(CONFIG_PATH)/browsersync.js
@@ -45,7 +46,7 @@ js-minified:
 
 jsdoc:
 	# generate js documentation
-	@ jsdoc -r \
+	@ $(JSDOC) -r \
 		-R README.md \
 		-c $(JSDOC_CONFIG) \
 		-d $(DOCS_PATH) \
