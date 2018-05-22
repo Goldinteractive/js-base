@@ -44,6 +44,9 @@ js-minified:
 		$(WEBPACK) --config $(WEBPACK_CONFIG) \
 		--progress --colors --display-error-details --env.mode=minified
 
+publish-docs:
+	@ ./publish-docs.sh
+
 jsdoc:
 	# generate js documentation
 	@ $(JSDOC) -r \
