@@ -58,5 +58,6 @@ plugins: [
 * `make dev` or `npm run dev` - Build demo of the library, run a watcher and start browser-sync.
 * `make test` or `npm run test` - Test the library.
 * `make jsdoc` - Update documentation inside the `docs` folder.
+* `make publish-docs` - Deploy the docs branch.
 * `make publish` - Publish npm package.
 
