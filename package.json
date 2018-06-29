@@ -41,7 +41,7 @@
   "browserslist": [
     "> 5%",
     "last 2 version",
-    "ie 10-11"
+    "ie 11"
   ],
   "bugs": {
     "url": "https://github.com/Goldinteractive/js-base/issues"

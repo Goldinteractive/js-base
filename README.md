@@ -50,7 +50,7 @@ plugins: [
 ### Browser compatibility
 
 * Newest two browser versions of Chrome, Firefox, Safari and Edge
-* IE 10 and above
+* IE 11 and above
 
 ### Development
 
