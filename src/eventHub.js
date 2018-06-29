@@ -9,11 +9,9 @@ import observable from 'riot-observable'
  * EventHub Class.
  */
 class EventHub {
-
   constructor() {
     observable(this)
   }
-
 }
 
 const globalEventHub = new EventHub()

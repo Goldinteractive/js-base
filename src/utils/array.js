@@ -32,20 +32,20 @@ export function random(array) {
  * @returns {Array} Cleaned array.
  */
 export function unique(array) {
-    var seen = {},
-      out = [],
-      len = array.length,
-      j = 0
+  var seen = {},
+    out = [],
+    len = array.length,
+    j = 0
 
-    for (let i = 0; i < len; i++) {
-      var item = array[i]
-      if (seen[item] !== 1) {
-        seen[item] = 1
-        out[j++] = item
-      }
+  for (let i = 0; i < len; i++) {
+    var item = array[i]
+    if (seen[item] !== 1) {
+      seen[item] = 1
+      out[j++] = item
     }
+  }
 
-    return out
+  return out
 }
 
 /**

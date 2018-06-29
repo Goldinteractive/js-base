@@ -5,7 +5,6 @@
 import 'core-js/fn/array/from'
 import 'core-js/fn/object/assign'
 
-
 /*
  * Promise polyfill.
  */
@@ -15,32 +14,31 @@ if (!window.Promise) {
   window.Promise = Promise
 }
 
-
 /*
  * Fetch polyfill (requires Promise polyfill).
  */
 import 'whatwg-fetch'
-
 
 /*
  * Element.matches and Elements.closest polyfill
  * from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
  */
 if (!Element.prototype.matches) {
-  Element.prototype.matches = Element.prototype.msMatchesSelector
-                              || Element.prototype.webkitMatchesSelector
+  Element.prototype.matches =
+    Element.prototype.msMatchesSelector ||
+    Element.prototype.webkitMatchesSelector
 }
 
 if (!Element.prototype.closest) {
   Element.prototype.closest = function(s) {
-    var el = this;
-    if (!document.documentElement.contains(el)) return null;
+    var el = this
+    if (!document.documentElement.contains(el)) return null
     do {
-      if (el.matches(s)) return el;
-      el = el.parentElement || el.parentNode;
-    } while (el !== null && el.nodeType === 1);
-    return null;
-  };
+      if (el.matches(s)) return el
+      el = el.parentElement || el.parentNode
+    } while (el !== null && el.nodeType === 1)
+    return null
+  }
 }
 
 /*
@@ -50,7 +48,7 @@ if (!Element.prototype.closest) {
  */
 
 if ('performance' in window === false) {
-    window.performance = {}
+  window.performance = {}
 }
 
 if ('now' in window.performance === false) {

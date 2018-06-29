@@ -14,7 +14,6 @@ var plugins = [
 ]
 
 module.exports = function(env = {}) {
-
   var entry = path.join(root, process.env.SOURCE_PATH, 'index.js')
   var outputPath = path.join(root, process.env.LIBRARY_PATH)
   var outputFile = libraryName + '.js'
@@ -22,22 +21,25 @@ module.exports = function(env = {}) {
   env.mode = env.mode || 'default'
 
   if (env.mode === 'minified') {
-    plugins.push(new UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: true,
-        unused: false
-      },
-      minimize: true
-    }))
+    plugins.push(
+      new UglifyJsPlugin({
+        sourceMap: true,
+        compress: {
+          warnings: true,
+          unused: false
+        },
+        minimize: true
+      })
+    )
 
-    plugins.push(new webpack.LoaderOptionsPlugin({
-      minimize: true
-    }))
+    plugins.push(
+      new webpack.LoaderOptionsPlugin({
+        minimize: true
+      })
+    )
 
     outputFile = libraryName + '.min.js'
   }
-
 
   if (env.mode == 'dev') {
     entry = path.join(root, process.env.DEV_PATH, 'demo.js')
@@ -62,10 +64,7 @@ module.exports = function(env = {}) {
       ]
     },
     resolve: {
-      modules: [
-        path.join(root, 'src'),
-        path.join(root, 'node_modules')
-      ],
+      modules: [path.join(root, 'src'), path.join(root, 'node_modules')],
       extensions: ['.js']
     },
     plugins: plugins

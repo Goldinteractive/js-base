@@ -19,7 +19,7 @@ import {
  * @returns {Boolean}
  */
 export function isArray(value) {
-    return value && value.constructor === Array
+  return value && value.constructor === Array
 }
 
 /**
@@ -126,9 +126,8 @@ export function isEmpty(value) {
  */
 export function isWritable(obj, key) {
   const descriptor = Object.getOwnPropertyDescriptor(obj, key)
-  return isUndefined(obj[key]) || descriptor && descriptor.writable
+  return isUndefined(obj[key]) || (descriptor && descriptor.writable)
 }
-
 
 export default {
   isArray,

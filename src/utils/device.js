@@ -1,4 +1,3 @@
-
 /**
  * Device module.
  * @module base/utils/device
@@ -18,7 +17,6 @@ export var primaryInput = detectIt.primaryInput
  * DeviceInfo class.
  */
 export class DeviceInfo {
-
   constructor(options) {
     this.breakpoints = options.breakpoints || {}
   }
@@ -54,7 +52,7 @@ export class DeviceInfo {
    */
   isEqual(breakpoint) {
     if (!this._breakpoints[breakpoint]) {
-      throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
+      throw new Error('Breakpoint "' + breakpoint + '" doesn\'t exist.')
     }
 
     return window.innerWidth == this._breakpoints[breakpoint]
@@ -69,7 +67,7 @@ export class DeviceInfo {
    */
   isLargerThan(breakpoint) {
     if (!this._breakpoints[breakpoint]) {
-      throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
+      throw new Error('Breakpoint "' + breakpoint + '" doesn\'t exist.')
     }
 
     return window.innerWidth > this._breakpoints[breakpoint]
@@ -84,7 +82,7 @@ export class DeviceInfo {
    */
   isSmallerThan(breakpoint) {
     if (!this._breakpoints[breakpoint]) {
-      throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
+      throw new Error('Breakpoint "' + breakpoint + '" doesn\'t exist.')
     }
 
     return window.innerWidth < this._breakpoints[breakpoint]
@@ -111,7 +109,6 @@ export class DeviceInfo {
   isSmallerThanOrEqual(breakpoint) {
     return this.isEqual(breakpoint) && this.isSmallerThan(breakpoint)
   }
-
 }
 
 export default {

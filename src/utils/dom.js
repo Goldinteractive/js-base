@@ -81,7 +81,7 @@ export function outerWidth(element) {
  */
 export function computedStyles(element, pseudoElement = null) {
   let computedStyle = {},
-      styles = {}
+    styles = {}
 
   computedStyle = window.getComputedStyle(element, pseudoElement)
 
@@ -104,7 +104,7 @@ export function computedStyles(element, pseudoElement = null) {
  * @returns {String} Computed style
  */
 export function computedStyle(element, prop, pseudoElement) {
-    return window.getComputedStyle(element, pseudoElement).getPropertyValue(prop)
+  return window.getComputedStyle(element, pseudoElement).getPropertyValue(prop)
 }
 
 /**
@@ -149,10 +149,10 @@ export function siblings(element) {
 export function parent(element, match) {
   let parent = null
 
-  for (; parent === null
-         && element
-         && element !== document
-       ; element = element.parentNode
+  for (
+    ;
+    parent === null && element && element !== document;
+    element = element.parentNode
   ) {
     if (match(element)) {
       parent = element
@@ -193,7 +193,8 @@ export function parents(element, match = null) {
  * @returns {Integer}
  */
 export function index(element) {
-  let i = 0, child = element
+  let i = 0,
+    child = element
   while ((child = child.previousElementSibling) != null) i++
   return i
 }
@@ -238,14 +239,11 @@ export function scrollX() {
   return window.pageXOffset || document.documentElement.scrollLeft
 }
 
-
-
 /**
  * Sheet class.
  * Dynamically create stylesheets.
  */
 export class Sheet {
-
   /**
    * @Constructor
    * @param {Object} options
@@ -261,7 +259,6 @@ export class Sheet {
   init() {
     document.head.appendChild(this.style)
   }
-
 }
 
 /**
@@ -274,13 +271,11 @@ Sheet.defaultOptions = {
   media: 'screen'
 }
 
-
 /**
  * Scroller class.
  * Scroll to position or element using custom speeds and easings.
  */
 export class Scroller {
-
   /**
    * Constructor.
    * @param {Object} options
@@ -321,7 +316,9 @@ export class Scroller {
     let timeX = 0
     let timeY = 0
     let currentTime = 0
-    let rootElement = isArray(this._opts.rootElement) ? this._opts.rootElement : [this._opts.rootElement]
+    let rootElement = isArray(this._opts.rootElement)
+      ? this._opts.rootElement
+      : [this._opts.rootElement]
 
     let scrollYPos = max(rootElement.map(element => element.scrollTop))
     let scrollXPos = max(rootElement.map(element => element.scrollLeft))
@@ -338,7 +335,8 @@ export class Scroller {
       timeX = Math.max(
         opts.minScrollTime,
         Math.min(
-          Math.abs(scrollXPos - scrollTargetX) / opts.speed, opts.maxScrollTime
+          Math.abs(scrollXPos - scrollTargetX) / opts.speed,
+          opts.maxScrollTime
         )
       )
     }
@@ -351,7 +349,8 @@ export class Scroller {
       timeY = Math.max(
         opts.minScrollTime,
         Math.min(
-          Math.abs(scrollYPos - scrollTargetY) / opts.speed, opts.maxScrollTime
+          Math.abs(scrollYPos - scrollTargetY) / opts.speed,
+          opts.maxScrollTime
         )
       )
     }
@@ -365,8 +364,14 @@ export class Scroller {
       let p = currentTime / time
       let t = easingEquations[opts.easing](p)
 
-      let posY = scrollTargetY !== null ? scrollYPos + ((scrollTargetY - scrollYPos) * t) : scrollYPos
-      let posX = scrollTargetX !== null ? scrollXPos + ((scrollTargetX - scrollXPos) * t) : scrollXPos
+      let posY =
+        scrollTargetY !== null
+          ? scrollYPos + (scrollTargetY - scrollYPos) * t
+          : scrollYPos
+      let posX =
+        scrollTargetX !== null
+          ? scrollXPos + (scrollTargetX - scrollXPos) * t
+          : scrollXPos
 
       if (p < 1) {
         rAF(tick)
@@ -376,8 +381,10 @@ export class Scroller {
         })
       } else {
         rootElement.forEach(element => {
-          element.scrollTop = scrollTargetY !== null ? scrollTargetY : scrollYPos
-          element.scrollLeft = scrollTargetX !== null ? scrollTargetX : scrollXPos
+          element.scrollTop =
+            scrollTargetY !== null ? scrollTargetY : scrollYPos
+          element.scrollLeft =
+            scrollTargetX !== null ? scrollTargetX : scrollXPos
         })
         if (opts.cb) opts.cb()
       }
@@ -387,7 +394,6 @@ export class Scroller {
     tick()
     return this
   }
-
 }
 
 /**
@@ -426,7 +432,6 @@ Scroller.defaultToOptions = {
   y: null,
   cb: null
 }
-
 
 export default {
   animationEndEvent,

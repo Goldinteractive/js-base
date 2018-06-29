@@ -9,10 +9,7 @@ import { transitionEndEvent } from './utils/dom'
 import eventHub from './eventHub'
 import passiveEvents from './utils/device'
 
-import {
-  ATTR_FEATURES,
-  ATTR_FEATURES_IGNORE
- } from './variables'
+import { ATTR_FEATURES, ATTR_FEATURES_IGNORE } from './variables'
 
 export var features = {}
 
@@ -89,23 +86,30 @@ export function init(container = document.body, name = null, options = {}) {
     nodes: featureNodes
   })
 
-  featureNodes.forEach((featureNode) => {
+  featureNodes.forEach(featureNode => {
     var nodeInstances = []
     var dataFeatures = featureNode.getAttribute(ATTR_FEATURES).split(',')
-    var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
+    var ignoreFeatures = (
+      featureNode.getAttribute(ATTR_FEATURES_IGNORE) || ''
+    ).split(',')
 
     dataFeatures.forEach(function(featureName) {
       featureName = featureName.trim()
       var feature = features[featureName]
 
-      if (!feature // feature has not been added yet
-          || (ignoreFeatures && ignoreFeatures.indexOf(featureName) > -1) // feature is ignored on this node
-          || (name && names.indexOf(featureName) < 0) // name is not whitelisted
-          || (featureNode._baseFeatureInstances // feature has already been initalized on this node
-              && featureNode._baseFeatureInstances[featureName])) return
+      if (
+        !feature || // feature has not been added yet
+        (ignoreFeatures && ignoreFeatures.indexOf(featureName) > -1) || // feature is ignored on this node
+        (name && names.indexOf(featureName) < 0) || // name is not whitelisted
+        (featureNode._baseFeatureInstances && // feature has already been initalized on this node
+          featureNode._baseFeatureInstances[featureName])
+      )
+        return
 
       var instance = new feature.featureClass(
-        featureName, featureNode, feature.options
+        featureName,
+        featureNode,
+        feature.options
       )
 
       instance.init()
@@ -163,16 +167,19 @@ export function destroy(container = document.body, name = null, options = {}) {
     nodes: featureNodes
   })
 
-  featureNodes.forEach((featureNode) => {
+  featureNodes.forEach(featureNode => {
     var nodeInstances = getInstancesByNode(featureNode)
-    var ignoreFeatures = (featureNode.getAttribute(ATTR_FEATURES_IGNORE) || '').split(',')
+    var ignoreFeatures = (
+      featureNode.getAttribute(ATTR_FEATURES_IGNORE) || ''
+    ).split(',')
 
     for (let featureName in nodeInstances) {
-      if (nodeInstances.hasOwnProperty(featureName)
-          && (!name || names.indexOf(featureName) > -1) // name is whitelisted
-          && (!ignoreFeatures || ignoreFeatures.indexOf(featureName) < 0) // feature is ignore on this node
-          && (featureNode._baseFeatureInstances // feature instance exists
-              && featureNode._baseFeatureInstances[featureName])
+      if (
+        nodeInstances.hasOwnProperty(featureName) &&
+        (!name || names.indexOf(featureName) > -1) && // name is whitelisted
+        (!ignoreFeatures || ignoreFeatures.indexOf(featureName) < 0) && // feature is ignore on this node
+        (featureNode._baseFeatureInstances && // feature instance exists
+          featureNode._baseFeatureInstances[featureName])
       ) {
         nodeInstances[featureName].destroy()
         nodeInstances[featureName] = null
@@ -203,7 +210,7 @@ export function destroy(container = document.body, name = null, options = {}) {
  */
 export function add(name, featureClass, options = {}) {
   if (features[name]) {
-    throw new Error('Feature "'+ name +'" has been already added!')
+    throw new Error('Feature "' + name + '" has been already added!')
   }
 
   features[name] = { featureClass, options }
@@ -251,15 +258,11 @@ export function getInstanceByNode(node, name) {
   return node._baseFeatureInstances[name] || null
 }
 
-
-
-
 /**
  * Abstract Feature class.
  * @abstract
  */
 export class Feature {
-
   /**
    * Constructor.
    *
@@ -297,13 +300,17 @@ export class Feature {
    * Return name the feature has been initialized with.
    * @returns {String}
    */
-  get name() { return this._name }
+  get name() {
+    return this._name
+  }
 
   /**
    * Return node the feature belongs to.
    * @returns {Node}
    */
-  get node() { return this._node }
+  get node() {
+    return this._node
+  }
 
   /**
    * Replaces current feature node with given one.
@@ -319,7 +326,9 @@ export class Feature {
    * Return given options the feature has been initialized with.
    * @returns {Object}
    */
-  get options() { return this._options }
+  get options() {
+    return this._options
+  }
 
   /**
    * Return first element by given selector inside the feature node.
@@ -327,7 +336,9 @@ export class Feature {
    * @param   {String} selector - CSS selector
    * @returns {Element}
    */
-  $(selector) { return this._node.querySelector(selector) }
+  $(selector) {
+    return this._node.querySelector(selector)
+  }
 
   /**
    * Return all elements by given selector inside the feature node as array.
@@ -335,7 +346,9 @@ export class Feature {
    * @param   {String} selector - CSS selector
    * @returns {Element[]}
    */
-  $$(selector) { return [...this._node.querySelectorAll(selector)] }
+  $$(selector) {
+    return [...this._node.querySelectorAll(selector)]
+  }
 
   /**
    * Add event listener to given node.
@@ -366,7 +379,7 @@ export class Feature {
       this._eventListener[type] = []
     }
 
-    this._eventListener[type].push({node, fn})
+    this._eventListener[type].push({ node, fn })
   }
 
   /**
@@ -429,10 +442,8 @@ export class Feature {
 
     for (let type in this._eventListener) {
       if (this._eventListener.hasOwnProperty(type)) {
-        this._eventListener[type].forEach((listener) => {
-          if ((!node || node == listener.node)
-              && (!fn || fn == listener.fn)
-          ) {
+        this._eventListener[type].forEach(listener => {
+          if ((!node || node == listener.node) && (!fn || fn == listener.fn)) {
             listener.node.removeEventListener(type, listener.fn)
           }
         })
@@ -471,8 +482,8 @@ export class Feature {
       })
     } else if (event) {
       this._hubEvents[event].forEach((listener, i) => {
-          eventHub.off(event, listener)
-          this._hubEvents[event].splice(i, 1)
+        eventHub.off(event, listener)
+        this._hubEvents[event].splice(i, 1)
       })
     }
   }
@@ -481,7 +492,7 @@ export class Feature {
   offAllHub() {
     for (let event in this._hubEvents) {
       if (this._hubEvents.hasOwnProperty(event)) {
-        this._hubEvents[event].forEach((listener) => {
+        this._hubEvents[event].forEach(listener => {
           eventHub.off(event, listener)
         })
       }
@@ -515,7 +526,6 @@ export class Feature {
 
     this.trigger('destroyed')
   }
-
 }
 
 Feature.defaultEventListenerOptions = {
@@ -524,7 +534,6 @@ Feature.defaultEventListenerOptions = {
   once: false
 }
 
-
 export default {
   /**
    * Feature class.
@@ -532,7 +541,10 @@ export default {
    */
   Feature,
 
-  init, destroy, reinit, add,
+  init,
+  destroy,
+  reinit,
+  add,
   getInstanceByNode,
   getInstancesByNode,
 

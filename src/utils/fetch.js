@@ -9,7 +9,7 @@ import { stringifyQuery } from './url'
 export let defaultOptions = {
   credentials: 'same-origin',
   headers: {
-    'http_x_requested_with': 'fetch'
+    http_x_requested_with: 'fetch'
   }
 }
 
@@ -70,6 +70,9 @@ export function script(u) {
 export default {
   defaultOptions,
   defaultJsonpOptions,
-  url, json, jsonP, text,
+  url,
+  json,
+  jsonP,
+  text,
   script
 }

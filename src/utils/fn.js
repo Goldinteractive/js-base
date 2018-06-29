@@ -125,13 +125,13 @@ export function once(fn, context) {
  * @see https://developer.mozilla.org/de/docs/Web/API/window/requestAnimationFrame
  */
 export var rAF = (function() {
-  return window.requestAnimationFrame
-    || function(callback) {
+  return (
+    window.requestAnimationFrame ||
+    function(callback) {
       window.setTimeout(callback, 1000 / 60)
     }
+  )
 })().bind(window)
-
-
 
 export default {
   debounce,

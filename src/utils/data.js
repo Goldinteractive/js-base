@@ -49,10 +49,14 @@ export function get(node, key) {
  */
 export function remove(node, key) {
   var cache = getAll(node)
-  if (cache) { delete cache[key] }
+  if (cache) {
+    delete cache[key]
+  }
 }
 
-
 export default {
-  getAll, get, set, remove
+  getAll,
+  get,
+  set,
+  remove
 }

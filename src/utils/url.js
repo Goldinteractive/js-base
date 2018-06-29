@@ -20,7 +20,10 @@ export const params = parseQuery()
  *
  * @returns {Object}
  */
-export function parseQuery(query = window.location.search.substring(1), options) {
+export function parseQuery(
+  query = window.location.search.substring(1),
+  options
+) {
   return qs.parse(query, options)
 }
 
