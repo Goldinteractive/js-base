@@ -3,14 +3,6 @@
  * @module base/utils/media
  */
 
-import eventHub from '../eventHub'
-
-/**
- * Flag whether youtube api has been loaded yet.
- * @var {Boolean}
- */
-export var youtubeApiLoaded = false
-
 /**
  * Check whether a media element is playing.
  *
@@ -26,9 +18,6 @@ export function isPlaying(media) {
   )
 }
 
-eventHub.on('apiReady:youtube', () => (youtubeApiLoaded = true))
-
 export default {
-  youtubeApiLoaded,
   isPlaying
 }

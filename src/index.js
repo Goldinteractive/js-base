@@ -7,7 +7,6 @@ document.documentElement.classList.remove('no-js')
 document.documentElement.classList.add('js')
 
 import './polyfills'
-import './globals'
 
 import features from './features'
 import utils from './utils'
