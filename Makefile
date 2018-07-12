@@ -21,7 +21,7 @@ LIBRARY_PATH=./lib
 DEV_PATH=./demo
 DOCS_PATH=./docs
 
-publish: jsdoc build
+publish: jsdoc build publish-docs
 	@ npm publish
 
 build: test js js-minified
