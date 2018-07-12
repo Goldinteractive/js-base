@@ -1,11 +1,16 @@
 /**
+ * Clipboard module.
+ * @module base/utils/clipboard
+ */
+
+/**
  * Copies a string to the clipboard.
  * Notice, that this operation *must* be executed upon user
  * interaction.
  * from: https://github.com/Chalarangelo/30-seconds-of-code#copytoclipboard-
  * @param {string} str - text to copy to clipboard
  */
-export const copyToClipboard = str => {
+export function copyToClipboard (str) {
   const el = document.createElement('textarea')
   el.value = str
   el.setAttribute('readonly', '')
