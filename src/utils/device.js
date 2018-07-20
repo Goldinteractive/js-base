@@ -1,3 +1,4 @@
+
 /**
  * Device module.
  * @module base/utils/device
@@ -43,6 +44,12 @@ export class DeviceInfo {
     this._breakpoints = newBreakpoints
   }
 
+  _checkWhetherBreakpointExists(breakpoint) {
+    if (!this._breakpoints[breakpoint]) {
+      throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
+    }
+  }
+
   /**
    * Check if current device width is eqal to the given breakpoint.
    *
@@ -51,9 +58,7 @@ export class DeviceInfo {
    *   `true` if device width is equal to the given breakpoint, otherwise `false`.
    */
   isEqual(breakpoint) {
-    if (!this._breakpoints[breakpoint]) {
-      throw new Error('Breakpoint "' + breakpoint + '" doesn\'t exist.')
-    }
+    this._checkWhetherBreakpointExists(breakpoint)
 
     return window.innerWidth == this._breakpoints[breakpoint]
   }
@@ -66,9 +71,7 @@ export class DeviceInfo {
    *   `true` if device width is larger than given breakpoint, otherwise `false`.
    */
   isLargerThan(breakpoint) {
-    if (!this._breakpoints[breakpoint]) {
-      throw new Error('Breakpoint "' + breakpoint + '" doesn\'t exist.')
-    }
+    this._checkWhetherBreakpointExists(breakpoint)
 
     return window.innerWidth > this._breakpoints[breakpoint]
   }
@@ -81,9 +84,7 @@ export class DeviceInfo {
    *   `true` if device width is smaller than given breakpoint, otherwise `false`.
    */
   isSmallerThan(breakpoint) {
-    if (!this._breakpoints[breakpoint]) {
-      throw new Error('Breakpoint "' + breakpoint + '" doesn\'t exist.')
-    }
+    this._checkWhetherBreakpointExists(breakpoint)
 
     return window.innerWidth < this._breakpoints[breakpoint]
   }
@@ -96,7 +97,7 @@ export class DeviceInfo {
    *   `true` if device width is equal or larger than given breakpoint, otherwise `false`.
    */
   isLargerThanOrEqual(breakpoint) {
-    return this.isEqual(breakpoint) && this.isLargerThan(breakpoint)
+    return this.isEqual(breakpoint) || this.isLargerThan(breakpoint)
   }
 
   /**
@@ -107,7 +108,7 @@ export class DeviceInfo {
    *   `true` if device width is equal or smaller than given breakpoint, otherwise `false`.
    */
   isSmallerThanOrEqual(breakpoint) {
-    return this.isEqual(breakpoint) && this.isSmallerThan(breakpoint)
+    return this.isEqual(breakpoint) || this.isSmallerThan(breakpoint)
   }
 }
 
