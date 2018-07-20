@@ -59,5 +59,14 @@ plugins: [
 * `make test` or `npm run test` - Test the library.
 * `make jsdoc` - Update documentation inside the `docs` folder.
 * `make publish-docs` - Deploy the docs branch.
-* `make publish` - Publish npm package.
+
+#### Publishing
+> Attention! A published version cannot be unpublished from npm. So make sure to test your changes before publishing.
+
+It will also publish the docs. So this doesn't have to be done manually.
+The command uses yarn publish. It is therefore not necessary to update the package version manually.
+
+Yarn will automatically update the package version and commit the changes. So before your changes before publishing a new version.
+
+`make publish` - Publish npm package.
 

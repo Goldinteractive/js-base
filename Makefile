@@ -22,7 +22,7 @@ DEV_PATH=./demo
 DOCS_PATH=./docs
 
 publish: jsdoc build publish-docs
-	@ npm publish
+	@ yarn publish --access public
 
 build: test js js-minified
 
