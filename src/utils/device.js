@@ -96,7 +96,7 @@ export class DeviceInfo {
    *   `true` if device width is equal or larger than given breakpoint, otherwise `false`.
    */
   isLargerThanOrEqual(breakpoint) {
-    return this.isEqual(breakpoint) && this.isLargerThan(breakpoint)
+    return this.isEqual(breakpoint) || this.isLargerThan(breakpoint)
   }
 
   /**
@@ -107,7 +107,7 @@ export class DeviceInfo {
    *   `true` if device width is equal or smaller than given breakpoint, otherwise `false`.
    */
   isSmallerThanOrEqual(breakpoint) {
-    return this.isEqual(breakpoint) && this.isSmallerThan(breakpoint)
+    return this.isEqual(breakpoint) || this.isSmallerThan(breakpoint)
   }
 }
 
