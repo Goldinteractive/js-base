@@ -37,16 +37,6 @@ import * as base from '@goldinteractive/js-base'
 import * as featureSystem from '@goldinteractive/js-base/src/features'
 ```
 
-or to make the module available as a variable in every module (webpack configuration):
-
-```javascript
-plugins: [
-  new webpack.ProvidePlugin({
-    base: 'gi-base'
-  })
-]
-```
-
 ### Browser compatibility
 
 * Newest two browser versions of Chrome, Firefox, Safari and Edge
@@ -61,12 +51,11 @@ plugins: [
 * `make publish-docs` - Deploy the docs branch.
 
 #### Publishing
-> Attention! A published version cannot be unpublished from npm. So make sure to test your changes before publishing.
+> Attention! A published version cannot be unpublished from npm. Be careful!
 
-It will also publish the docs. So this doesn't have to be done manually.
-The command uses yarn publish. It is therefore not necessary to update the package version manually.
+Running the publish script will build the packages and publish the docs. The command uses `yarn publish`. It is therefore not necessary to update the package version manually.
 
-Yarn will automatically update the package version and commit the changes. So before your changes before publishing a new version.
+Yarn will automatically commit the changes in `package.json`. So commit all your changes before you publish a new version.
 
 `make publish` - Publish npm package.
 
