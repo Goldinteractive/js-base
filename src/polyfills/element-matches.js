@@ -1,3 +1,8 @@
+/**
+ * element-matches module.
+ * @module base/polyfills/element-matches
+ */
+
 /*
  * Element.matches polyfill
  * from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest

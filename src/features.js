@@ -5,7 +5,6 @@
 
 import observable from 'riot-observable'
 import { isElement } from './utils/check'
-import { transitionEndEvent } from './utils/dom'
 import eventHub from './eventHub'
 import passiveEvents from './utils/device'
 

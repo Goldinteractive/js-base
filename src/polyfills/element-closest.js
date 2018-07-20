@@ -1,3 +1,8 @@
+/**
+ * element-closest module.
+ * @module base/polyfills/element-closest
+ */
+
 /*
  * Elements.closest polyfill
  * from https://developer.mozilla.org/en-US/docs/Web/API/Element/closest

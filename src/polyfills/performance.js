@@ -1,9 +1,13 @@
+/**
+ * performance module.
+ * @module base/polyfills/performance
+ */
+
 /*
  * Performance polyfill.
  * @license http://opensource.org/licenses/MIT
  * copyright Paul Irish 2015
  */
-
 if ('performance' in window === false) {
   window.performance = {}
 }

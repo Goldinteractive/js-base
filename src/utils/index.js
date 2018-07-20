@@ -3,18 +3,18 @@
  * @module base/utils
  */
 
-import array from './utils/array'
-import check from './utils/check'
-import dom from './utils/dom'
-import data from './utils/data'
-import device from './utils/device'
-import fn from './utils/fn'
-import string from './utils/string'
-import object from './utils/object'
-import url from './utils/url'
-import fetch from './utils/fetch'
-import media from './utils/media'
-import clipboard from './utils/clipboard'
+import array from './array'
+import check from './check'
+import dom from './dom'
+import data from './data'
+import device from './device'
+import fn from './fn'
+import string from './string'
+import object from './object'
+import url from './url'
+import fetch from './fetch'
+import media from './media'
+import clipboard from './clipboard'
 
 export default {
   /** Array utility. */

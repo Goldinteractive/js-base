@@ -1,3 +1,8 @@
+/**
+ * promise module.
+ * @module base/polyfills/promise
+ */
+
 /*
  * Promise polyfill.
  */
