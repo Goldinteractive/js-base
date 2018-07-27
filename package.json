@@ -1,6 +1,6 @@
 {
   "name": "@goldinteractive/js-base",
-  "version": "0.0.8-alpha.1",
+  "version": "0.0.8-alpha.2",
   "description": "Basic javascript foundation written in ES6/2015 Vanilla JS.",
   "main": "lib/base.js",
   "jsnext:main": "src/index.js",
