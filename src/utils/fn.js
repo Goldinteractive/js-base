@@ -98,6 +98,16 @@ export function throttle(func, wait = 60) {
 }
 
 /**
+ * Returns undefined irrespective of the arguments passed to it.
+ *
+ * Using the noop the intent of a default callback is clear.
+ * An empty function might indicate unfinished business.
+ *
+ * @returns {undefined}
+ */
+export function noop() {}
+
+/**
  * Execute functionality just once.
  *
  * @param  {Function} fn - Function to execute just once.
@@ -136,6 +146,7 @@ export var rAF = (function() {
 export default {
   debounce,
   throttle,
+  noop,
   once,
   rAF
 }
