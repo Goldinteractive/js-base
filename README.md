@@ -1,5 +1,7 @@
 ## Base Javascript (Beta)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/e27773e01724253127fe/maintainability)](https://codeclimate.com/github/Goldinteractive/js-base/maintainability)
+
 Basic javascript foundation written in ES6/2015 Vanilla JS.
 
 * `features`: Feature management system
