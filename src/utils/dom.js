@@ -4,7 +4,6 @@
  */
 
 import * as easingEquations from 'easing-js/easing'
-import { rAF } from './fn'
 import { pxToInt } from './string'
 import { max } from './array'
 import { isArray } from './check'
@@ -374,7 +373,7 @@ export class Scroller {
           : scrollXPos
 
       if (p < 1) {
-        rAF(tick)
+        requestAnimationFrame(tick)
         rootElement.forEach(element => {
           element.scrollTop = posY
           element.scrollLeft = posX
