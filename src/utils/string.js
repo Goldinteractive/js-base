@@ -3,8 +3,6 @@
  * @module base/utils/string
  */
 
-import camelCase from 'camel-case'
-
 /**
  * Convert px value to number.
  *
@@ -42,7 +40,6 @@ export function startsWith(str, value) {
 }
 
 export default {
-  camelCase,
   pad,
   pxToInt,
   startsWith
