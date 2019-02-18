@@ -1,5 +1,8 @@
 {
   "source": {
     "excludePattern": ""
+  },
+  "opts": {
+    "template": "node_modules/better-docs"
   }
 }
