@@ -45,7 +45,7 @@
   },
   "browserslist": [
     "> 5%",
-    "last 2 version",
+    "last 2 versions",
     "ie 11"
   ],
   "bugs": {
