@@ -5,6 +5,10 @@
   "main": "lib/base.js",
   "jsnext:main": "src/index.js",
   "module": "src/index.js",
+  "sideEffects": [
+    "./src/init-dom.js",
+    "./src/polyfills/*.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Goldinteractive/js-base.git"
