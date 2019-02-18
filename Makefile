@@ -13,7 +13,7 @@ SOURCE_PATH=./src
 LIBRARY_PATH=./lib
 DOCS_PATH=./docs
 
-publish: jsdoc build publish-docs
+publish: docs build publish-docs
 	@ yarn publish --access public
 
 build: test js js-minified

@@ -2,7 +2,7 @@
 set -e # exit with nonzero exit code if anything fails
 
 # run our compile script
-make jsdoc
+make docs
 
 # go to the out directory and create a *new* Git repo
 cd docs
