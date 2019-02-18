@@ -1,6 +1,3 @@
-# Import the environment variables
--include .env
-
 LIBRARY_NAME=base
 
 NODE_MODULES=./node_modules
@@ -9,11 +6,9 @@ CONFIG_PATH=./.config
 
 WEBPACK=$(NODE_MODULES)/.bin/webpack
 ESLINT=$(NODE_MODULES)/.bin/eslint
-BROWSERSYNC=$(NODE_MODULES)/.bin/browser-sync
 JSDOC=$(NODE_MODULES)/.bin/jsdoc
 
 WEBPACK_CONFIG=$(CONFIG_PATH)/webpack.js
-BROWSERSYNC_CONFIG=$(CONFIG_PATH)/browsersync.js
 JSDOC_CONFIG=$(CONFIG_PATH)/jsdoc.json
 
 SOURCE_PATH=./src
