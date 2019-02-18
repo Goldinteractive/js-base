@@ -10,7 +10,6 @@ import data from './data'
 import device from './device'
 import fn from './fn'
 import string from './string'
-import object from './object'
 import url from './url'
 import fetch from './fetch'
 import media from './media'
@@ -31,8 +30,6 @@ export default {
   fn,
   /** String utility. */
   string,
-  /** Object utility. */
-  object,
   /** URL utility. */
   url,
   /** Fetch utility. */
