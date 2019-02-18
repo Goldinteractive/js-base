@@ -1,5 +1,3 @@
-LIBRARY_NAME=base
-
 NODE_MODULES=./node_modules
 SCRIPTS_PATH=./.tasks
 CONFIG_PATH=./.config
@@ -13,7 +11,6 @@ JSDOC_CONFIG=$(CONFIG_PATH)/jsdoc.json
 
 SOURCE_PATH=./src
 LIBRARY_PATH=./lib
-DEV_PATH=./demo
 DOCS_PATH=./docs
 
 publish: jsdoc build publish-docs
@@ -26,49 +23,24 @@ test:
 	@ $(ESLINT) $(SOURCE_PATH)
 
 js:
-	@ LIBRARY_NAME=$(LIBRARY_NAME) \
-		LIBRARY_PATH=$(LIBRARY_PATH) \
+	@ LIBRARY_PATH=$(LIBRARY_PATH) \
 		SOURCE_PATH=$(SOURCE_PATH) \
 		$(WEBPACK) --config $(WEBPACK_CONFIG) \
 		--progress --colors --display-error-details
 
 js-minified:
-	@ LIBRARY_NAME=$(LIBRARY_NAME) \
-		LIBRARY_PATH=$(LIBRARY_PATH) \
+	@ LIBRARY_PATH=$(LIBRARY_PATH) \
 		SOURCE_PATH=$(SOURCE_PATH) \
 		$(WEBPACK) --config $(WEBPACK_CONFIG) \
-		--progress --colors --display-error-details --env.mode=minified
+		--progress --colors --display-error-details --env.mode=production
 
 publish-docs:
 	@ ./publish-docs.sh
 
-jsdoc:
+docs:
 	# generate js documentation
 	@ $(JSDOC) -r \
 		-R README.md \
 		-c $(JSDOC_CONFIG) \
 		-d $(DOCS_PATH) \
 		$(SOURCE_PATH)
-
-dev:
-	@ $(SCRIPTS_PATH)/utils/parallel \
-		"make dev-sync" \
-		"make dev-js"
-
-dev-sync:
-	# starting browser sync server for demo
-	@ DEV_PATH=$(DEV_PATH) \
-		BROWSER=$(BROWSERSYNC_BROWSER) \
-		PORT=$(BROWSERSYNC_PORT) \
-		$(BROWSERSYNC) start \
-		--config $(BROWSERSYNC_CONFIG)
-
-dev-js:
-	# watch demo js
-	@ LIBRARY_NAME=$(LIBRARY_NAME) \
-		LIBRARY_PATH=$(LIBRARY_PATH) \
-		SOURCE_PATH=$(SOURCE_PATH) \
-		DEV_PATH=$(DEV_PATH) \
-		DEV_JS_PATH=$(DEV_JS_PATH) \
-		$(WEBPACK) --config $(WEBPACK_CONFIG) \
-		--progress --colors --watch --display-error-details --env.mode=dev
