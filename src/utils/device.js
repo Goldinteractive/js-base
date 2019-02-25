@@ -51,7 +51,7 @@ export class DeviceInfo {
   }
 
   /**
-   * Check if current device width is eqal to the given breakpoint.
+   * Check if current device width is equal to the given breakpoint.
    *
    * @param   {String} breakpoint - Breakpoint to check.
    * @returns {Boolean}
