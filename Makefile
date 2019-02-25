@@ -1,5 +1,4 @@
 NODE_MODULES=./node_modules
-SCRIPTS_PATH=./.tasks
 CONFIG_PATH=./.config
 
 WEBPACK=$(NODE_MODULES)/.bin/webpack
