@@ -2,7 +2,6 @@ NODE_MODULES=./node_modules
 CONFIG_PATH=./.config
 
 WEBPACK=$(NODE_MODULES)/.bin/webpack
-ESLINT=$(NODE_MODULES)/.bin/eslint
 JSDOC=$(NODE_MODULES)/.bin/jsdoc
 
 WEBPACK_CONFIG=$(CONFIG_PATH)/webpack.js
