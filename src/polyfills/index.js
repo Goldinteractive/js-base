@@ -12,5 +12,3 @@ import './fetch'
 
 import './element-matches'
 import './element-closest'
-
-import './performance'
