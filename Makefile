@@ -19,8 +19,7 @@ publish: docs build publish-docs
 build: test js js-minified
 
 test:
-	# check source with eslint
-	@ $(ESLINT) $(SOURCE_PATH)
+	@ yarn test
 
 js:
 	@ LIBRARY_PATH=$(LIBRARY_PATH) \
