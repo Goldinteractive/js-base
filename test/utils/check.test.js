@@ -1,4 +1,4 @@
-import { isNumeric, isElement } from 'utils/check'
+import { isNumeric, isElement, isEmpty } from 'utils/check'
 
 describe('isNumeric', () => {
   test('checks type', () => {
@@ -44,5 +44,21 @@ describe('isElement', () => {
 
   test('detects null', () => {
     expect(isElement(null)).toBeFalsy()
+  })
+})
+
+describe('isEmpty', () => {
+  test('detects empty', () => {
+    expect(isEmpty({})).toBeTruthy()
+    expect(isEmpty('')).toBeTruthy()
+    expect(isEmpty(undefined)).toBeTruthy()
+    expect(isEmpty(null)).toBeTruthy()
+    expect(isEmpty(false)).toBeTruthy()
+    expect(isEmpty(0)).toBeTruthy()
+    expect(isEmpty('0')).toBeTruthy()
+  })
+  test('detects nonempty', () => {
+    expect(isEmpty({ code: true })).toBeFalsy()
+    expect(isEmpty('a')).toBeFalsy()
   })
 })
