@@ -26,7 +26,7 @@ export function random(array) {
 }
 
 /**
- * Remove dublicates from array.
+ * Remove duplicates from array.
  *
  * @param   {Array} array - Target array.
  * @returns {Array} Cleaned array.
