@@ -84,7 +84,10 @@ export function isElement(value) {
     return false
   }
 
-  return value.nodeType === 1 || value.nodeType === 9
+  return (
+    value.nodeType === Node.ELEMENT_NODE ||
+    value.nodeType === Node.DOCUMENT_NODE
+  )
 }
 
 /**
