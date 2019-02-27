@@ -1,4 +1,4 @@
-import { isNumeric } from 'utils/check'
+import { isNumeric, isElement } from 'utils/check'
 
 describe('isNumeric', () => {
   test('checks type', () => {
@@ -24,5 +24,25 @@ describe('isNumeric', () => {
   })
   test('checks big number', () => {
     expect(isNumeric(9999999999999999)).toBeTruthy()
+  })
+})
+
+describe('isElement', () => {
+  test('detects element', () => {
+    const $a = document.createElement('p')
+    expect(isElement($a)).toBeTruthy()
+  })
+
+  test('detects comments', () => {
+    const $a = document.createComment('Comment Test')
+    expect(isElement($a)).toBeFalsy()
+  })
+
+  test('detects any other object', () => {
+    expect(isElement({})).toBeFalsy()
+  })
+
+  test('detects null', () => {
+    expect(isElement(null)).toBeFalsy()
   })
 })
