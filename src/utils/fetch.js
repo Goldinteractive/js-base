@@ -29,15 +29,18 @@ export function checkStatus(response) {
   }
 }
 
+function parseQueryParams(u, opts) {
+  if (opts.queryParams) {
+    let query = stringifyQuery(opts.queryParams, opts.stringifyOptions)
+    return `${u}${u.indexOf('?') > -1 ? '&' : '?'}${query}`
+  }
+  return u
+}
+
 export function url(u, opts = {}) {
   opts = Object.assign({}, defaultOptions, opts)
 
-  if (opts.queryParams) {
-    let query = stringifyQuery(opts.queryParams, opts.stringifyOptions)
-    u = `${u}${u.indexOf('?') > -1 ? '&' : '?'}${query}`
-  }
-
-  return fetch(u, opts).then(checkStatus)
+  return fetch(parseQueryParams(u, opts), opts).then(checkStatus)
 }
 
 export function json(u, opts = {}) {
@@ -47,12 +50,7 @@ export function json(u, opts = {}) {
 export function jsonP(u, opts = {}) {
   opts = Object.assign({}, defaultJsonpOptions, opts)
 
-  if (opts.queryParams) {
-    let query = stringifyQuery(opts.queryParams, opts.stringifyOptions)
-    u = `${u}${u.indexOf('?') > -1 ? '&' : '?'}${query}`
-  }
-
-  return fetchJsonP(u, opts).then(r => r.json())
+  return fetchJsonP(parseQueryParams(u, opts), opts).then(r => r.json())
 }
 
 export function text(u, opts = {}) {
