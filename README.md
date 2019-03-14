@@ -1,4 +1,4 @@
-## Base Javascript (Beta)
+## Base Javascript
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/e27773e01724253127fe/maintainability)](https://codeclimate.com/github/Goldinteractive/js-base/maintainability)
 
