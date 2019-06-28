@@ -313,7 +313,7 @@ export class Feature {
 
   /**
    * Replaces current feature node with given one.
-   * @param {Node} node - Replacement ndoe.
+   * @param {Node} node - Replacement node.
    */
   replaceNode(node) {
     var replacedNode = this._node.parentElement.replaceChild(node, this._node)
