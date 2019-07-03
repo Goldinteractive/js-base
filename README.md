@@ -2,11 +2,13 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/e27773e01724253127fe/maintainability)](https://codeclimate.com/github/Goldinteractive/js-base/maintainability)
 
-Basic javascript foundation written in ES6/2015 Vanilla JS.
+Base JavaScript library for web projects.
 
 - `features`: Feature management system
 - `utils`: Various utilities
 - `eventHub`: Global event hub
+
+Check out the [docs](https://goldinteractive.github.io/js-base/) for more information about all the included features.
 
 ### Dependencies
 
@@ -21,13 +23,7 @@ Basic javascript foundation written in ES6/2015 Vanilla JS.
 
 ### Installation
 
-Install this package with yarn:
-
-`yarn install @goldinteractive/js-base`
-
-or with npm:
-
-`npm install @goldinteractive/js-base`
+The package is available on npm: `@goldinteractive/js-base`
 
 After the installation has completed, you can import the complete base module or also just single modules:
 
