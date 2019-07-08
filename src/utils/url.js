@@ -62,6 +62,13 @@ export function pushState(url, state = null, title = '') {
   eventHub.trigger('pushstate', state).trigger('statechange', state)
 }
 
+/**
+ * Replace state using native window.history and triggering `replacestate` event.
+ * Note that the parameter order is different from the native replaceState method.
+ * @param {String} [url] URL to set
+ * @param {Object} [state] state to set
+ * @param {String} [title=''] title of page
+ */
 export function replaceState(url, state = null, title = '') {
   window.history.replaceState(state, title, url)
   eventHub.trigger('replacestate', state).trigger('statechange', state)
