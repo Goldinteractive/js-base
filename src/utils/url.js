@@ -45,7 +45,7 @@ export function stringifyQuery(obj, options) {
  * @param   {String} [href=window.location] - URL to return the hash from.
  * @returns {String}
  */
-export function hash(href) {
+export function hash(href = undefined) {
   return (href || window.location.hash).substring(1)
 }
 
