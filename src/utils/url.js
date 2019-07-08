@@ -49,6 +49,14 @@ export function hash(href = undefined) {
   return (href || window.location.hash).substring(1)
 }
 
+/**
+ * Push state using native window.history and triggering `pushstate` event.
+ * Note that the parameter order is different from the native pushState method.
+ *
+ * @param {String} url URL to set
+ * @param {Object} [state] state to set
+ * @param {String} [title=''] title of page
+ */
 export function pushState(url, state = null, title = '') {
   window.history.pushState(state, title, url)
   eventHub.trigger('pushstate', state).trigger('statechange', state)
