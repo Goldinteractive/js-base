@@ -105,11 +105,11 @@ export function sum(array) {
 /**
  * Return average from given array.
  *
- * @param   {Number[]} array
+ * @param   {Number[]} array array to check
  * @returns {Number} Average of given array.
  */
 export function avg(array) {
-  var arraySum = sum(array)
+  const arraySum = sum(array)
   return arraySum / array.length
 }
 
