@@ -11,12 +11,12 @@ SOURCE_PATH=./src
 LIBRARY_PATH=./lib
 DOCS_PATH=./docs
 
+.PHONY: build
+build: test js js-minified
+
 .PHONY: publish
 publish: docs build publish-docs
 	@ yarn publish --access public
-
-.PHONY: build
-build: test js js-minified
 
 .PHONY: test
 test:
