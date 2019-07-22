@@ -8,7 +8,11 @@ import { isElement } from './utils/check'
 import eventHub from './eventHub'
 import passiveEvents from './utils/device'
 
-import { ATTR_FEATURES, ATTR_FEATURES_IGNORE } from './variables'
+import {
+  ATTR_FEATURES_SEPARATOR,
+  ATTR_FEATURES,
+  ATTR_FEATURES_IGNORE
+} from './variables'
 
 export var features = {}
 
@@ -72,7 +76,7 @@ export function init(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultInitOptions, options)
 
   var instances = []
-  var names = name ? name.split(',') : null
+  var names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
   var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
   if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
@@ -87,10 +91,12 @@ export function init(container = document.body, name = null, options = {}) {
 
   featureNodes.forEach(featureNode => {
     var nodeInstances = []
-    var dataFeatures = featureNode.getAttribute(ATTR_FEATURES).split(',')
+    var dataFeatures = featureNode
+      .getAttribute(ATTR_FEATURES)
+      .split(ATTR_FEATURES_SEPARATOR)
     var ignoreFeatures = (
       featureNode.getAttribute(ATTR_FEATURES_IGNORE) || ''
-    ).split(',')
+    ).split(ATTR_FEATURES_SEPARATOR)
 
     dataFeatures.forEach(function(featureName) {
       featureName = featureName.trim()
@@ -153,7 +159,7 @@ export function init(container = document.body, name = null, options = {}) {
 export function destroy(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultDestroyOptions, options)
 
-  var names = name ? name.split(',') : null
+  var names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
   var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
   if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
@@ -170,7 +176,7 @@ export function destroy(container = document.body, name = null, options = {}) {
     var nodeInstances = getInstancesByNode(featureNode)
     var ignoreFeatures = (
       featureNode.getAttribute(ATTR_FEATURES_IGNORE) || ''
-    ).split(',')
+    ).split(ATTR_FEATURES_SEPARATOR)
 
     for (let featureName in nodeInstances) {
       if (
