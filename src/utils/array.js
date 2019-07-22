@@ -26,21 +26,21 @@ export function random(array) {
 }
 
 /**
- * Remove duplicates from array.
+ * Remove duplicates from array using a reference comparison.
  *
  * @param   {Array} array - Target array.
  * @returns {Array} Cleaned array.
  */
 export function unique(array) {
-  var seen = {},
+  const seen = new Map(),
     out = [],
-    len = array.length,
-    j = 0
+    len = array.length
+  let j = 0
 
   for (let i = 0; i < len; i++) {
-    var item = array[i]
-    if (seen[item] !== 1) {
-      seen[item] = 1
+    const item = array[i]
+    if (seen.get(item) !== true) {
+      seen.set(item, true)
       out[j++] = item
     }
   }
