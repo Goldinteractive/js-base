@@ -454,12 +454,20 @@ export class Feature {
     this._eventListener = {}
   }
 
-  /** Emit event to global event hub. */
+  /**
+   * Emit event to global event hub.
+   * @param {string} event name
+   * @param  {...any} args arguments to pass to event hub
+   */
   triggerHub(event, ...args) {
     eventHub.trigger(event, ...args)
   }
 
-  /** Add event to global event hub. */
+  /**
+   * Add event to global event hub.
+   * @param {string} event name
+   * @param {function} fn function to call
+   */
   onHub(event, fn) {
     eventHub.on(event, fn)
 
@@ -470,7 +478,11 @@ export class Feature {
     this._hubEvents[event].push(fn)
   }
 
-  /** Remove event from global event hub. */
+  /**
+   * Remove event from global event hub.
+   * @param {string} event name
+   * @param {function} fn function to remove
+   */
   offHub(event, fn = null) {
     if (event && fn) {
       eventHub.off(event, fn)
@@ -488,7 +500,9 @@ export class Feature {
     }
   }
 
-  /** Remove all events from global event hub added by this feature. */
+  /**
+   * Remove all events from global event hub added by this feature.
+   */
   offAllHub() {
     for (let event in this._hubEvents) {
       if (this._hubEvents.hasOwnProperty(event)) {
@@ -502,10 +516,14 @@ export class Feature {
     this._hubEvents = {}
   }
 
-  /** Initialize feature. */
+  /**
+   * Initialize feature instance.
+   */
   init() {}
 
-  /** Destroy feature. */
+  /**
+   * Destroy feature instance.
+   */
   destroy() {
     this.trigger('destroy')
 
