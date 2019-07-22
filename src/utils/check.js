@@ -13,16 +13,6 @@ import {
 } from './../variables'
 
 /**
- * Check if given value is array.
- *
- * @param   {*} value - Value to check.
- * @returns {Boolean}
- */
-export function isArray(value) {
-  return value && value.constructor === Array
-}
-
-/**
  * Check if given value is string.
  *
  * @param   {*} value - Value to check.
@@ -133,7 +123,6 @@ export function isWritable(obj, key) {
 }
 
 export default {
-  isArray,
   isString,
   isUndefined,
   isFunction,

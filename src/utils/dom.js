@@ -6,7 +6,6 @@
 import * as easingEquations from 'easing-js/easing'
 import { pxToInt } from './string'
 import { max } from './array'
-import { isArray } from './check'
 
 /**
  * Name of the animationend event.
@@ -315,7 +314,7 @@ export class Scroller {
     let timeX = 0
     let timeY = 0
     let currentTime = 0
-    let rootElement = isArray(this._opts.rootElement)
+    let rootElement = Array.isArray(this._opts.rootElement)
       ? this._opts.rootElement
       : [this._opts.rootElement]
 
