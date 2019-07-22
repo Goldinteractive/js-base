@@ -9,7 +9,7 @@ import {
   T_OBJECT,
   T_NUMBER,
   T_FUNCTION,
-  CHECK_EMPTY
+  EMPTY_DEFINITIONS
 } from './../variables'
 
 /**
@@ -88,8 +88,8 @@ export function isElement(value) {
  */
 export function isEmpty(value) {
   // compare value with values considered as empty
-  for (let i = 0, len = CHECK_EMPTY.length; i < len; i++) {
-    if (value === CHECK_EMPTY[i]) {
+  for (let i = 0, len = EMPTY_DEFINITIONS.length; i < len; i++) {
+    if (value === EMPTY_DEFINITIONS[i]) {
       return true
     }
   }
