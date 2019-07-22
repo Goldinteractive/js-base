@@ -43,7 +43,7 @@ import * as featureSystem from '@goldinteractive/js-base/src/features'
 ### Development
 
 - `make build` - Build production version of the library.
-- `make test` - Run Jest tests.
+- `make test` - Run Jest unit tests.
 - `make docs` - Update documentation inside the `docs` folder.
 - `make publish-docs` - Deploy the docs branch.
 
