@@ -14,7 +14,7 @@ import {
   ATTR_FEATURES_IGNORE
 } from './variables'
 
-export var features = {}
+export const features = {}
 
 /**
  * Default initialization options.
@@ -23,7 +23,7 @@ export var features = {}
  * @property {Boolean} justChildNodes=false
  *   Set to true if you don't want to initialize the features of the container node.
  */
-export var defaultInitOptions = {
+export const defaultInitOptions = {
   justChildNodes: false
 }
 
@@ -34,7 +34,7 @@ export var defaultInitOptions = {
  * @property {Boolean} justChildNodes=false
  *   Set to true if you don't want to destroy the features of the container node.
  */
-export var defaultDestroyOptions = {
+export const defaultDestroyOptions = {
   justChildNodes: false
 }
 
@@ -75,9 +75,9 @@ export function reinit(container = document.body, name = null) {
 export function init(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultInitOptions, options)
 
-  var instances = []
-  var names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
-  var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
+  const instances = []
+  const names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
+  const featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
   if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
     featureNodes.push(container)
@@ -90,17 +90,17 @@ export function init(container = document.body, name = null, options = {}) {
   })
 
   featureNodes.forEach(featureNode => {
-    var nodeInstances = []
-    var dataFeatures = featureNode
+    const nodeInstances = []
+    const dataFeatures = featureNode
       .getAttribute(ATTR_FEATURES)
       .split(ATTR_FEATURES_SEPARATOR)
-    var ignoreFeatures = (
+    const ignoreFeatures = (
       featureNode.getAttribute(ATTR_FEATURES_IGNORE) || ''
     ).split(ATTR_FEATURES_SEPARATOR)
 
     dataFeatures.forEach(function(featureName) {
       featureName = featureName.trim()
-      var feature = features[featureName]
+      const feature = features[featureName]
 
       if (
         !feature || // feature has not been added yet
@@ -111,7 +111,7 @@ export function init(container = document.body, name = null, options = {}) {
       )
         return
 
-      var instance = new feature.featureClass(
+      const instance = new feature.featureClass(
         featureName,
         featureNode,
         feature.options
@@ -159,8 +159,8 @@ export function init(container = document.body, name = null, options = {}) {
 export function destroy(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultDestroyOptions, options)
 
-  var names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
-  var featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
+  const names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
+  const featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
   if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
     featureNodes.push(container)
@@ -173,8 +173,8 @@ export function destroy(container = document.body, name = null, options = {}) {
   })
 
   featureNodes.forEach(featureNode => {
-    var nodeInstances = getInstancesByNode(featureNode)
-    var ignoreFeatures = (
+    const nodeInstances = getInstancesByNode(featureNode)
+    const ignoreFeatures = (
       featureNode.getAttribute(ATTR_FEATURES_IGNORE) || ''
     ).split(ATTR_FEATURES_SEPARATOR)
 
@@ -226,7 +226,7 @@ export function add(name, featureClass, options = {}) {
  *
  * @example
  * // get all the feature instances
- * var features = base.features.getInstancesByNode(document.getElementById('deathstar'))
+ * const features = base.features.getInstancesByNode(document.getElementById('deathstar'))
  * // do something with one of the features
  * features.deathStar.destroy()
  *
@@ -244,7 +244,7 @@ export function getInstancesByNode(node) {
  *
  * @example
  * // get feature instance
- * var deathStar = base.features.getInstancesByNode(document.getElementById('deathstar'), 'deathStar')
+ * const deathStar = base.features.getInstancesByNode(document.getElementById('deathstar'), 'deathStar')
  * // do something with the feature
  * deathStar.destroy()
  *
@@ -285,7 +285,7 @@ export class Feature {
 
     observable(this)
 
-    var defaultOptions = this.constructor.defaultOptions || {}
+    const defaultOptions = this.constructor.defaultOptions || {}
 
     this._name = name
     this._node = node
@@ -323,7 +323,7 @@ export class Feature {
    * @returns {Node}
    */
   replaceNode(node) {
-    var replacedNode = this._node.parentElement.replaceChild(node, this._node)
+    const replacedNode = this._node.parentElement.replaceChild(node, this._node)
     this._node = node
     return replacedNode
   }
@@ -366,7 +366,7 @@ export class Feature {
    */
   addEventListener(node, type, fn, options = {}) {
     if (!isElement(node) && node !== window) {
-      var currentNode = node.length
+      let currentNode = node.length
       while (currentNode--) {
         this.addEventListener(node[currentNode], type, fn, options)
       }
@@ -400,7 +400,7 @@ export class Feature {
    */
   removeEventListener(node, type = null, fn = null) {
     if (!isElement(node) && node !== window) {
-      var currentNode = node.length
+      let currentNode = node.length
       while (currentNode--) {
         this.removeEventListener(node[currentNode], type, fn)
       }
@@ -439,7 +439,7 @@ export class Feature {
    */
   removeAllEventListener(node = null, fn = null) {
     if (node && !isElement(node) && node !== window) {
-      var currentNode = node.length
+      let currentNode = node.length
       while (currentNode--) {
         this.removeAllEventListener(node[currentNode], fn)
       }
