@@ -47,6 +47,7 @@
     "promise-polyfill": "^6.0.2",
     "qs": "^6.5.1",
     "riot-observable": "^3.0.0",
+    "tiny-invariant": "^1.0.6",
     "whatwg-fetch": "^2.0.3"
   },
   "browserslist": [

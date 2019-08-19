@@ -20,6 +20,7 @@ Check out the [docs](https://goldinteractive.github.io/js-base/) for more inform
 - [`detect-it`](https://github.com/rafrex/detect-it)
 - [`easing-js`](https://github.com/danro/easing-js)
 - [`qs`](https://github.com/ljharb/qs)
+- [`tiny-invariant`](https://github.com/alexreardon/tiny-invariant)
 
 ### Installation
 
