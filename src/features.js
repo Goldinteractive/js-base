@@ -3,6 +3,7 @@
  * @module base/features
  */
 
+import invariant from 'tiny-invariant'
 import observable from 'riot-observable'
 import { isElement } from './utils/check'
 import eventHub from './eventHub'
@@ -214,9 +215,8 @@ export function destroy(container = document.body, name = null, options = {}) {
  *   Any options to initialize the feature with.
  */
 export function add(name, featureClass, options = {}) {
-  if (features[name]) {
-    throw new Error('Feature "' + name + '" has been already added!')
-  }
+  const isFeatureNameAvailable = !features[name]
+  invariant(isFeatureNameAvailable, `Feature "${name}" has been already added!`)
 
   features[name] = { featureClass, options }
 }
@@ -279,9 +279,7 @@ export class Feature {
    *   Feature options which can be used for anything.
    */
   constructor(name, node, options) {
-    if (this.constructor === Feature) {
-      throw new Error("Can't instantiate abstract class!")
-    }
+    invariant(this.constructor !== Feature, "Can't instantiate abstract class!")
 
     observable(this)
 
