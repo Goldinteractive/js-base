@@ -103,11 +103,3 @@ export class DeviceInfo {
     return this.isEqual(breakpoint) || this.isSmallerThan(breakpoint)
   }
 }
-
-export default {
-  deviceType,
-  hasMouse,
-  hasTouch,
-  passiveEvents,
-  primaryInput
-}
