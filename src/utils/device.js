@@ -6,14 +6,6 @@
 
 import { pxToInt } from './string'
 
-import detectIt from 'detect-it'
-
-export var deviceType = detectIt.deviceType
-export var hasMouse = detectIt.hasMouse
-export var hasTouch = detectIt.hasTouch
-export var passiveEvents = detectIt.passiveEvents
-export var primaryInput = detectIt.primaryInput
-
 /**
  * DeviceInfo class.
  */

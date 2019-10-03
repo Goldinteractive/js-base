@@ -17,7 +17,6 @@ Check out the [docs](https://goldinteractive.github.io/js-base/) for more inform
 - [`fetch-jsonp`](https://github.com/camsong/fetch-jsonp)
 - [`core-js`](https://github.com/zloirock/core-js)
 - [`riot-observable`](https://github.com/riot/observable)
-- [`detect-it`](https://github.com/rafrex/detect-it)
 - [`easing-js`](https://github.com/danro/easing-js)
 - [`qs`](https://github.com/ljharb/qs)
 - [`tiny-invariant`](https://github.com/alexreardon/tiny-invariant)
