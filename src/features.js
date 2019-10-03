@@ -7,7 +7,7 @@ import invariant from 'tiny-invariant'
 import observable from 'riot-observable'
 import { isElement } from './utils/check'
 import eventHub from './eventHub'
-import passiveEvents from './utils/device'
+import { supportsPassiveEvents } from './utils/device'
 
 import {
   ATTR_FEATURES_SEPARATOR,
@@ -373,7 +373,7 @@ export class Feature {
 
     options = Object.assign({}, Feature.defaultEventListenerOptions, options)
 
-    if (passiveEvents) {
+    if (supportsPassiveEvents()) {
       node.addEventListener(type, fn, options)
     } else {
       node.addEventListener(type, fn, options.capture)
