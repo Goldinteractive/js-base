@@ -3,9 +3,9 @@
  * @module base/polyfills
  */
 
-import 'core-js/fn/symbol'
-import 'core-js/fn/array/from'
-import 'core-js/fn/object/assign'
+import 'core-js/features/symbol'
+import 'core-js/features/array/from'
+import 'core-js/features/object/assign'
 
 import './nodelist-iterator'
 
