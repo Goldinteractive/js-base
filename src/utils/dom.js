@@ -293,10 +293,10 @@ export class Scroller {
    * @returns {module:base/utils/dom~Scroller}
    */
   toElement(element, options = {}) {
-    let rootElement = this._opts.rootElement
+    const { top, left } = element.getBoundingClientRect()
     let opts = Object.assign(options, {
-      y: element.offsetTop,
-      x: element.offsetLeft
+      y: top + window.pageYOffset,
+      x: left + window.pageXOffset
     })
 
     return this.to(opts)
