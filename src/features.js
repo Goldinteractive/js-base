@@ -352,6 +352,39 @@ export function getInstanceByNode(node, name) {
 }
 
 /**
+ * Return array of all the features on a page
+ *
+ * @example
+ * // get features
+ * const featureList = base.features.getFeatures()
+ *
+ * @returns {Array|null}
+ */
+export function getFeatures() {
+  let features = []
+  let elements = document.querySelectorAll(`[${ATTR_FEATURES}]`)
+
+  elements.forEach((item) => {
+    let feature = item.getAttribute(ATTR_FEATURES)
+
+    if (feature.includes(ATTR_FEATURES_SEPARATOR)) {
+      let featureArray = feature.split(`${ATTR_FEATURES_SEPARATOR} `)
+      featureArray.forEach((f) => {
+        if (!features.includes(f)) {
+          features.push(f)
+        }
+      })
+    } else {
+      if (!features.includes(feature)) {
+        features.push(feature)
+      }
+    }
+  })
+
+  return features
+}
+
+/**
  * Abstract Feature class.
  * @abstract
  */
