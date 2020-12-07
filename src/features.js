@@ -54,6 +54,57 @@ export function reinit(container = document.body, name = null) {
 }
 
 /**
+ * Lazyloads features.
+ *
+ * @param {Object} [bundles={}]
+ *  Object containing all the feature-bundles
+ * @param {String} [assetPath=null]
+ */
+export function lazyload(bundles = {}, assetPath = null) {
+  if (!bundles || !assetPath) {
+    console.warn('Cannot lazyload features without a bundles file or a path!')
+    return
+  }
+
+  let loaded = {}
+  let loading = {}
+  let optimizedFeatureBundles = {}
+  let bundlesToLoad = []
+  let features = getFeatures()
+
+  for (const key of Object.entries(bundles)) {
+    loaded[key] = key === FEATURES_MAIN_BUNDLE ? true : false
+    loading[key] = false
+    bundles[key].forEach((item) => {
+      optimizedFeatureBundles[item] = key
+    })
+  }
+
+  features.forEach((feature) => {
+    let bundle = optimizedFeatureBundles[feature]
+    if (!optimizedFeatureBundles.hasOwnProperty(feature)) {
+      console.warn('Feature not found in any bundle: ' + feature)
+    } else {
+      if (!loaded[bundle] && !loading[bundle]) {
+        loading[bundle] = true
+        bundlesToLoad.push(bundle)
+      }
+    }
+  })
+
+  bundlesToLoad.forEach((bundle) => {
+    let el = document.createElement('script')
+    el.setAttribute('src', assetPath + bundle + '.js')
+    document.head.appendChild(el)
+    el.onload = () => {
+      loaded[bundle] = true
+      loading[bundle] = false
+
+      // this.initFeatures() // TODO handle more nicely and check for race conditions (Maybe wait until all features are parsed and then check each x if scripts are still loading and after that initialize)
+    }
+  })
+}
+/**
  * Initializes features.
  *
  * @example
