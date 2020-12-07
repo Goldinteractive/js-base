@@ -168,6 +168,12 @@ export function init(container = document.body, name = null, options = {}) {
   const names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
   const featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
+  if (options.lazy) {
+    lazyload(options.lazyBundles, options.lazyPath)
+  }
+
+  loadExternals()
+
   if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
     featureNodes.push(container)
   }
