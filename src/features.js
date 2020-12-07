@@ -23,9 +23,18 @@ export const features = {}
  * @type {Object}
  * @property {Boolean} justChildNodes=false
  *   Set to true if you don't want to initialize the features of the container node.
+ * @property {Boolean} lazy=true
+ *   Set to false if you don't want to initialize any features lazy
+ * @property {Object} lazyBundles={}
+ *   Add object with all the bundles
+ * @property {String} lazyPath=null
+ *   Add path to the feature-init files ("assets/")
  */
 export const defaultInitOptions = {
-  justChildNodes: false
+  justChildNodes: false,
+  lazy: true,
+  lazyBundles: {},
+  lazyPath: null
 }
 
 /**
