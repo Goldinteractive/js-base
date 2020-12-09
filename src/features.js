@@ -62,9 +62,10 @@ export const defaultDestroyOptions = {
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be reinitialized.
  */
-export function reinit(container = document.body, name = null) {
+export function reinit(container = document.body, name = null, options = {}) {
+  options = Object.assign({}, defaultInitOptions, options)
   destroy(container, name)
-  init(container, name)
+  init(container, name, options)
 }
 
 /**
