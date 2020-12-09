@@ -12,7 +12,9 @@ import { supportsPassiveEvents } from './utils/device'
 import {
   ATTR_FEATURES_SEPARATOR,
   ATTR_FEATURES,
-  ATTR_FEATURES_IGNORE
+  ATTR_FEATURES_IGNORE,
+  FEATURES_MAIN_BUNDLE,
+  ATTR_EXTERNAL_SCRIPT,
 } from './variables'
 
 export const features = {}
