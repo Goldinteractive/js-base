@@ -27,14 +27,14 @@ export const features = {}
  *   Set to false if you don't want to initialize any features lazy
  * @property {Object} lazyBundles={}
  *   Add object with all the bundles
- * @property {String} lazyPath=null
+ * @property {String} assetPath=null
  *   Add path to the feature-init files ("assets/")
  */
 export const defaultInitOptions = {
   justChildNodes: false,
   lazy: true,
   lazyBundles: {},
-  lazyPath: null
+  assetPath: null
 }
 
 /**
@@ -169,7 +169,7 @@ export function init(container = document.body, name = null, options = {}) {
   const featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
   if (options.lazy) {
-    lazyload(options.lazyBundles, options.lazyPath)
+    lazyload(options.lazyBundles, options.assetPath)
   }
 
   loadExternals()
