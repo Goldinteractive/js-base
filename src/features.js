@@ -19,6 +19,9 @@ import {
 
 export const features = {}
 
+export const lazyFeaturesLoaded = {}
+export const lazyFeaturesLoading = {}
+
 /**
  * Default initialization options.
  *
@@ -77,15 +80,17 @@ export function lazyload(bundles = {}, assetPath = null) {
     return
   }
 
-  let loaded = {}
-  let loading = {}
   let optimizedFeatureBundles = {}
   let bundlesToLoad = []
   let features = getFeatures()
 
-  for (const key of Object.entries(bundles)) {
-    loaded[key] = key === FEATURES_MAIN_BUNDLE ? true : false
-    loading[key] = false
+  for (const key of Object.keys(bundles)) {
+    if (!lazyFeaturesLoaded.hasOwnProperty(key)) {
+      lazyFeaturesLoaded[key] = key === FEATURES_MAIN_BUNDLE ? true : false
+    }
+    if (!lazyFeaturesLoading.hasOwnProperty(key)) {
+      lazyFeaturesLoading[key] = false
+    }
     bundles[key].forEach((item) => {
       optimizedFeatureBundles[item] = key
     })
@@ -96,8 +101,8 @@ export function lazyload(bundles = {}, assetPath = null) {
     if (!optimizedFeatureBundles.hasOwnProperty(feature)) {
       console.warn('Feature not found in any bundle: ' + feature)
     } else {
-      if (!loaded[bundle] && !loading[bundle]) {
-        loading[bundle] = true
+      if (!lazyFeaturesLoaded[bundle] && !lazyFeaturesLoading[bundle]) {
+        lazyFeaturesLoading[bundle] = true
         bundlesToLoad.push(bundle)
       }
     }
@@ -108,8 +113,8 @@ export function lazyload(bundles = {}, assetPath = null) {
     el.setAttribute('src', assetPath + bundle + '.js')
     document.head.appendChild(el)
     el.onload = () => {
-      loaded[bundle] = true
-      loading[bundle] = false
+      lazyFeaturesLoaded[bundle] = true
+      lazyFeaturesLoading[bundle] = false
 
       // this.initFeatures() // TODO handle more nicely and check for race conditions (Maybe wait until all features are parsed and then check each x if scripts are still loading and after that initialize)
     }
