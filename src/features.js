@@ -18,9 +18,9 @@ import {
 } from './variables'
 
 export const features = {}
-
 export const lazyFeaturesLoaded = {}
 export const lazyFeaturesLoading = {}
+export const sharedOptions = {}
 
 /**
  * Default initialization options.
@@ -50,7 +50,34 @@ export const defaultInitOptions = {
  *   Set to true if you don't want to destroy the features of the container node.
  */
 export const defaultDestroyOptions = {
-  justChildNodes: false
+  justChildNodes: false,
+}
+
+/**
+ * Set shared options (save to sharedOptions object)
+ *
+ * @param {String} [name=null]
+ *   String with name under which the option will be saved
+ *
+ * @param {Object} [value=null]
+ *   Object with the value that the option controls
+ */
+export function setSharedOption(name = null, value = null) {
+  if (name && value) {
+    sharedOptions[name] = value
+  }
+}
+
+/**
+ * Get shared option (from sharedOptions object)
+ *
+ * @param {String} [name=null]
+ *   String with name under which the option was saved
+ */
+export function getSharedOption(name = null) {
+  if (name) {
+    return sharedOptions[name]
+  }
 }
 
 /**
@@ -704,6 +731,8 @@ export default {
   add,
   getInstanceByNode,
   getInstancesByNode,
+  setSharedOption,
+  getSharedOption,
 
   /**
    * Features added to current site.
