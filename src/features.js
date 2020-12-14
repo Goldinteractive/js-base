@@ -103,7 +103,7 @@ export function reinit(container = document.body, name = null, options = {}) {
  * @param {String} [assetPath=null]
  */
 export function lazyload(bundles = {}, assetPath = null) {
-  if (!bundles || !assetPath) {
+  if (!bundles || !assetPath) {
     console.warn('Cannot lazyload features without a bundles file or a path!')
     return
   }
@@ -143,10 +143,11 @@ export function lazyload(bundles = {}, assetPath = null) {
     el.onload = () => {
       lazyFeaturesLoaded[bundle] = true
       lazyFeaturesLoading[bundle] = false
-
-      // this.initFeatures() // TODO handle more nicely and check for race conditions (Maybe wait until all features are parsed and then check each x if scripts are still loading and after that initialize)
     }
   })
+  if (bundlesToLoad.length > 0) {
+    reinit(document.body, null, { lazy: false })
+  }
 }
 
 /**
