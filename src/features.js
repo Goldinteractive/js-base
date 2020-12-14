@@ -198,6 +198,8 @@ export function loadExternals() {
  * @returns {Array} Initialized feature instances.
  */
 export function init(container = document.body, name = null, options = {}) {
+  window._goldFeatures = this
+
   options = Object.assign({}, defaultInitOptions, options)
 
   const instances = []
