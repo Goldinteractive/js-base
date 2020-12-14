@@ -154,7 +154,7 @@ export function lazyload(bundles = {}, assetPath = null) {
  * Load external scripts.
  */
 export function loadExternals() {
-  this.scripts = []
+  let scripts = []
   let features = getFeatures()
   let elements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
 
@@ -164,11 +164,11 @@ export function loadExternals() {
     item.url = el.dataset.url
     item.features = el.dataset.featureDependency
     item._instance = el
-    this.scripts.push(item)
+    scripts.push(item)
   })
 
   features.forEach(feature => {
-    this.scripts.forEach(script => {
+    scripts.forEach(script => {
       if (script.features.includes(feature) && !script.initialized) {
         script._instance.setAttribute('src', script.url)
         script.initialized = true
