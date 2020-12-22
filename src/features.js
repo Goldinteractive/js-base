@@ -17,10 +17,20 @@ import {
   ATTR_EXTERNAL_SCRIPT,
 } from './variables'
 
-export const features = {}
-export const lazyFeaturesLoaded = {}
-export const lazyFeaturesLoading = {}
-export const sharedOptions = {}
+let data = {
+  features: {},
+  lazyFeaturesLoaded: {},
+  lazyFeaturesLoading: {},
+  sharedOptions: {},
+}
+
+const globalWindowVariable = '_goldFeatures' // window._goldFeatures
+
+if (window[globalWindowVariable]) {
+  data = window[globalWindowVariable]
+} else {
+  window[globalWindowVariable] = data
+}
 
 /**
  * Default initialization options.
@@ -56,28 +66,115 @@ export const defaultDestroyOptions = {
 /**
  * Set shared options (save to sharedOptions object)
  *
- * @param {String} [name=null]
+ * @param {String} [name]
  *   String with name under which the option will be saved
  *
- * @param {Object} [value=null]
+ * @param {Object} [value]
  *   Object with the value that the option controls
  */
-export function setSharedOption(name = null, value = null) {
-  if (name && value) {
-    sharedOptions[name] = value
+export function setSharedOption(name, value) {
+  if (typeof name !== 'string') {
+    throw Error('"name" needs to be a string!')
   }
+  data.sharedOptions[name] = value
 }
 
 /**
  * Get shared option (from sharedOptions object)
  *
- * @param {String} [name=null]
+ * @param {String} [name]
  *   String with name under which the option was saved
  */
-export function getSharedOption(name = null) {
-  if (name) {
-    return sharedOptions[name]
+export function getSharedOption(name) {
+  if (name && data.sharedOptions.hasOwnProperty(name)) {
+    return data.sharedOptions[name]
   }
+  return null
+}
+
+/**
+ * Lazyloads features.
+ *
+ * @param {Object} [bundles={}]
+ *  Object containing all the feature-bundles
+ * @param {String} [assetPath=null]
+ */
+export function lazyload(bundles, assetPath) {
+  if (!bundles || !assetPath) {
+    throw Error('Cannot lazyload features without a bundles file or a path!')
+  }
+
+  let optimizedFeatureBundles = {}
+  let bundlesToLoad = []
+  let features = getFeatures()
+
+  for (const key of Object.keys(bundles)) {
+    if (!data.lazyFeaturesLoaded.hasOwnProperty(key)) {
+      data.lazyFeaturesLoaded[key] = key === FEATURES_MAIN_BUNDLE ? true : false
+    }
+    if (!data.lazyFeaturesLoading.hasOwnProperty(key)) {
+      data.lazyFeaturesLoading[key] = false
+    }
+    bundles[key].forEach((item) => {
+      optimizedFeatureBundles[item] = key
+    })
+  }
+
+  features.forEach((feature) => {
+    let bundle = optimizedFeatureBundles[feature]
+    if (!optimizedFeatureBundles.hasOwnProperty(feature)) {
+      console.warn('Feature not found in any bundle: ' + feature)
+    } else if (
+      !data.lazyFeaturesLoaded[bundle] &&
+      !data.lazyFeaturesLoading[bundle]
+    ) {
+      data.lazyFeaturesLoading[bundle] = true
+      bundlesToLoad.push(bundle)
+    }
+  })
+
+  bundlesToLoad.forEach((bundle) => {
+    let el = document.createElement('script')
+    el.setAttribute('src', assetPath + bundle + '.js')
+    document.head.appendChild(el)
+    el.onload = () => {
+      data.lazyFeaturesLoaded[bundle] = true
+      data.lazyFeaturesLoading[bundle] = false
+    }
+  })
+}
+
+/**
+ * Load external scripts.
+ */
+export function loadExternals() {
+  let scripts = []
+  let features = getFeatures()
+  let elements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
+
+  elements.forEach(el => {
+    let item = {}
+    item.initialized = false
+    item.url = el.dataset.url
+    item._instance = el
+    if (el.dataset.featureDependency.includes(ATTR_FEATURES_SEPARATOR)) {
+      item.features = el.dataset.featureDependency.split(
+        `${ATTR_FEATURES_SEPARATOR} `
+      )
+    } else {
+      item.features = [el.dataset.featureDependency]
+    }
+    scripts.push(item)
+  })
+
+  features.forEach(feature => {
+    scripts.forEach(script => {
+      if (script.features.includes(feature) && !script.initialized) {
+        script._instance.setAttribute('src', script.url)
+        script.initialized = true
+      }
+    })
+  })
 }
 
 /**
@@ -93,88 +190,6 @@ export function reinit(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultInitOptions, options)
   destroy(container, name)
   init(container, name, options)
-}
-
-/**
- * Lazyloads features.
- *
- * @param {Object} [bundles={}]
- *  Object containing all the feature-bundles
- * @param {String} [assetPath=null]
- */
-export function lazyload(bundles = {}, assetPath = null) {
-  if (!bundles || !assetPath) {
-    console.warn('Cannot lazyload features without a bundles file or a path!')
-    return
-  }
-
-  let optimizedFeatureBundles = {}
-  let bundlesToLoad = []
-  let features = getFeatures()
-
-  for (const key of Object.keys(bundles)) {
-    if (!lazyFeaturesLoaded.hasOwnProperty(key)) {
-      lazyFeaturesLoaded[key] = key === FEATURES_MAIN_BUNDLE ? true : false
-    }
-    if (!lazyFeaturesLoading.hasOwnProperty(key)) {
-      lazyFeaturesLoading[key] = false
-    }
-    bundles[key].forEach((item) => {
-      optimizedFeatureBundles[item] = key
-    })
-  }
-
-  features.forEach((feature) => {
-    let bundle = optimizedFeatureBundles[feature]
-    if (!optimizedFeatureBundles.hasOwnProperty(feature)) {
-      console.warn('Feature not found in any bundle: ' + feature)
-    } else {
-      if (!lazyFeaturesLoaded[bundle] && !lazyFeaturesLoading[bundle]) {
-        lazyFeaturesLoading[bundle] = true
-        bundlesToLoad.push(bundle)
-      }
-    }
-  })
-
-  bundlesToLoad.forEach((bundle) => {
-    let el = document.createElement('script')
-    el.setAttribute('src', assetPath + bundle + '.js')
-    document.head.appendChild(el)
-    el.onload = () => {
-      lazyFeaturesLoaded[bundle] = true
-      lazyFeaturesLoading[bundle] = false
-    }
-  })
-  if (bundlesToLoad.length > 0) {
-    reinit(document.body, null, { lazy: false })
-  }
-}
-
-/**
- * Load external scripts.
- */
-export function loadExternals() {
-  let scripts = []
-  let features = getFeatures()
-  let elements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
-
-  elements.forEach(el => {
-    let item = {}
-    item.initialized = false
-    item.url = el.dataset.url
-    item.features = el.dataset.featureDependency
-    item._instance = el
-    scripts.push(item)
-  })
-
-  features.forEach(feature => {
-    scripts.forEach(script => {
-      if (script.features.includes(feature) && !script.initialized) {
-        script._instance.setAttribute('src', script.url)
-        script.initialized = true
-      }
-    })
-  })
 }
 
 /**
@@ -198,8 +213,6 @@ export function loadExternals() {
  * @returns {Array} Initialized feature instances.
  */
 export function init(container = document.body, name = null, options = {}) {
-  window._goldFeatures = this
-
   options = Object.assign({}, defaultInitOptions, options)
 
   const instances = []
@@ -233,7 +246,7 @@ export function init(container = document.body, name = null, options = {}) {
 
     dataFeatures.forEach(function(featureName) {
       featureName = featureName.trim()
-      const feature = features[featureName]
+      const feature = data.features[featureName]
 
       if (
         !feature || // feature has not been added yet
@@ -347,10 +360,10 @@ export function destroy(container = document.body, name = null, options = {}) {
  *   Any options to initialize the feature with.
  */
 export function add(name, featureClass, options = {}) {
-  const isFeatureNameAvailable = !features[name]
+  const isFeatureNameAvailable = !data.features[name]
   invariant(isFeatureNameAvailable, `Feature "${name}" has been already added!`)
 
-  features[name] = { featureClass, options }
+  data.features[name] = { featureClass, options }
 }
 
 /**
@@ -722,24 +735,18 @@ Feature.defaultEventListenerOptions = {
 }
 
 export default {
-  /**
-   * Feature class.
-   * @see module:base/features~Feature
-   */
   Feature,
 
   init,
   destroy,
   reinit,
   add,
+  lazyload,
   getInstanceByNode,
   getInstancesByNode,
   setSharedOption,
   getSharedOption,
+  getFeatures,
 
-  /**
-   * Features added to current site.
-   * @type {Object}
-   */
-  features
+  data
 }
