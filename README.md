@@ -36,7 +36,7 @@ import * as featureSystem from '@goldinteractive/js-base/src/features'
 
 - Newest two browser versions of Chrome, Firefox, Safari and Edge
 
-> **_NOTE:_**  Internet Explorer is no longer supported.
+> **_NOTE:_** Internet Explorer is no longer supported.
 
 ### Development
 
@@ -47,7 +47,7 @@ import * as featureSystem from '@goldinteractive/js-base/src/features'
 
 #### Publishing
 
-> Attention! A published version cannot be unpublished from npm. Be careful!
+> **_ATTENTION:_** A published version cannot be unpublished from npm. Be careful!
 
 Running the publish script will build the packages and publish the docs. The command uses `yarn publish`. It is therefore not necessary to update the package version manually.
 

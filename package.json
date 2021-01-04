@@ -44,7 +44,7 @@
     "fetch-jsonp": "^1.1.3",
     "qs": "^6.5.1",
     "riot-observable": "^3.0.0",
-    "tiny-invariant": "^1.0.6",
+    "tiny-invariant": "^1.0.6"
   },
   "browserslist": [
     "> 5%",
