@@ -1,5 +1,4 @@
 import { url } from 'utils/fetch'
-import 'polyfills/fetch'
 
 describe('url', () => {
   let mockFetchPromise

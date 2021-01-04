@@ -12,10 +12,7 @@ Check out the [docs](https://goldinteractive.github.io/js-base/) for more inform
 
 ### Dependencies
 
-- [`promise-polyfill`](https://github.com/taylorhakes/promise-polyfill)
-- [`whatwg-fetch`](https://github.com/github/fetch)
 - [`fetch-jsonp`](https://github.com/camsong/fetch-jsonp)
-- [`core-js`](https://github.com/zloirock/core-js)
 - [`riot-observable`](https://github.com/riot/observable)
 - [`easing-js`](https://github.com/danro/easing-js)
 - [`qs`](https://github.com/ljharb/qs)
@@ -38,7 +35,8 @@ import * as featureSystem from '@goldinteractive/js-base/src/features'
 ### Browser compatibility
 
 - Newest two browser versions of Chrome, Firefox, Safari and Edge
-- IE 11 and above
+
+> **_NOTE:_**  Internet Explorer is no longer supported.
 
 ### Development
 
