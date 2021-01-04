@@ -30,6 +30,9 @@ import * as base from '@goldinteractive/js-base'
 
 // import just the feature system module
 import * as featureSystem from '@goldinteractive/js-base/src/features'
+
+// import just certain modules by treeshaking
+import { features, eventHub } from '@goldinteractive/js-base'
 ```
 
 ### Browser compatibility

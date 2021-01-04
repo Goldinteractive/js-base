@@ -409,7 +409,7 @@ export function getInstanceByNode(node, name) {
 }
 
 /**
- * Return array of all the features on a page
+ * Return array of all the features found in the DOM
  *
  * @example
  * // get features
@@ -737,6 +737,11 @@ Feature.defaultEventListenerOptions = {
 const features = data.features
 
 export default {
+  /**
+   * Feature class.
+   * @type {Class}
+   * @see module:base/features~Feature
+   */
   Feature,
 
   init,
@@ -750,6 +755,15 @@ export default {
   getSharedOption,
   getFeatures,
 
+  /**
+   * All features-data (added features, relevant shared options, loading-status of bundles).
+   * @type {Object}
+   */
   data,
-  features
+
+  /**
+   * Features added to current site.
+   * @type {Object}
+   */
+  features,
 }
