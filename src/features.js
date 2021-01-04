@@ -12,10 +12,25 @@ import { supportsPassiveEvents } from './utils/device'
 import {
   ATTR_FEATURES_SEPARATOR,
   ATTR_FEATURES,
-  ATTR_FEATURES_IGNORE
+  ATTR_FEATURES_IGNORE,
+  FEATURES_MAIN_BUNDLE,
+  ATTR_EXTERNAL_SCRIPT,
 } from './variables'
 
-export const features = {}
+let data = {
+  features: {},
+  lazyFeaturesLoaded: {},
+  lazyFeaturesLoading: {},
+  sharedOptions: {},
+}
+
+const globalWindowVariable = '_goldFeatures' // window._goldFeatures
+
+if (window[globalWindowVariable]) {
+  data = window[globalWindowVariable]
+} else {
+  window[globalWindowVariable] = data
+}
 
 /**
  * Default initialization options.
@@ -23,9 +38,18 @@ export const features = {}
  * @type {Object}
  * @property {Boolean} justChildNodes=false
  *   Set to true if you don't want to initialize the features of the container node.
+ * @property {Boolean} lazy=true
+ *   Set to false if you don't want to initialize any features lazy
+ * @property {Object} lazyBundles={}
+ *   Add object with all the bundles
+ * @property {String} assetPath=null
+ *   Add path to the feature-init files ("assets/")
  */
 export const defaultInitOptions = {
-  justChildNodes: false
+  justChildNodes: false,
+  lazy: true,
+  lazyBundles: {},
+  assetPath: null
 }
 
 /**
@@ -36,7 +60,121 @@ export const defaultInitOptions = {
  *   Set to true if you don't want to destroy the features of the container node.
  */
 export const defaultDestroyOptions = {
-  justChildNodes: false
+  justChildNodes: false,
+}
+
+/**
+ * Set shared options (save to sharedOptions object)
+ *
+ * @param {String} [name]
+ *   String with name under which the option will be saved
+ *
+ * @param {Object} [value]
+ *   Object with the value that the option controls
+ */
+export function setSharedOption(name, value) {
+  if (typeof name !== 'string') {
+    throw Error('"name" needs to be a string!')
+  }
+  data.sharedOptions[name] = value
+}
+
+/**
+ * Get shared option (from sharedOptions object)
+ *
+ * @param {String} [name]
+ *   String with name under which the option was saved
+ */
+export function getSharedOption(name) {
+  if (name && data.sharedOptions.hasOwnProperty(name)) {
+    return data.sharedOptions[name]
+  }
+  return null
+}
+
+/**
+ * Lazyloads features.
+ *
+ * @param {Object} [bundles={}]
+ *  Object containing all the feature-bundles
+ * @param {String} [assetPath=null]
+ */
+export function lazyload(bundles, assetPath) {
+  if (!bundles || !assetPath) {
+    throw Error('Cannot lazyload features without a bundles file or a path!')
+  }
+
+  let optimizedFeatureBundles = {}
+  let bundlesToLoad = []
+  let features = getFeatures()
+
+  for (const key of Object.keys(bundles)) {
+    if (!data.lazyFeaturesLoaded.hasOwnProperty(key)) {
+      data.lazyFeaturesLoaded[key] = key === FEATURES_MAIN_BUNDLE ? true : false
+    }
+    if (!data.lazyFeaturesLoading.hasOwnProperty(key)) {
+      data.lazyFeaturesLoading[key] = false
+    }
+    bundles[key].forEach((item) => {
+      optimizedFeatureBundles[item] = key
+    })
+  }
+
+  features.forEach((feature) => {
+    let bundle = optimizedFeatureBundles[feature]
+    if (!optimizedFeatureBundles.hasOwnProperty(feature)) {
+      console.warn('Feature not found in any bundle: ' + feature)
+    } else if (
+      !data.lazyFeaturesLoaded[bundle] &&
+      !data.lazyFeaturesLoading[bundle]
+    ) {
+      data.lazyFeaturesLoading[bundle] = true
+      bundlesToLoad.push(bundle)
+    }
+  })
+
+  bundlesToLoad.forEach((bundle) => {
+    let el = document.createElement('script')
+    el.setAttribute('src', assetPath + bundle + '.js')
+    document.head.appendChild(el)
+    el.onload = () => {
+      data.lazyFeaturesLoaded[bundle] = true
+      data.lazyFeaturesLoading[bundle] = false
+    }
+  })
+}
+
+/**
+ * Load external scripts.
+ */
+export function loadExternals() {
+  let scripts = []
+  let features = getFeatures()
+  let elements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
+
+  elements.forEach(el => {
+    let item = {}
+    item.initialized = false
+    item.url = el.dataset.url
+    item._instance = el
+    if (el.dataset.featureDependency.includes(ATTR_FEATURES_SEPARATOR)) {
+      item.features = el.dataset.featureDependency.split(
+        `${ATTR_FEATURES_SEPARATOR} `
+      )
+    } else {
+      item.features = [el.dataset.featureDependency]
+    }
+    scripts.push(item)
+  })
+
+  features.forEach(feature => {
+    scripts.forEach(script => {
+      if (script.features.includes(feature) && !script.initialized) {
+        script._instance.setAttribute('src', script.url)
+        script.initialized = true
+      }
+    })
+  })
 }
 
 /**
@@ -48,9 +186,10 @@ export const defaultDestroyOptions = {
  *   Comma separated string with names of the features
  *   (used by the `data-feature` attribute) which sould be reinitialized.
  */
-export function reinit(container = document.body, name = null) {
+export function reinit(container = document.body, name = null, options = {}) {
+  options = Object.assign({}, defaultInitOptions, options)
   destroy(container, name)
-  init(container, name)
+  init(container, name, options)
 }
 
 /**
@@ -80,6 +219,12 @@ export function init(container = document.body, name = null, options = {}) {
   const names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
   const featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
+  if (options.lazy) {
+    lazyload(options.lazyBundles, options.assetPath)
+  }
+
+  loadExternals()
+
   if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
     featureNodes.push(container)
   }
@@ -101,7 +246,7 @@ export function init(container = document.body, name = null, options = {}) {
 
     dataFeatures.forEach(function(featureName) {
       featureName = featureName.trim()
-      const feature = features[featureName]
+      const feature = data.features[featureName]
 
       if (
         !feature || // feature has not been added yet
@@ -215,10 +360,10 @@ export function destroy(container = document.body, name = null, options = {}) {
  *   Any options to initialize the feature with.
  */
 export function add(name, featureClass, options = {}) {
-  const isFeatureNameAvailable = !features[name]
+  const isFeatureNameAvailable = !data.features[name]
   invariant(isFeatureNameAvailable, `Feature "${name}" has been already added!`)
 
-  features[name] = { featureClass, options }
+  data.features[name] = { featureClass, options }
 }
 
 /**
@@ -261,6 +406,39 @@ export function getInstanceByNode(node, name) {
   }
 
   return node._baseFeatureInstances[name] || null
+}
+
+/**
+ * Return array of all the features on a page
+ *
+ * @example
+ * // get features
+ * const featureList = base.features.getFeatures()
+ *
+ * @returns {Array|null}
+ */
+export function getFeatures() {
+  let features = []
+  let elements = document.querySelectorAll(`[${ATTR_FEATURES}]`)
+
+  elements.forEach((item) => {
+    let feature = item.getAttribute(ATTR_FEATURES)
+
+    if (feature.includes(ATTR_FEATURES_SEPARATOR)) {
+      let featureArray = feature.split(`${ATTR_FEATURES_SEPARATOR} `)
+      featureArray.forEach((f) => {
+        if (!features.includes(f)) {
+          features.push(f)
+        }
+      })
+    } else {
+      if (!features.includes(feature)) {
+        features.push(feature)
+      }
+    }
+  })
+
+  return features
 }
 
 /**
@@ -556,23 +734,22 @@ Feature.defaultEventListenerOptions = {
   once: false
 }
 
+const features = data.features
+
 export default {
-  /**
-   * Feature class.
-   * @see module:base/features~Feature
-   */
   Feature,
 
   init,
   destroy,
   reinit,
   add,
+  lazyload,
   getInstanceByNode,
   getInstancesByNode,
+  setSharedOption,
+  getSharedOption,
+  getFeatures,
 
-  /**
-   * Features added to current site.
-   * @type {Object}
-   */
+  data,
   features
 }
