@@ -734,6 +734,8 @@ Feature.defaultEventListenerOptions = {
   once: false
 }
 
+const features = data.features
+
 export default {
   Feature,
 
@@ -748,5 +750,6 @@ export default {
   getSharedOption,
   getFeatures,
 
-  data
+  data,
+  features
 }
