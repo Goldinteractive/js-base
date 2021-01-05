@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_clipboard.html">base/utils/clipboard</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Title</p>
+                        <h1>Home</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h2>Base Javascript</h2><p><a href="https://codeclimate.com/github/Goldinteractive/js-base/maintainability"><img src="https://api.codeclimate.com/v1/badges/e27773e01724253127fe/maintainability" alt="Maintainability"></a></p>
+<p>Base JavaScript library for web projects.</p>
+<ul>
+<li><code>features</code>: Feature management system</li>
+<li><code>utils</code>: Various utilities</li>
+<li><code>eventHub</code>: Global event hub</li>
+</ul>
+<p>Check out the <a href="https://goldinteractive.github.io/js-base/">docs</a> for more information about all the included features.</p>
+<h3>Dependencies</h3><ul>
+<li><a href="https://github.com/camsong/fetch-jsonp"><code>fetch-jsonp</code></a></li>
+<li><a href="https://github.com/riot/observable"><code>riot-observable</code></a></li>
+<li><a href="https://github.com/danro/easing-js"><code>easing-js</code></a></li>
+<li><a href="https://github.com/ljharb/qs"><code>qs</code></a></li>
+<li><a href="https://github.com/alexreardon/tiny-invariant"><code>tiny-invariant</code></a></li>
+</ul>
+<h3>Installation</h3><p>The package is available on npm: <code>@goldinteractive/js-base</code></p>
+<p>After the installation has completed, you can import the complete base module or also just single modules:</p>
+<pre class="prettyprint source lang-javascript"><code>// import complete library with all modules
+import * as base from '@goldinteractive/js-base'
+
+// import just the feature system module
+import * as featureSystem from '@goldinteractive/js-base/src/features'
+
+// import just certain modules by treeshaking
+import { features, eventHub } from '@goldinteractive/js-base'</code></pre><h3>Browser compatibility</h3><ul>
+<li>Newest two browser versions of Chrome, Firefox, Safari and Edge</li>
+</ul>
+<blockquote>
+<p><strong><em>NOTE:</em></strong> Internet Explorer is no longer supported.</p>
+</blockquote>
+<h3>Development</h3><ul>
+<li><code>make build</code> - Build production version of the library.</li>
+<li><code>make test</code> - Run Jest unit tests.</li>
+<li><code>make docs</code> - Update documentation inside the <code>docs</code> folder.</li>
+<li><code>make publish-docs</code> - Deploy the docs branch.</li>
+</ul>
+<h4>Publishing</h4><blockquote>
+<p><strong><em>ATTENTION:</em></strong> A published version cannot be unpublished from npm. Be careful!</p>
+</blockquote>
+<p>Running the publish script will build the packages and publish the docs. The command uses <code>yarn publish</code>. It is therefore not necessary to update the package version manually.</p>
+<p>Yarn will automatically commit the changes in <code>package.json</code>. So commit all your changes before you publish a new version.</p>
+<p><code>make publish</code> - Publish npm package.</p></article>
+    </section>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 05 2021 10:34:26 GMT+0100 (Central European Standard Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

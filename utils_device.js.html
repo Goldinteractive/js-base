@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: utils/device.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_clipboard.html">base/utils/clipboard</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>utils/device.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * Device module.
+ * @module base/utils/device
+ */
+
+import { pxToInt } from './string'
+import { once, noop } from './fn'
+
+// Inspired by https://github.com/rafrex/detect-passive-events
+export const supportsPassiveEvents = once(() => {
+  if (
+    typeof window !== 'undefined' &amp;&amp;
+    typeof window.addEventListener === 'function'
+  ) {
+    let passive = false
+    const options = Object.defineProperty({}, 'passive', {
+      get() {
+        passive = true
+      }
+    })
+    // note: have to set and remove a no-op listener instead of null
+    // (which was used previously), becasue Edge v15 throws an error
+    // when providing a null callback.
+    // https://github.com/rafrex/detect-passive-events/pull/3
+    window.addEventListener('testPassiveEventSupport', noop, options)
+    window.removeEventListener('testPassiveEventSupport', noop, options)
+    return passive
+  }
+})
+
+/**
+ * DeviceInfo class.
+ */
+export class DeviceInfo {
+  constructor(options) {
+    this.breakpoints = options.breakpoints || {}
+  }
+
+  /** Return breakpoints. */
+  get breakpoints() {
+    return this._breakpoints
+  }
+
+  /**
+   * Set breakpoints (pixel values will be converted to integers).
+   *
+   * @param {Object} breakpoints - Breakpoints
+   */
+  set breakpoints(breakpoints) {
+    var newBreakpoints = {}
+
+    for (let breakpoint in breakpoints) {
+      if (breakpoints.hasOwnProperty(breakpoint)) {
+        newBreakpoints[breakpoint] = pxToInt(breakpoints[breakpoint])
+      }
+    }
+
+    this._breakpoints = newBreakpoints
+  }
+
+  _checkWhetherBreakpointExists(breakpoint) {
+    if (!this._breakpoints[breakpoint]) {
+      throw new Error('Breakpoint "'+ breakpoint + '" doesn\'t exist.')
+    }
+  }
+
+  /**
+   * Check if current device width is equal to the given breakpoint.
+   *
+   * @param   {String} breakpoint - Breakpoint to check.
+   * @returns {Boolean}
+   *   `true` if device width is equal to the given breakpoint, otherwise `false`.
+   */
+  isEqual(breakpoint) {
+    this._checkWhetherBreakpointExists(breakpoint)
+
+    return window.innerWidth == this._breakpoints[breakpoint]
+  }
+
+  /**
+   * Check if current device width is larger than given breakpoint.
+   *
+   * @param   {String} breakpoint - Breakpoint to check.
+   * @returns {Boolean}
+   *   `true` if device width is larger than given breakpoint, otherwise `false`.
+   */
+  isLargerThan(breakpoint) {
+    this._checkWhetherBreakpointExists(breakpoint)
+
+    return window.innerWidth > this._breakpoints[breakpoint]
+  }
+
+  /**
+   * Check if current device width is smaller than given breakpoint.
+   *
+   * @param   {String} breakpoint - Breakpoint to check.
+   * @returns {Boolean}
+   *   `true` if device width is smaller than given breakpoint, otherwise `false`.
+   */
+  isSmallerThan(breakpoint) {
+    this._checkWhetherBreakpointExists(breakpoint)
+
+    return window.innerWidth &lt; this._breakpoints[breakpoint]
+  }
+
+  /**
+   * Check if device width is equal or larger than given breakpoint.
+   *
+   * @param   {String} breakpoint - Breakpoint to check.
+   * @returns {Boolean}
+   *   `true` if device width is equal or larger than given breakpoint, otherwise `false`.
+   */
+  isLargerThanOrEqual(breakpoint) {
+    return this.isEqual(breakpoint) || this.isLargerThan(breakpoint)
+  }
+
+  /**
+   * Check if device width is equal or smaller than given breakpoint.
+   *
+   * @param   {String} breakpoint - Breakpoint to check.
+   * @returns {Boolean}
+   *   `true` if device width is equal or smaller than given breakpoint, otherwise `false`.
+   */
+  isSmallerThanOrEqual(breakpoint) {
+    return this.isEqual(breakpoint) || this.isSmallerThan(breakpoint)
+  }
+}
+
+export default {
+  supportsPassiveEvents
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 05 2021 10:34:26 GMT+0100 (Central European Standard Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

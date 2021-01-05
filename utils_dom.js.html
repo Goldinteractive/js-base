@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: utils/dom.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_clipboard.html">base/utils/clipboard</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>utils/dom.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * DOM module.
+ * @module base/utils/dom
+ */
+
+import * as easingEquations from 'easing-js/easing'
+import { pxToInt } from './string'
+import { max } from './array'
+
+/**
+ * Name of the animationend event.
+ * @type {String}
+ */
+export let animationEndEvent = 'animationend'
+
+/**
+ * Name of the transitionend event.
+ * @type {String}
+ */
+export let transitionEndEvent = 'transitionend'
+
+/**
+ * Return first element in page by given selector.
+ *
+ * @param   {String} selector
+ * @param   {Element} element
+ * @returns {Element}
+ */
+export function $(selector, element = document) {
+  return element.querySelector(selector)
+}
+
+/**
+ * Return all elements in page by given selector as array.
+ *
+ * @param   {String} selector
+ * @param   {Element} element
+ * @returns {Element[]}
+ */
+export function $$(selector, element = document) {
+  return [...element.querySelectorAll(selector)]
+}
+
+/**
+ * Return outerWidth of given element.
+ *
+ * @param   {Element} element - Target element.
+ * @returns {Number}
+ */
+export function outerHeight(element) {
+  let height = element.offsetHeight,
+    style = window.getComputedStyle(element)
+
+  height += pxToInt(style.marginTop) + pxToInt(style.marginBottom)
+  return height
+}
+
+/**
+ * Return outerWidth of given element.
+ *
+ * @param   {Element} element - Target element.
+ * @returns {Number}
+ */
+export function outerWidth(element) {
+  let width = element.offsetWidth,
+    style = window.getComputedStyle(element)
+
+  width += pxToInt(style.marginLeft) + pxToInt(style.marginRight)
+  return width
+}
+
+/**
+ * Return all computed styles.
+ *
+ * @param {Element} element - Element to get computed styles from.
+ * @param {String|null} [pseudoElement=null] - String for pseudo element.
+ *
+ * @returns {Object} Computed styles
+ */
+export function computedStyles(element, pseudoElement = null) {
+  let computedStyle = {},
+    styles = {}
+
+  computedStyle = window.getComputedStyle(element, pseudoElement)
+
+  for (let i = 0, length = computedStyle.length; i &lt; length; i++) {
+    let prop = computedStyle[i]
+    let val = computedStyle.getPropertyValue(prop)
+    styles[prop] = val
+  }
+
+  return styles
+}
+
+/**
+ * Shortcut for get a computed style.
+ *
+ * @param {Element} element - Element to get computed style from.
+ * @param {Element} prop - Style to get.
+ * @param {String|null} [pseudoElement=null] - String for pseudo element.
+ *
+ * @returns {String} Computed style
+ */
+export function computedStyle(element, prop, pseudoElement) {
+  return window.getComputedStyle(element, pseudoElement).getPropertyValue(prop)
+}
+
+/**
+ * Return child elements.
+ *
+ * @param {Element} element - Element to get the children from.
+ * @param {Element} skipElement - Element to skip.
+ *
+ * @returns {Element[]}
+ */
+export function children(element, skipElement) {
+  let children = []
+  element = element.children[0]
+
+  for (; element; element = element.nextElementSibling) {
+    if (element != skipElement) {
+      children.push(element)
+    }
+  }
+
+  return children
+}
+
+/**
+ * Return siblings of given element.
+ *
+ * @param   {Element} element - Target element.
+ * @returns {Element[]}
+ */
+export function siblings(element) {
+  return children(element.parentNode, element)
+}
+
+/**
+ * Return matching parent.
+ *
+ * @param  {Element} element - Target element to get the parent from.
+ * @param  {Function} match - The match function to check the parent agains.
+ *
+ * @returns {Element}
+ */
+export function parent(element, match) {
+  let parent = null
+
+  for (
+    ;
+    parent === null &amp;&amp; element &amp;&amp; element !== document;
+    element = element.parentNode
+  ) {
+    if (match(element)) {
+      parent = element
+    }
+  }
+
+  return parent
+}
+
+/**
+ * Return parent elements of given element.
+ *
+ * @param {Element} element - Target element to get the parents from.
+ * @param {Function} [match] - The match function to check the parent against.
+ *
+ * @returns {Element[]}
+ */
+export function parents(element, match = null) {
+  let parents = []
+
+  for (; element &amp;&amp; element !== document; element = element.parentNode) {
+    if (match) {
+      if (match(element)) {
+        parents.push(element)
+      }
+    } else {
+      parents.push(element)
+    }
+  }
+
+  return parents
+}
+
+/**
+ * Return index of current element.
+ *
+ * @param   {Element} element - Element
+ * @returns {Integer}
+ */
+export function index(element) {
+  let i = 0,
+    child = element
+  while ((child = child.previousElementSibling) != null) i++
+  return i
+}
+
+/**
+ * Set style attributes.
+ *
+ * @param {Element} element - Target element.
+ * @param {Object}  styles - Styles to set.
+ * @param {Boolean} [remember=false] - Whether to return original attributes.
+ *
+ * @returns {Object|{}} Original style attributes which got overwritten.
+ */
+export function style(element, styles, remember = false) {
+  let style = element.style,
+    original = {}
+
+  for (let key in styles) {
+    if (remember) {
+      original[key] = style[key] || ''
+    }
+
+    style[key] = styles[key]
+  }
+
+  return original
+}
+
+/**
+ * Return vertical scroll position of page.
+ * @returns {Integer}
+ */
+export function scrollY() {
+  return window.pageYOffset || document.documentElement.scrollTop
+}
+
+/**
+ * Return horizontal scroll position page.
+ * @returns {Integer}
+ */
+export function scrollX() {
+  return window.pageXOffset || document.documentElement.scrollLeft
+}
+
+/**
+ * Sheet class.
+ * Dynamically create stylesheets.
+ */
+export class Sheet {
+  /**
+   * @Constructor
+   * @param {Object} options
+   *   Overwrite the [default options]{@link module:base/utils/dom~Sheet.defaultOptions}.
+   */
+  constructor(options = {}) {
+    this.options = Object.assign({}, Sheet.defaultOptions, options)
+    this.style = document.createElement('style')
+    this.style.setAttribute('media', this.options.media)
+    this.style.appendChild(document.createTextNode(''))
+  }
+
+  init() {
+    document.head.appendChild(this.style)
+  }
+}
+
+/**
+ * Default sheet options.
+ *
+ * @type {Object}
+ * @property {String} media='screen' - Scrolling speed (pixels per second).
+ */
+Sheet.defaultOptions = {
+  media: 'screen'
+}
+
+/**
+ * Scroller class.
+ * Scroll to position or element using custom speeds and easings.
+ */
+export class Scroller {
+  /**
+   * Constructor.
+   * @param {Object} options
+   *   Overwrite the [default options]{@link module:base/utils/dom~Scroller.defaultOptions}.
+   */
+  constructor(options = {}) {
+    this._opts = Object.assign({}, Scroller.defaultOptions, options)
+  }
+
+  /**
+   * Scroll to given element.
+   *
+   * @param {Element} element - Target element.
+   * @param {Object} options
+   *   Overwrite the [default to options]{@link module:base/utils/dom~Scroller.defaultToOptions}.
+   *
+   * @returns {module:base/utils/dom~Scroller}
+   */
+  toElement(element, options = {}) {
+    const { top, left } = element.getBoundingClientRect()
+    let opts = Object.assign(options, {
+      y: top + window.pageYOffset,
+      x: left + window.pageXOffset
+    })
+
+    return this.to(opts)
+  }
+
+  /**
+   * Scroll to a target position.
+   *
+   * @param {Object} options
+   *   Overwrite the [default to options]{@link module:base/utils/dom~Scroller.defaultToOptions}.
+   *
+   * @returns {module:base/utils/dom~Scroller}
+   */
+  to(options = {}) {
+    let timeX = 0
+    let timeY = 0
+    let currentTime = 0
+    let rootElement = Array.isArray(this._opts.rootElement)
+      ? this._opts.rootElement
+      : [this._opts.rootElement]
+
+    let scrollYPos = max(rootElement.map(element => element.scrollTop))
+    let scrollXPos = max(rootElement.map(element => element.scrollLeft))
+
+    let opts = Object.assign({}, this._opts, Scroller.defaultToOptions, options)
+    let scrollTargetX = opts.x
+    let scrollTargetY = opts.y
+
+    if (scrollTargetX !== null) {
+      scrollTargetX = scrollTargetX - opts.offsetX
+      scrollTargetX = scrollTargetX &lt; 0 ? 0 : scrollTargetX
+
+      // determine scroll time for x axis
+      timeX = Math.max(
+        opts.minScrollTime,
+        Math.min(
+          Math.abs(scrollXPos - scrollTargetX) / opts.speed,
+          opts.maxScrollTime
+        )
+      )
+    }
+
+    if (scrollTargetY !== null) {
+      scrollTargetY = scrollTargetY - opts.offsetY
+      scrollTargetY = scrollTargetY &lt; 0 ? 0 : scrollTargetY
+
+      // determine scroll time for y axis
+      timeY = Math.max(
+        opts.minScrollTime,
+        Math.min(
+          Math.abs(scrollYPos - scrollTargetY) / opts.speed,
+          opts.maxScrollTime
+        )
+      )
+    }
+
+    let time = Math.max(timeX, timeY)
+
+    // add animation loop
+    function tick() {
+      currentTime += 1 / 60
+
+      let p = currentTime / time
+      let t = easingEquations[opts.easing](p)
+
+      let posY =
+        scrollTargetY !== null
+          ? scrollYPos + (scrollTargetY - scrollYPos) * t
+          : scrollYPos
+      let posX =
+        scrollTargetX !== null
+          ? scrollXPos + (scrollTargetX - scrollXPos) * t
+          : scrollXPos
+
+      if (p &lt; 1) {
+        requestAnimationFrame(tick)
+        rootElement.forEach(element => {
+          element.scrollTop = posY
+          element.scrollLeft = posX
+        })
+      } else {
+        rootElement.forEach(element => {
+          element.scrollTop =
+            scrollTargetY !== null ? scrollTargetY : scrollYPos
+          element.scrollLeft =
+            scrollTargetX !== null ? scrollTargetX : scrollXPos
+        })
+        if (opts.cb) opts.cb()
+      }
+    }
+
+    // call it once to get started
+    tick()
+    return this
+  }
+}
+
+/**
+ * Default scroller options.
+ *
+ * @type {Object}
+ * @property {Number} rootElement=[document.documentElement, document.body] - Target root element(s).
+ * @property {Number} speed=1000 - Scrolling speed (pixels per second).
+ * @property {Number} easing='easeOutSine' - [Easing equation]{@link https://github.com/danro/easing-js/blob/master/easing.js}.
+ * @property {Number} offsetX=0 - Offset that is taken away from target x position (e.g. for a fixed sidebar width).
+ * @property {Number} offsetY=0 - Offset that is taken away from target y position (e.g. for a fixed header height).
+ * @property {Number} minScrollTime=0.1 - Minimum scrolling time.
+ * @property {Number} maxScrollTime=0.8 - Maximum scrolling time.
+ */
+Scroller.defaultOptions = {
+  rootElement: [document.documentElement, document.body],
+  speed: 1000,
+  easing: 'easeOutSine',
+  offsetY: 0,
+  offsetX: 0,
+  minScrollTime: 0.1,
+  maxScrollTime: 0.8
+}
+
+/**
+ * Default options for scrolling to methods.
+ * These will extend the [default options]{@link module:base/utils/dom~Scroller.defaultOptions}.
+ *
+ * @type {Object}
+ * @property {Number} x=null - Target position on x axis.
+ * @property {Number} y=null - Target position on y axis.
+ * @property {Function} cb=null - Callback to execute when scrolling has finished.
+ */
+Scroller.defaultToOptions = {
+  x: null,
+  y: null,
+  cb: null
+}
+
+export default {
+  animationEndEvent,
+  transitionEndEvent,
+  computedStyles,
+  computedStyle,
+  outerWidth,
+  outerHeight,
+  siblings,
+  index,
+  parent,
+  parents,
+  children,
+  style,
+  Scroller,
+  scrollY,
+  scrollX,
+  $,
+  $$
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 05 2021 10:34:26 GMT+0100 (Central European Standard Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

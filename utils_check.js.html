@@ -1,0 +1,225 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: utils/check.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-base.html">base</a></li><li><a href="module-base_events.html">base/events</a></li><li><a href="module-base_features.html">base/features</a></li><li><a href="module-base_utils.html">base/utils</a></li><li><a href="module-base_utils_array.html">base/utils/array</a></li><li><a href="module-base_utils_check.html">base/utils/check</a></li><li><a href="module-base_utils_clipboard.html">base/utils/clipboard</a></li><li><a href="module-base_utils_data.html">base/utils/data</a></li><li><a href="module-base_utils_device.html">base/utils/device</a></li><li><a href="module-base_utils_dom.html">base/utils/dom</a></li><li><a href="module-base_utils_fetch.html">base/utils/fetch</a></li><li><a href="module-base_utils_func.html">base/utils/func</a></li><li><a href="module-base_utils_media.html">base/utils/media</a></li><li><a href="module-base_utils_string.html">base/utils/string</a></li><li><a href="module-base_utils_url.html">base/utils/url</a></li></ul><h3>Classes</h3><ul><li><a href="module-base_events-EventHub.html">EventHub</a></li><li><a href="module-base_features.html#.Feature">Feature</a></li><li><a href="module-base_utils_device.DeviceInfo.html">DeviceInfo</a></li><li><a href="module-base_utils_dom.Scroller.html">Scroller</a></li><li><a href="module-base_utils_dom.Sheet.html">Sheet</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>utils/check.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Check module.
+ * @module base/utils/check
+ */
+
+import {
+  T_STRING,
+  T_UNDEF,
+  T_OBJECT,
+  T_NUMBER,
+  T_FUNCTION,
+  EMPTY_DEFINITIONS
+} from './../variables'
+
+/**
+ * Check if given value is string.
+ *
+ * @param   {*} value - Value to check.
+ * @returns {Boolean}
+ */
+export function isString(value) {
+  return typeof value == T_STRING
+}
+
+/**
+ * Check if given value is undefined.
+ *
+ * @param   {*} value - Value to check.
+ * @returns {Boolean}
+ */
+export function isUndefined(value) {
+  return typeof value === T_UNDEF
+}
+
+/**
+ * Check if given value is function.
+ *
+ * @param   {*} value - Value to check.
+ * @returns {Boolean}
+ */
+export function isFunction(value) {
+  return typeof value === T_FUNCTION
+}
+
+/**
+ * Check if given value is an object.
+ * Note: Arrays and functions are also objects.
+ *
+ * @param   {*} value - Value to check.
+ * @returns {Boolean}
+ */
+export function isObject(value) {
+  return value === Object(value)
+}
+
+/**
+ * Check if given value is numeric.
+ *
+ * @param   {*} value - Value to check.
+ * @returns {Boolean}
+ */
+export function isNumeric(value) {
+  return typeof value === T_NUMBER &amp;&amp; !isNaN(value) &amp;&amp; isFinite(value)
+}
+
+/**
+ * Check whether the given param is a valid element node.
+ *
+ * @param   {*} value - Value to check
+ * @returns {Boolean}
+ */
+export function isElement(value) {
+  if (!value || !value.nodeType) {
+    return false
+  }
+
+  return (
+    value.nodeType === Node.ELEMENT_NODE ||
+    value.nodeType === Node.DOCUMENT_NODE
+  )
+}
+
+/**
+ * Check if given value is empty.
+ *
+ * @param   {*} value - Value to check.
+ * @returns {Boolean}
+ */
+export function isEmpty(value) {
+  // compare value with values considered as empty
+  for (let i = 0, len = EMPTY_DEFINITIONS.length; i &lt; len; i++) {
+    if (value === EMPTY_DEFINITIONS[i]) {
+      return true
+    }
+  }
+
+  if (typeof value === T_OBJECT) {
+    for (let key in value) {
+      if (value.hasOwnProperty(key)) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  return false
+}
+
+/**
+ * Check if an object's property could be overridden.
+ *
+ * @source riot.js
+ * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/check.js
+ *
+ * @param   {Object} obj -
+ * @param   {String} key -
+ * @returns {Boolean}
+ */
+export function isWritable(obj, key) {
+  const descriptor = Object.getOwnPropertyDescriptor(obj, key)
+  return isUndefined(obj[key]) || (descriptor &amp;&amp; descriptor.writable)
+}
+
+export default {
+  isString,
+  isUndefined,
+  isFunction,
+  isObject,
+  isNumeric,
+  isElement,
+  isEmpty,
+  isWritable
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 05 2021 10:34:26 GMT+0100 (Central European Standard Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
