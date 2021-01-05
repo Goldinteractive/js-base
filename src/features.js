@@ -64,13 +64,13 @@ export const defaultDestroyOptions = {
 }
 
 /**
- * Set shared options (save to sharedOptions object)
+ * Save shared option to data.sharedOptions.
  *
  * @param {String} [name]
  *   String with name under which the option will be saved
  *
- * @param {Object} [value]
- *   Object with the value that the option controls
+ * @param {Any} [value]
+ *   Value that the option controls (can be of any type)
  */
 export function setSharedOption(name, value) {
   if (typeof name !== 'string') {
@@ -80,10 +80,16 @@ export function setSharedOption(name, value) {
 }
 
 /**
- * Get shared option (from sharedOptions object)
+ * Return an entry from data.sharedOptions
  *
  * @param {String} [name]
  *   String with name under which the option was saved
+ *
+ * @example
+ * // get shared option
+ * const deviceOption = base.features.getSharedOption('device')
+ *
+ * @returns {Any} Shared option
  */
 export function getSharedOption(name) {
   if (name && data.sharedOptions.hasOwnProperty(name)) {
@@ -93,7 +99,7 @@ export function getSharedOption(name) {
 }
 
 /**
- * Lazyloads features.
+ * Lazyloads features based on the bundles provided.
  *
  * @param {Object} [bundles={}]
  *  Object containing all the feature-bundles
@@ -145,7 +151,7 @@ export function lazyload(bundles, assetPath) {
 }
 
 /**
- * Load external scripts.
+ * Load any external scripts that are needed by the currently loaded features.
  */
 export function loadExternals() {
   let scripts = []
@@ -409,13 +415,13 @@ export function getInstanceByNode(node, name) {
 }
 
 /**
- * Return array of all the features found in the DOM
+ * Return array of all the data-feature identifiers found in the DOM (removes duplicates)
  *
  * @example
  * // get features
  * const featureList = base.features.getFeatures()
  *
- * @returns {Array|null}
+ * @returns {Array|null} Array of feature identifiers.
  */
 export function getFeatures() {
   let features = []
@@ -756,7 +762,7 @@ export default {
   getFeatures,
 
   /**
-   * All features-data (added features, relevant shared options, loading-status of bundles).
+   * All relevant data (added features, relevant shared options, loading-status of bundles).
    * @type {Object}
    */
   data,
