@@ -184,7 +184,7 @@ export function loadExternals() {
  *   Container element to filter where features should be reinitialized.
  * @param {String} [name=null]
  *   Comma separated string with names of the features
- *   (used by the `data-feature` attribute) which sould be reinitialized.
+ *   (used by the `data-feature` attribute) which should be reinitialized.
  */
 export function reinit(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultInitOptions, options)
@@ -206,7 +206,7 @@ export function reinit(container = document.body, name = null, options = {}) {
  *   Container element to filter where features should be initialized.
  * @param {String} [name=null]
  *   Comma separated string with names of the features
- *   (used by the `data-feature` attribute) which sould be initialized.
+ *   (used by the `data-feature` attribute) which should be initialized.
  * @param {Object} [options={}]
  *   Further initialize options to overwrite the [default ones]{@link module:base/features.defaultInitOptions}.
  *
@@ -298,7 +298,7 @@ export function init(container = document.body, name = null, options = {}) {
  *   Container element to filter where features should be destroyed.
  * @param {String} [name=null]
  *   Comma separated string with names of the features
- *   (used by the `data-feature` attribute) which sould be initialized.
+ *   (used by the `data-feature` attribute) which should be initialized.
  * @param {Object} [options={}]
  *   Further destroy options to overwrite the [default ones]{@link module:base/features.defaultDestroyOptions}.
  */

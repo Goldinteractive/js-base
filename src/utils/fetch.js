@@ -23,7 +23,7 @@ export let defaultJsonpOptions = {
  * Checks the response code. Returns the response object if it was successfull.
  * Otherwise it throws an error including the statusText
  *
- * @param   {Ojbect} response - A fetch response object with status and statusText as properties.
+ * @param   {Object} response - A fetch response object with status and statusText as properties.
  *
  * @returns {Object} the response object
  * @throws {String} the status text
@@ -57,8 +57,8 @@ function parseQueryParams(u, opts) {
 /**
  * Utility to fetch from url and check the responseStatus
  *
- * @param   {Ojbect} u - the url
- * @param   {Ojbect} [opts] - options used for querify and fetch
+ * @param   {Object} u - the url
+ * @param   {Object} [opts] - options used for querify and fetch
  *
  * @returns {Promise<Response>} the response object wrapped inside a Promise
  */
@@ -71,8 +71,8 @@ export function url(u, opts = {}) {
 /**
  * Utility to fetch from url, check the responseStatus and parse response as JSON
  *
- * @param   {Ojbect} u - the url
- * @param   {Ojbect} [opts] - options used for querify and fetch
+ * @param   {Object} u - the url
+ * @param   {Object} [opts] - options used for querify and fetch
  *
  * @returns {Promise<any>} the response body wrapped inside a Promise
  */
@@ -84,8 +84,8 @@ export function json(u, opts = {}) {
  * Utility to fetch jsonp from url and check the responseStatus and parse response as JSON.
  * This method uses the fetch-jsonp library under the hood.
  *
- * @param   {Ojbect} u - the url
- * @param   {Ojbect} [opts] - options used for querify and fetch
+ * @param   {Object} u - the url
+ * @param   {Object} [opts] - options used for querify and fetch
  *
  * @returns {Promise<any>} the response body wrapped inside a Promise
  */
@@ -98,8 +98,8 @@ export function jsonP(u, opts = {}) {
 /**
  * Utility to fetch from url, check the responseStatus and parse response as text
  *
- * @param   {Ojbect} u - the url
- * @param   {Ojbect} [opts] - options used for querify and fetch
+ * @param   {Object} u - the url
+ * @param   {Object} [opts] - options used for querify and fetch
  *
  * @returns {Promise<String>} the response body as text wrapped inside a Promise
  */
@@ -110,7 +110,7 @@ export function text(u, opts = {}) {
 /**
  * Adds script tag with the passed url as source to the document.
  *
- * @param   {Ojbect} u - the url
+ * @param   {Object} u - the url
  *
  * @returns {undefined}
  */
