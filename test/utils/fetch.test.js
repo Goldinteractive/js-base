@@ -5,7 +5,11 @@ describe('url', () => {
   beforeEach(() => {
     mockFetchPromise = jest.fn()
     mockFetchPromise.mockReturnValue(Promise.resolve())
+    global.fetch = jest.fn()
     jest.spyOn(global, 'fetch').mockImplementation(mockFetchPromise)
+  })
+  afterEach(() => {
+    global.fetch.mockClear()
   })
   test('appends query param', () => {
     url('', { queryParams: { a: 1 } })
