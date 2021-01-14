@@ -163,13 +163,7 @@ export function loadExternals() {
     item.initialized = false
     item.url = el.dataset.url
     item._instance = el
-    if (el.dataset.featureDependency.includes(ATTR_FEATURES_SEPARATOR)) {
-      item.features = el.dataset.featureDependency.split(
-        `${ATTR_FEATURES_SEPARATOR} `
-      )
-    } else {
-      item.features = [el.dataset.featureDependency]
-    }
+    item.features = el.dataset.featureDependency.split(`${ATTR_FEATURES_SEPARATOR}`)
     scripts.push(item)
   })
 
