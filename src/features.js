@@ -163,7 +163,7 @@ export function loadExternals() {
     item.initialized = false
     item.url = el.dataset.url
     item._instance = el
-    item.features = el.dataset.featureDependency.split(`${ATTR_FEATURES_SEPARATOR}`)
+    item.features = el.dataset.featureDependency.split(ATTR_FEATURES_SEPARATOR)
     scripts.push(item)
   })
 
@@ -421,21 +421,14 @@ export function getFeatures() {
   let features = []
   let elements = document.querySelectorAll(`[${ATTR_FEATURES}]`)
 
-  elements.forEach((item) => {
+  elements.forEach(item => {
     let feature = item.getAttribute(ATTR_FEATURES)
-
-    if (feature.includes(ATTR_FEATURES_SEPARATOR)) {
-      let featureArray = feature.split(`${ATTR_FEATURES_SEPARATOR} `)
-      featureArray.forEach((f) => {
-        if (!features.includes(f)) {
-          features.push(f)
-        }
-      })
-    } else {
-      if (!features.includes(feature)) {
-        features.push(feature)
+    let featureArray = feature.replace(' ', '').split(ATTR_FEATURES_SEPARATOR)
+    featureArray.forEach(ftr => {
+      if (!features.includes(ftr)) {
+        features.push(ftr)
       }
-    }
+    })
   })
 
   return features
