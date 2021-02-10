@@ -126,11 +126,10 @@ export function lazyload(bundles, assetPath) {
     })
   }
 
-  features.forEach((feature) => {
+  features.forEach(feature => {
     let bundle = optimizedFeatureBundles[feature]
-    if (!optimizedFeatureBundles.hasOwnProperty(feature)) {
-      console.warn('Feature not found in any bundle: ' + feature)
-    } else if (
+    if (
+      optimizedFeatureBundles.hasOwnProperty(feature) &&
       !data.lazyFeaturesLoaded[bundle] &&
       !data.lazyFeaturesLoading[bundle]
     ) {
@@ -151,12 +150,76 @@ export function lazyload(bundles, assetPath) {
 }
 
 /**
+ * Splits up bundles into thos with and without external dependencies, and only returns those with features on the current page
+ */
+export async function getRelevantBundles(bundles) {
+  const features = getFeatures()
+  let extElements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
+  let extFeatures = []
+  let optimizedBundles = {}
+  let internalBundles = {}
+  let externalBundles = {}
+
+  // Create array of all features in need of external scripts
+  extElements.forEach(el => {
+    el.dataset.featureDependency
+      .split(ATTR_FEATURES_SEPARATOR)
+      .forEach(feature => {
+        if (!extFeatures.includes(feature)) extFeatures.push(feature)
+      })
+  })
+
+  // Remove bundles without any features on the page
+  Object.entries(bundles).forEach(bundle => {
+    features.forEach(feature => {
+      if (bundle[1].includes(feature) && !optimizedBundles[bundle[0]]) {
+        optimizedBundles[bundle[0]] = bundle[1]
+      }
+    })
+  })
+
+  // Split all bundles into internal and external Bundles
+  Object.entries(optimizedBundles).forEach(bundle => {
+    extFeatures.forEach(feature => {
+      if (bundle[1].includes(feature) && !externalBundles[bundle[0]]) {
+        externalBundles[bundle[0]] = bundle[1]
+      }
+    })
+    if (!externalBundles[bundle[0]]) {
+      internalBundles[bundle[0]] = bundle[1]
+    }
+  })
+
+  return { internalBundles, externalBundles }
+}
+
+/**
  * Load any external scripts that are needed by the currently loaded features.
  */
-export function loadExternals() {
-  let scripts = []
-  let features = getFeatures()
+export async function loadExternals(bundles, assetPath) {
   let elements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
+  let features = getFeatures()
+  let scripts = []
+  let scriptsLoaded = []
+
+  const returnScriptPromise = script => {
+    return new Promise((resolve, reject) => {
+      script._instance.async = false
+      script._instance.setAttribute('src', script.url)
+      script._instance.onload = resolve
+      script._instance.onerror = reject
+    })
+  }
+
+  const loadScript = async script => {
+    const loaded = await returnScriptPromise(script)
+      .then(() => true)
+      .catch(() => {
+        console.error('Could not load external script: ', script)
+        return false
+      })
+    return loaded
+  }
 
   elements.forEach(el => {
     let item = {}
@@ -167,14 +230,24 @@ export function loadExternals() {
     scripts.push(item)
   })
 
-  features.forEach(feature => {
-    scripts.forEach(script => {
-      if (script.features.includes(feature) && !script.initialized) {
-        script._instance.setAttribute('src', script.url)
-        script.initialized = true
+  for (let f = 0; f < features.length; f++) {
+    for (let s = 0; s < scripts.length; s++) {
+      if (
+        scripts[s].features.includes(features[f]) &&
+        !scripts[s].initialized
+      ) {
+        const scriptLoaded = await loadScript(scripts[s])
+        scriptsLoaded.push(scriptLoaded)
       }
-    })
-  })
+    }
+  }
+
+  if (
+    scriptsLoaded.length === 0 ||
+    scriptsLoaded.every(value => value === true)
+  ) {
+    lazyload(bundles, assetPath)
+  }
 }
 
 /**
@@ -212,18 +285,20 @@ export function reinit(container = document.body, name = null, options = {}) {
  *
  * @returns {Array} Initialized feature instances.
  */
-export function init(container = document.body, name = null, options = {}) {
+export async function init(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultInitOptions, options)
 
   const instances = []
   const names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
   const featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
-  if (options.lazy) {
-    lazyload(options.lazyBundles, options.assetPath)
+  if (options.lazy && options.lazyBundles) {
+    const { internalBundles, externalBundles } = await getRelevantBundles(
+      options.lazyBundles
+    )
+    lazyload(internalBundles, options.assetPath)
+    await loadExternals(externalBundles, options.assetPath)
   }
-
-  loadExternals()
 
   if (!options.justChildNodes && container.getAttribute(ATTR_FEATURES)) {
     featureNodes.push(container)
