@@ -246,7 +246,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line454">line 454</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line516">line 516</a>
             </span>
         </p>
     
@@ -351,7 +351,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line490">line 490</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line552">line 552</a>
             </span>
         </p>
     
@@ -418,7 +418,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line498">line 498</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line560">line 560</a>
             </span>
         </p>
     
@@ -485,7 +485,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line517">line 517</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line579">line 579</a>
             </span>
         </p>
     
@@ -621,7 +621,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line527">line 527</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line589">line 589</a>
             </span>
         </p>
     
@@ -787,7 +787,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line537">line 537</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line599">line 599</a>
             </span>
         </p>
     
@@ -1034,7 +1034,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line549">line 549</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line611">line 611</a>
             </span>
         </p>
     
@@ -1127,7 +1127,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line715">line 715</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line777">line 777</a>
             </span>
         </p>
     
@@ -1220,7 +1220,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line710">line 710</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line772">line 772</a>
             </span>
         </p>
     
@@ -1313,7 +1313,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line694">line 694</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line756">line 756</a>
             </span>
         </p>
     
@@ -1493,7 +1493,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line674">line 674</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line736">line 736</a>
             </span>
         </p>
     
@@ -1661,7 +1661,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line659">line 659</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line721">line 721</a>
             </span>
         </p>
     
@@ -1871,7 +1871,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line622">line 622</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line684">line 684</a>
             </span>
         </p>
     
@@ -2121,7 +2121,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line583">line 583</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line645">line 645</a>
             </span>
         </p>
     
@@ -2264,7 +2264,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line507">line 507</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line569">line 569</a>
             </span>
         </p>
     
@@ -2475,7 +2475,7 @@
         <p class="tag-source">
             <a href="features.js.html" class="button">View Source</a>
             <span>
-                <a href="features.js.html">features.js</a>, <a href="features.js.html#line650">line 650</a>
+                <a href="features.js.html">features.js</a>, <a href="features.js.html#line712">line 712</a>
             </span>
         </p>
     
@@ -2524,7 +2524,7 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 05 2021 10:34:26 GMT+0100 (Central European Standard Time)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 11 2021 15:43:51 GMT+0100 (Central European Standard Time)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>

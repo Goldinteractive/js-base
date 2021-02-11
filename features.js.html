@@ -190,11 +190,10 @@ export function lazyload(bundles, assetPath) {
     })
   }
 
-  features.forEach((feature) => {
+  features.forEach(feature => {
     let bundle = optimizedFeatureBundles[feature]
-    if (!optimizedFeatureBundles.hasOwnProperty(feature)) {
-      console.warn('Feature not found in any bundle: ' + feature)
-    } else if (
+    if (
+      optimizedFeatureBundles.hasOwnProperty(feature) &amp;&amp;
       !data.lazyFeaturesLoaded[bundle] &amp;&amp;
       !data.lazyFeaturesLoading[bundle]
     ) {
@@ -215,36 +214,104 @@ export function lazyload(bundles, assetPath) {
 }
 
 /**
+ * Splits up bundles into thos with and without external dependencies, and only returns those with features on the current page
+ */
+export async function getRelevantBundles(bundles) {
+  const features = getFeatures()
+  let extElements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
+  let extFeatures = []
+  let optimizedBundles = {}
+  let internalBundles = {}
+  let externalBundles = {}
+
+  // Create array of all features in need of external scripts
+  extElements.forEach(el => {
+    el.dataset.featureDependency
+      .split(ATTR_FEATURES_SEPARATOR)
+      .forEach(feature => {
+        if (!extFeatures.includes(feature)) extFeatures.push(feature)
+      })
+  })
+
+  // Remove bundles without any features on the page
+  Object.entries(bundles).forEach(bundle => {
+    features.forEach(feature => {
+      if (bundle[1].includes(feature) &amp;&amp; !optimizedBundles[bundle[0]]) {
+        optimizedBundles[bundle[0]] = bundle[1]
+      }
+    })
+  })
+
+  // Split all bundles into internal and external Bundles
+  Object.entries(optimizedBundles).forEach(bundle => {
+    extFeatures.forEach(feature => {
+      if (bundle[1].includes(feature) &amp;&amp; !externalBundles[bundle[0]]) {
+        externalBundles[bundle[0]] = bundle[1]
+      }
+    })
+    if (!externalBundles[bundle[0]]) {
+      internalBundles[bundle[0]] = bundle[1]
+    }
+  })
+
+  return { internalBundles, externalBundles }
+}
+
+/**
  * Load any external scripts that are needed by the currently loaded features.
  */
-export function loadExternals() {
-  let scripts = []
-  let features = getFeatures()
+export async function loadExternals(bundles, assetPath) {
   let elements = document.querySelectorAll(`[${ATTR_EXTERNAL_SCRIPT}]`)
+  let features = getFeatures()
+  let scripts = []
+  let scriptsLoaded = []
+
+  const returnScriptPromise = script => {
+    return new Promise((resolve, reject) => {
+      script._instance.async = false
+      script._instance.setAttribute('src', script.url)
+      script._instance.onload = resolve
+      script._instance.onerror = reject
+    })
+  }
+
+  const loadScript = async script => {
+    const loaded = await returnScriptPromise(script)
+      .then(() => true)
+      .catch(() => {
+        console.error('Could not load external script: ', script)
+        return false
+      })
+    return loaded
+  }
 
   elements.forEach(el => {
     let item = {}
     item.initialized = false
     item.url = el.dataset.url
     item._instance = el
-    if (el.dataset.featureDependency.includes(ATTR_FEATURES_SEPARATOR)) {
-      item.features = el.dataset.featureDependency.split(
-        `${ATTR_FEATURES_SEPARATOR} `
-      )
-    } else {
-      item.features = [el.dataset.featureDependency]
-    }
+    item.features = el.dataset.featureDependency.split(ATTR_FEATURES_SEPARATOR)
     scripts.push(item)
   })
 
-  features.forEach(feature => {
-    scripts.forEach(script => {
-      if (script.features.includes(feature) &amp;&amp; !script.initialized) {
-        script._instance.setAttribute('src', script.url)
-        script.initialized = true
+  for (let f = 0; f &lt; features.length; f++) {
+    for (let s = 0; s &lt; scripts.length; s++) {
+      if (
+        scripts[s].features.includes(features[f]) &amp;&amp;
+        !scripts[s].initialized
+      ) {
+        const scriptLoaded = await loadScript(scripts[s])
+        scriptsLoaded.push(scriptLoaded)
       }
-    })
-  })
+    }
+  }
+
+  if (
+    scriptsLoaded.length === 0 ||
+    scriptsLoaded.every(value => value === true)
+  ) {
+    lazyload(bundles, assetPath)
+  }
 }
 
 /**
@@ -282,18 +349,20 @@ export function reinit(container = document.body, name = null, options = {}) {
  *
  * @returns {Array} Initialized feature instances.
  */
-export function init(container = document.body, name = null, options = {}) {
+export async function init(container = document.body, name = null, options = {}) {
   options = Object.assign({}, defaultInitOptions, options)
 
   const instances = []
   const names = name ? name.split(ATTR_FEATURES_SEPARATOR) : null
   const featureNodes = [...container.querySelectorAll(`[${ATTR_FEATURES}]`)]
 
-  if (options.lazy) {
-    lazyload(options.lazyBundles, options.assetPath)
+  if (options.lazy &amp;&amp; options.lazyBundles) {
+    const { internalBundles, externalBundles } = await getRelevantBundles(
+      options.lazyBundles
+    )
+    lazyload(internalBundles, options.assetPath)
+    await loadExternals(externalBundles, options.assetPath)
   }
-
-  loadExternals()
 
   if (!options.justChildNodes &amp;&amp; container.getAttribute(ATTR_FEATURES)) {
     featureNodes.push(container)
@@ -491,21 +560,14 @@ export function getFeatures() {
   let features = []
   let elements = document.querySelectorAll(`[${ATTR_FEATURES}]`)
 
-  elements.forEach((item) => {
+  elements.forEach(item => {
     let feature = item.getAttribute(ATTR_FEATURES)
-
-    if (feature.includes(ATTR_FEATURES_SEPARATOR)) {
-      let featureArray = feature.split(`${ATTR_FEATURES_SEPARATOR} `)
-      featureArray.forEach((f) => {
-        if (!features.includes(f)) {
-          features.push(f)
-        }
-      })
-    } else {
-      if (!features.includes(feature)) {
-        features.push(feature)
+    let featureArray = feature.replace(' ', '').split(ATTR_FEATURES_SEPARATOR)
+    featureArray.forEach(ftr => {
+      if (!features.includes(ftr)) {
+        features.push(ftr)
       }
-    }
+    })
   })
 
   return features
@@ -851,7 +913,7 @@ export default {
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 05 2021 10:34:26 GMT+0100 (Central European Standard Time)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 11 2021 15:43:51 GMT+0100 (Central European Standard Time)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
