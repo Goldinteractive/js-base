@@ -14,7 +14,11 @@ class EventHub {
   }
 }
 
-const globalEventHub = new EventHub()
+
+let globalEventHub = window.gi_jsbase_eventHub
+if (!globalEventHub) {
+ window.gi_jsbase_eventHub = globalEventHub = new EventHub()
+}
 
 export {
   /**
